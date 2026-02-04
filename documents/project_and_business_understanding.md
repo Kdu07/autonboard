@@ -33,17 +33,19 @@ Complete here
 Complete here
 ```
 
-## Product Scope (Does / Does Not Do)
+## 4. What the Product Does / Does Not Do: Scope Definition
 
-### What the Product Does
-```
-Complete here
-```
+Clarity of scope is critical for the MVP. The boundaries are defined to ensure focus on solving the most acute pain points first.
 
-### What the Product Does Not Do
-```
-Complete here
-```
+| The Product **DOES** | The Product **DOES NOT** (Out of Scope for MVP) |
+| :--- | :--- |
+| **Provide a single, web-based portal** for clients to submit all required onboarding data. | **Integrate directly with client-side systems** (e.g., their internal databases or property management software). |
+| **Validate data formats in real-time** at the point of entry (e.g., correct date format, valid email structure). | **Perform complex business logic validation** (e.g., cross-referencing tenant data with lease agreements). |
+| **Provide a dashboard for both the client and Equiem** to track the completion status of required data sections. | **Automate the final provisioning of the client's environment** in Equiem's production system. The output is a clean, validated dataset. |
+| **Enable clients to upload data via CSV templates** for bulk information. | **Support custom data schemas or fields** per client. The data schema is standardized for the MVP. |
+| **Generate a clean, validated, and complete dataset** as its final output for the Equiem internal team. | **Manage post-onboarding configuration changes**. The scope is limited to the initial data intake. |
+
+---
 
 ## Product Goal
 
