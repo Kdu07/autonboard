@@ -45,11 +45,22 @@ Complete here
 Complete here
 ```
 
-## Product Goal
+## 5. Product Goal: Specific Objective (Done)
 
-```
-Complete here
-```
+The primary goal of the Equiem Onboarding Intake MVP is to **reduce the difficulty to scale onboarding users while reducing time complexity from employees that manually fill  of  client onboarding cycle time by 50% within the first six months of launch.**
+
+This single, measurable objective directly addresses the core problem of inefficiency and delayed revenue. It serves as the North Star for all development and design decisions.
+
+### Supporting Metrics (Key Performance Indicators):
+
+Achieving the primary goal will be validated by tracking these supporting metrics:
+
+- **Time-to-Value (TTV):** Measured from contract sign-off to project go-live. Target: **Reduce from an average of 10 days to 1 days.**
+- **Data Error Rate:** Percentage of data fields requiring manual correction after initial submission. Target: **Reduce from ~30% to below 5%.**
+- **Onboarding Specialist Time per Project:** Hours spent by Equiem staff on data collection and validation tasks. Target: **Reduce by 100%.**
+- **Client Satisfaction (CSAT) for Onboarding:** Measured via a post-onboarding survey. Target: **Increase from 6/10 to 9/10.**
+
+---
 
 ## Personas
 
