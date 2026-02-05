@@ -77,14 +77,9 @@ Achieving the primary goal will be validated by tracking these supporting metric
 
 ## Personas
 
-```
-Complete here:
-- Name
-- Role
-- Goals
-- Pain Points
-- Context of use
-```
+<img src="resources/persona1.png" alt="Persona Christian" width="700">
+<img src="resources/persona2.png" alt="Persona Amelia" width="700">
+
 
 ## User Journey
 
