@@ -26,7 +26,7 @@ Ensure team alignment, monitor progress, and identify impediments as early as po
 **Repository Organization**  
 - Single centralized repository for the project.
 - Main branches follow the GitFlow strategy.
-- Documentation is stored in the `/docs` directory.
+- Documentation is stored in the `/documents` directory.
 
 **Issue Usage**  
 - All development activities must be registered as GitLab Issues.
