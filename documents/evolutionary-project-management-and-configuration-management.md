@@ -238,4 +238,3 @@ Branch creation
 Pull request flow
 
 Merge process
-
