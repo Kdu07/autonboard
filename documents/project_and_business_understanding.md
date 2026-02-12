@@ -180,10 +180,35 @@ This modeling approach ensures clear visibility of responsibilities, decision po
 
 
 ## Feature Brainstorming
+This section presents the feature brainstorming and prioritization conducted for the project, aligning proposed functionalities with the product vision and business objectives of Equiem. The goal of this analysis is to identify the features that most effectively support the automation and optimization of the building onboarding and data ingestion process.
 
-```
-Complete here
-```
+#### Product Vision Alignment
+The product aims to streamline and automate the onboarding and data ingestion process for new buildings, reducing manual work, errors, and onboarding time while improving data consistency and user experience for Equiem.
+
+#### Identified Features
+
+| Priority | Feature                     | Description                                                                 |
+|----------|-----------------------------|-----------------------------------------------------------------------------|
+| High     | Multi-file Upload            | Allows users to upload multiple files simultaneously, supporting large file sizes. |
+| High     | CSV and PDF Support          | Enables ingestion of structured (CSV) and semi-structured (PDF) data formats. |
+| High     | Data Standardization Engine  | Automatically standardizes ingested data into a unified internal format.   |
+| High     | Upload Validation & Error Handling | Validates file formats, size, and structure, providing clear error feedback. |
+| Medium   | Upload Progress Tracking     | Displays real-time progress and status for large file uploads.              |
+| Medium   | Asynchronous Processing      | Processes files in the background to avoid blocking user interactions.      |
+| Medium   | User Feedback & Notifications| Notifies users when ingestion and standardization are completed or failed.  |
+| Low      | Manual Data Review Interface | Allows users to manually review or adjust standardized data if needed.      |
+| Low      | Audit Log & History          | Keeps a record of uploaded files and processing outcomes for traceability.  |
+
+#### Prioritization Criteria
+Features were prioritized based on their impact on the core onboarding flow, their contribution to reducing manual work and errors, technical dependencies, and their importance for delivering a functional MVP.
+
+#### Delivery Sequencing and Product Strategy
+High-priority features compose the MVP, ensuring a complete and automated end-to-end onboarding flow. Medium-priority features enhance user experience and system scalability after the MVP is validated.
+Low-priority features are planned for later iterations, focusing on control, traceability, and manual intervention when necessary.
+
+This sequencing supports an incremental delivery strategy, allowing early validation of core business value before investing in advanced controls and optimizations.
+
+
 
 ## Delivery Sequencing and Prioritization
 
