@@ -115,41 +115,91 @@ Future sprints will continue aligning with PMO standards by ensuring transparenc
 
 
 ## Sprint 2 Planning
+Bellow follows the Sprint 2 planning:
+https://docs.google.com/spreadsheets/d/1YJa78WhqfRqezfU65B6q8ZDVe1sow8x6RP_k3xxsm_w/edit?usp=sharing
 
-### Sprint Goal
+
+
+## Group Development Process Management
+
+### Daily Meetings Policy
 Complete here:
-Describe the main objective of Sprint 2.
+Define:
+
+Frequency
+
+Duration
+
+Participants
+
+Meeting structure
 
 
-### Task List and Planning
+### GitHub Usage Policy
 Complete here:
-For each task, include:
+Define:
 
-Task Name
+Repository organization
 
-Description
+Issue usage
 
-Task Type (Feature, Bug, Improvement, Technical Debt, etc.)
+Pull request rules
 
-T-Shirt Size (XS / S / M / L)
-
-Priority
-
-Dependencies (if any)
+Review process
 
 
-### Definition of Ready (DoR)
+### Commit Policy
 Complete here:
-Define the criteria a task must meet before entering the sprint.
+Define:
+
+Commit message pattern
+
+Commit frequency
+
+Responsibility guidelines
 
 
-### Definition of Done (DoD)
+### Team Workflow
 Complete here:
-Define the criteria a task must meet to be considered completed.
+Describe the end-to-end team workflow from task creation to delivery.
 
 
-### Sprint Organization Tool
+
+## Configuration Management
+
+### GitFlow Strategy
 Complete here:
-Describe how Sprint 2 is organized (Trello or Spreadsheet).
-Include link if applicable.
+Describe the usage of the following branches:
 
+
+
+### Branch Creation Policy
+Complete here:
+Define:
+
+Naming conventions
+
+When to create each branch type
+
+Rules for merging and deleting branches
+
+
+### Configuration Management Documentation
+Complete here:
+Describe how the following documents are structured and maintained:
+
+ProjectManagement.md
+
+ConfigurationManagement.md
+Confirm both are stored in the /docs folder on GitHub.
+
+
+### Practical Examples
+Complete here:
+Provide examples of:
+
+Branch creation
+
+Pull request flow
+
+Merge process
