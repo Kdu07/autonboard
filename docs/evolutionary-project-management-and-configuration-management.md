@@ -3,9 +3,6 @@
 ## Table of Contents
 - [Sprint 1 Analysis](#sprint-1-analysis)
 - [Sprint 2 Planning](#sprint-2-planning)
-- [Group Development Process Management](#group-development-process-management)
-- [Configuration Management](#configuration-management)
-
 
 ## Sprint 1 Analysis
 
@@ -19,7 +16,6 @@ The team maintained consistent and transparent communication throughout the spri
 - All decisions will be documented in the shared workspace.  
 - Each member must actively contribute at least once per daily meeting.
 
----
 
 #### ST02 – Strong Daily Attendance  
 
@@ -30,7 +26,6 @@ All team members consistently attended daily meetings during Sprint 1, ensuring 
 - Any absence must be justified and documented.  
 
 
----
 
 #### ST03 – Shared Goal Alignment  
 
@@ -40,8 +35,6 @@ All members demonstrated a shared understanding of the project objectives, which
 **Action to Maintain:**  
 - Sprint goals will be reviewed at the beginning and end of each sprint.  
 - A short retrospective will confirm alignment with objectives.
-
----
 
 
 ### Weaknesses
@@ -57,7 +50,6 @@ Task allocation during Sprint 1 resulted in workload imbalance among team member
 **Success Indicator:**  
 - Balanced workload report at the end of Sprint 2.  
 
----
 
 #### WK02 – Language Barrier in Communication  
 
@@ -71,7 +63,6 @@ Some team members feel less confident communicating in English, which occasional
 **Success Indicator:**  
 - Improved clarity in communication with the partner.
 
----
 
 
 ### Risk Analysis and Tracking
@@ -115,5 +106,6 @@ Future sprints will continue aligning with PMO standards by ensuring transparenc
 
 
 ## Sprint 2 Planning
-Bellow follows the Sprint 2 planning:
-https://docs.google.com/spreadsheets/d/1YJa78WhqfRqezfU65B6q8ZDVe1sow8x6RP_k3xxsm_w/edit?usp=sharing
+
+Sprint 2 planning was defined to ensure a structured and incremental evolution of the project, incorporating the lessons learned from Sprint 1 and focusing on establishing solid technical and managerial foundations. Tasks were organized across architecture, data modeling, visual design, configuration management, and project governance, with effort estimated using T-shirt sizing and clear Definition of Ready (DoR) and Definition of Done (DoD) criteria to ensure readiness, clarity, and objective task completion:
+[ Sprint 2 Planning – Google Spreadsheet ](https://docs.google.com/spreadsheets/d/1YJa78WhqfRqezfU65B6q8ZDVe1sow8x6RP_k3xxsm_w/edit?usp=sharing)
