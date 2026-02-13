@@ -7,7 +7,7 @@ The project follows the GitFlow branching strategy with the following branches:
 - **develop**: Integration branch for ongoing development.
 - **feature/***: Used for developing new features.
 - **hotfix/***: Used for critical fixes in production when necessary.
-
+- **release/**: Used to prepare a new production release, allowing final adjustments, bug fixes, and validation before merging into main and develop.
 
 #### Branch Creation Policy
 
