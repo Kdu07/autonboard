@@ -2,20 +2,24 @@
 
 ## Sumário
 
-- [Parte 1 – Preparação (Os Componentes)](#parte-1--preparação-os-componentes)
-  - [1.1 Evidência Física/Digital](#11-evidência-físicadigital)
-  - [1.2 Ações do Cliente](#12-ações-do-cliente)
-  - [1.3 Frontstage (Software Visível)](#13-frontstage-software-visível)
-  - [1.4 Backstage (Processos Internos)](#14-backstage-processos-internos)
-  - [1.5 Processos de Suporte](#15-processos-de-suporte)
-- [Parte 2 – Mapeamento das Linhas](#parte-2--mapeamento-das-linhas)
-- [Parte 3 – Etapas de Execução](#parte-3--etapas-de-execução)
-  - [3.1 Identificar o Processo](#31-identificar-o-processo)
-  - [3.2 Identificar o Cliente](#32-identificar-o-cliente)
-  - [3.3 Mapear a Jornada](#33-mapear-a-jornada)
-  - [3.4 Preencher as Swim Lanes Verticalmente](#34-preencher-as-swim-lanes-verticalmente)
-- [Parte 4 – Melhorias Técnicas](#parte-4--melhorias-técnicas)
-- [BluePrint](#parte-5--entrega-e-avaliação)
+## Sumário
+
+- [1. Swim Lanes](#1-swim-lanes)
+  - [1.1 Physical Evidences](#11-physical-evidences)
+  - [1.2 Customer Actions](#12-customer-actions)
+  - [1.3 Frontstage](#13-frontstage)
+  - [1.4 Backstage](#14-backstage)
+  - [1.5 Supporting Processes](#15-supporting-processes)
+- [2. Mapeamento das Linhas do Blueprint](#2-mapeamento-das-linhas-do-blueprint)
+- [3. Etapas do Processo](#3-etapas-do-processo)
+  - [3.1 Acesso e Cadastro](#31-acesso-e-cadastro)
+  - [3.2 Upload do Arquivo](#32-upload-do-arquivo)
+  - [3.3 Tratamento de Erro e Reenvio](#33-tratamento-de-erro-e-reenvio)
+  - [3.4 Processamento](#34-processamento)
+- [4. Melhorias Técnicas](#4-melhorias-técnicas)
+  - [4.1 Tempo](#41-tempo)
+  - [4.2 Gargalos (Fail Points)](#42-gargalos-fail-points)
+- [5. BLUEPRINT](#5-blueprint)
 
 ## 1. Swim Lanes
 
