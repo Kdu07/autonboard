@@ -22,7 +22,11 @@
 
 ## 1. BLUEPRINT
 
-assets/image
+<div align="center">
+<sub>Figure 1 - Blueprint</sub><br>
+  <img src="../assets/serviceblueprint.png" width="100%" alt="Blueprint"><br>
+  <sup>Source: Material produced by the authors, 2026.</sup>
+</div>
 
 ## 2. Swim Lanes
 
