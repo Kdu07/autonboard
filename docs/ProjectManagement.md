@@ -73,3 +73,48 @@ The team follows an end-to-end workflow defined as follows:
 - Communication is centralized in the team’s official channel (Slack).
 - Blockers must be reported as soon as they are identified.
 - Clear and transparent communication is essential for project progress.
+
+
+#### Sprint Planning and Retrospective
+
+**Sprint Planning**
+- Tasks are defined and prioritized at the beginning of each sprint.
+- Effort is estimated (e.g. T-shirt sizing or story points).
+- Definition of Ready (DoR) and Definition of Done (DoD) are applied to ensure clarity and completion criteria.
+
+**Retrospective**
+- A short retrospective is held at the end of each sprint to confirm alignment with objectives and capture lessons learned.
+- Sprint goals are reviewed at the beginning and end of each sprint.
+
+
+#### Risk Management
+
+**Risk Register**
+The team maintains a **Risk Register** with:
+- Risk identifier and description
+- Probability and impact
+- Mitigation strategy
+- Contingency plan (when applicable)
+
+**Review**
+- The Risk Register is reviewed weekly during Sprint Planning and Retrospective meetings.
+- Risks are identified, tracked, and updated throughout the project.
+
+
+#### PMO Alignment
+
+Project management follows PMO guidelines by:
+- Keeping structured documentation of meetings and decisions.
+- Applying formal sprint planning and retrospective practices.
+- Identifying and tracking project risks systematically.
+- Defining measurable improvement actions and success indicators.
+
+Transparency, accountability, and continuous improvement are maintained across sprints.
+
+
+#### Related Documentation
+
+- **evolutionary-project-management-and-configuration-management.md**: Detailed Sprint 1 analysis (strengths, weaknesses, risks), risk table with mitigation and contingency, and Sprint 2 planning (including link to the planning spreadsheet).
+- **ConfigurationManagement.md**: Version control, GitFlow, branch policies, and configuration practices.
+
+All project and configuration management documentation is stored in the repository (e.g. `/docs` or `/documents`).
