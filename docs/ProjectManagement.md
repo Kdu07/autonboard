@@ -81,10 +81,31 @@ The team follows an end-to-end workflow defined as follows:
 - Tasks are defined and prioritized at the beginning of each sprint.
 - Effort is estimated (e.g. T-shirt sizing or story points).
 - Definition of Ready (DoR) and Definition of Done (DoD) are applied to ensure clarity and completion criteria.
-
-**Retrospective**
-- A short retrospective is held at the end of each sprint to confirm alignment with objectives and capture lessons learned.
 - Sprint goals are reviewed at the beginning and end of each sprint.
+
+**Sprint Retrospective**
+
+A retrospective is held at the end of each sprint. The following structure ensures organization and clarity:
+
+| Element | Description |
+|---------|-------------|
+| **Strengths** | What worked well in the sprint (processes, tools, collaboration). |
+| **Weaknesses** | What did not work or can be improved. |
+| **Improvement** | Identified improvement opportunities. |
+| **Actions** | Concrete actions agreed for the next sprint (who, what, by when). |
+| **Risk** | Risks identified during the sprint; integrated into the Risk Register when relevant. |
+
+**Tracking Table (Retrospective)**
+
+Each retrospective must be recorded in a tracking table:
+
+| Sprint | Date | Strengths | Weaknesses | Improvement | Actions | Risks identified |
+|--------|------|-----------|------------|-------------|---------|------------------|
+| *e.g. S1* | *e.g. 2025-02-XX* | *summary* | *summary* | *summary* | *list* | *yes/no + Risk Register ref.* |
+
+- The table is kept up to date (e.g. in an evolving document or referenced spreadsheet).
+- Actions are reviewed at the start of the next sprint to verify completion.
+- Risks are transferred to the **Risk Register** when applicable.
 
 
 #### Risk Management
