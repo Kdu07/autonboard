@@ -212,13 +212,10 @@ This phenomenon is known as a temporal expectation breakdown. Users hold an impl
 Therefore, in addition to estimating and optimizing technical execution time, it is essential to implement mitigation strategies, such as loading indicators, progress bars, status messages (“Processing file…”, “Validation in progress…”), or even remaining time estimates. These measures do not necessarily reduce the actual processing time, but they significantly reduce the negative perception associated with waiting.
 
 
-### 5.2 Gargalos (Fail Points)
+### 5.2 Bottlenecks (Fail Points)
 
-Identificar pontos de falha:
-
-- Ponto de falha:
-  - O que acontece no Frontstage:
-  - Impacto no usuário:
-
-(Repetir conforme necessário)
+| Bottleneck (Critical Point) | What happens in the Frontstage if it fails or becomes overloaded? |
+|-----------------------------|-------------------------------------------------------------------|
+| File Validation Service | When handling large files or heavy processing loads, validation time can increase significantly. If the service fails or takes longer than expected, the user may only see a “processing” status indefinitely or receive a generic error message. This creates a perception of system freezing, uncertainty about whether the file was successfully submitted, and the possibility of duplicate re-uploads. Without proper handling, the experience is perceived as unstable and unreliable. |
+| Asynchronous Processing Queue | Since multiple users submit files that enter the same validation queue, if the system does not process them concurrently or scale properly, a backlog can form. In the Frontstage, this appears as excessive delay after file submission. The user may believe the system did not respond, leading to frustration, abandonment of the process, or repeated submission attempts. Without transparency regarding queue position or estimated processing time, a temporal expectation breakdown occurs. |
 
