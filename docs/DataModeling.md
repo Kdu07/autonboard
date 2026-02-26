@@ -209,73 +209,7 @@ The SUBMISSION entity introduces control over the project submission workflow, e
 
 ### Logical Diagram
 
-
-```mermaid
-erDiagram
-
-    CUSTOMER {
-        int id PK
-        string name
-        string email
-        json modules_enabled
-    }
-
-    BUILDING {
-        int id PK
-        int customer_id FK
-        string name
-        string type
-        string address
-        int number_of_floors
-        decimal total_area
-        json images_url
-    }
-
-    FLOOR {
-        int id PK
-        int building_id FK
-        int floor_number
-        decimal floor_area
-    }
-
-    AMENITY {
-        int id PK
-        int building_id FK
-        int floor_id FK
-        int parent_amenity_id FK
-        string name
-        string type
-        int capacity
-        decimal area_m2
-        json images_url
-    }
-
-    AMENITY_CONFIGURATION {
-        int id PK
-        int amenity_id FK
-        string key
-        string value
-        boolean reservable
-        string image_url
-    }
-
-    SUBMISSION {
-        int id PK
-        int customer_id FK
-        string status
-        string file_path
-        datetime upload_date
-    }
-
-    %% Relationships
-    CUSTOMER ||--o{ BUILDING : owns
-    BUILDING ||--o{ FLOOR : contains
-    BUILDING ||--o{ AMENITY : has
-    FLOOR |o--o{ AMENITY : organizes
-    AMENITY ||--o{ AMENITY_CONFIGURATION : defines
-    AMENITY ||--o{ AMENITY : contains
-    CUSTOMER ||--o{ SUBMISSION : submits
-```
+<img src ="../assets/Diagrama.png">
 
 ### Transformation from Conceptual to Logical Model
 
