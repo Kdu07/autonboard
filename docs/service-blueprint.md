@@ -16,7 +16,7 @@
   - [4.3 Tratamento de Erro e Reenvio](#43-tratamento-de-erro-e-reenvio)
   - [4.4 Processamento](#44-processamento)
 - [5. Melhorias Técnicas](#5-melhorias-técnicas)
-  - [5.1 Tempo](#51-tempo)
+  - [5.1 Duração Estimada](#51-duração-estimada)
   - [5.2 Gargalos (Fail Points)](#52-gargalos-fail-points)
 
 
@@ -188,16 +188,28 @@ Supporting Processes:
 - Worker de processamento executa parsing e normalização dos dados.
 - Banco de dados armazena as informações processadas.
 
-## 5. Melhorias Técnicas
+## 5. Technical Improvements  
 
-### 5.1 Tempo
-Adicionar duração estimada para processos de Backstage:
+### 5.1 Estimated Duration
 
-- Processo:
-  - Duração estimada:
-  - Impacto no Frontstage:
+The “Estimated Duration” labels were not incorporated into the Service Blueprint due to the impossibility of accurately mapping this concept within the proposed structure. However, the following explanatory text provides a more detailed clarification of this issue.
 
-(Repetir conforme necessário)
+Defining the “Estimated Duration” for background processes is essential to ensure a positive user experience. It is important to measure the maximum expected time for these processes to be completed. However, this duration may vary depending on the technology used, the available infrastructure, the volume of processed data, and other technical factors that directly impact performance.
+
+More than the absolute execution time, what truly influences user perception is whether feedback is provided during processing. In many cases, users do not abandon a request because it takes a few extra seconds, but because they receive no indication that the system is functioning properly.
+
+For example, imagine a user accesses the application, completes all steps in the flow, and finally submits a `.csv` file containing the necessary information for an onboarding process. If, after submission, there is no visual feedback indicating that the file is being processed, a situation of uncertainty is created.
+
+In this scenario, the following perceptions may arise:
+
+- A feeling that the system has frozen;
+- A seemingly stalled screen, with no indication of progress;
+- Possible abandonment of the process by the user;
+- Multiple attempts to resubmit the same file, generating duplicate requests.
+
+This phenomenon is known as a temporal expectation breakdown. Users hold an implicit expectation regarding how long a given action should take. When the system fails to communicate its processing state, this expectation is disrupted, undermining trust, usability, and even the operational efficiency of the application.
+
+Therefore, in addition to estimating and optimizing technical execution time, it is essential to implement mitigation strategies, such as loading indicators, progress bars, status messages (“Processing file…”, “Validation in progress…”), or even remaining time estimates. These measures do not necessarily reduce the actual processing time, but they significantly reduce the negative perception associated with waiting.
 
 
 ### 5.2 Gargalos (Fail Points)
