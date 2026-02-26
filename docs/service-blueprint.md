@@ -2,7 +2,6 @@
 
 ## Sumário
 
-## Sumário
 
 - [1. Swim Lanes](#1-swim-lanes)
   - [1.1 Physical Evidences](#11-physical-evidences)
