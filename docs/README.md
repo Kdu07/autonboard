@@ -1,3 +1,5 @@
+# Read this to Understand the Project's Folder Structure
+
 ## **Architectural Rationale**
 
 This project adopts a 3 layer architecture combined with MVC principles to ensure a clear separation of concerns.
