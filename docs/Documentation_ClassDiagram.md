@@ -1,4 +1,8 @@
-
+<div align="center">
+<sub>FIGURE 01 - UML Domain Diagram</sub><br>
+  <img src="../assets/UMLDiagram.png" width="100%" alt="UML Domain"><br>
+  <sup>Source: Material produced by the authors, 2026.</sup>
+</div>
 
 # 1. Architectural Style
 
