@@ -181,7 +181,14 @@ To make the blueprint useful for Software Engineering, IxDF-recommended notation
 
 ### 6.1 Estimated Duration
 
-The “Estimated Duration” labels were not incorporated into the Service Blueprint due to the impossibility of accurately mapping this concept within the proposed structure. However, the following explanatory text provides a more detailed clarification of this issue.
+
+| Process Stage | Layer | Estimated Duration (Target) | Impact on Frontstage | Mitigation Strategy |
+|---------------|--------|----------------------------|----------------------|--------------------|
+| File Validation Service | Backstage | < 3s | User remains in “processing” state longer than expected | Display validation progress indicator and immediate feedback |
+| Asynchronous Queue Placement | Backstage | < 1s | Delay before actual processing begins | Auto-scaling queue system |
+| Ingestion Service (Processing + DB Write) | Backstage | 5–8s | Increased perceived waiting time during processing | Real-time status updates |
+| Database Write Operation | Support Process | < 2s | May delay final confirmation to the user | Query optimization and indexing |
+
 
 Defining the “Estimated Duration” for background processes is essential to ensure a positive user experience. It is important to measure the maximum expected time for these processes to be completed. However, this duration may vary depending on the technology used, the available infrastructure, the volume of processed data, and other technical factors that directly impact performance.
 

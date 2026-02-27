@@ -1,5 +1,65 @@
 # Read this to Understand the Project's Folder Structure
 
+project-root/
+│
+├── src/
+│   │
+│   ├── frontend/
+│   │   ├── public/
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   ├── pages/
+│   │   │   ├── services/
+│   │   │   ├── hooks/
+│   │   │   └── styles/
+│   │   ├── package.json
+│   │   └── README.md
+│   │
+│   ├── backend/
+│   │   ├── controllers/
+│   │   │   ├── BuildingController.cs
+│   │   │   ├── TenantController.cs
+│   │   │   ├── UploadController.cs
+│   │   │   └── ScheduleController.cs
+│   │   │
+│   │   ├── services/
+│   │   │   ├── BuildingService.cs
+│   │   │   ├── TenantService.cs
+│   │   │   ├── ExcelImportService.cs
+│   │   │   └── ScheduleService.cs
+│   │   │
+│   │   ├── models/
+│   │   │   ├── Building.cs
+│   │   │   ├── Tenant.cs
+│   │   │   ├── Unit.cs
+│   │   │   ├── OperationalSchedule.cs
+│   │   │   └── DocumentImport.cs
+│   │   │
+│   │   ├── config/
+│   │   │   ├── appsettings.json
+│   │   │   └── environment.json
+│   │   │
+│   │   ├── middleware/
+│   │   │   ├── ErrorHandlingMiddleware.cs
+│   │   │   └── AuthMiddleware.cs
+│   │   │
+│   │   ├── Program.cs
+│   │   └── README.md
+│   │
+│   └── database/
+│       ├── migrations/
+│       ├── seeds/
+│       ├── schema.sql
+│       └── README.md
+│
+├── tests/
+│   ├── backend/
+│   └── frontend/
+│
+└── assets/
+    ├── sample-excel/
+    └── diagrams/
+    
 ## **Architectural Rationale**
 
 This project adopts a 3 layer architecture combined with MVC principles to ensure a clear separation of concerns.
