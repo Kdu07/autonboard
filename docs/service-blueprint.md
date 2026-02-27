@@ -2,7 +2,7 @@
 
 ## Sumário
 
-- [1. BLUEPRINT](#1-blueprint)
+- [1. Blueprint](#1-blueprint)
 - [2. Swim Lanes](#2-swim-lanes)
   - [2.1Physical Evidences](#21-physical-evidences)
   - [2.2 Customer Actions](#22-customer-actions)
@@ -20,11 +20,11 @@
   - [5.2 Gargalos (Fail Points)](#52-gargalos-fail-points)
 
 
-## 1. BLUEPRINT
+## 1. BLueprint
 
 <div align="center">
 <sub>Figure 1 - Blueprint</sub><br>
-  <img src="../assets/serviceblueprint.png" width="100%" alt="Blueprint"><br>
+  <img src="../assets/serviceblueprint.png" width="80%" alt="Blueprint"><br>
   <sup>Source: Material produced by the authors, 2026.</sup>
 </div>
 
@@ -32,50 +32,46 @@
 
 ### 2.1 Physical Evidences
 
-- Landing page de onboarding
-- Tela de cadastro de dados básicos
-- Componente de upload de arquivo
-- Notificação de erro de formato
-- Status de upload em validação (standby)
-
+- Onboarding landing page  
+- Basic data registration screen  
+- File upload component  
+- Format error notification  
+- Upload status in validation (standby)  
 
 ### 2.2 Customer Actions
 
-- Acessa a landing page
-- Clica em "Start"
-- Preenche os dados básicos
-- Confirma os dados informados
-- Adiciona arquivo da planilha
-- Corrige o arquivo e confirma a notificação de erro
-- Envia o arquivo corrigido
-- Aguarda a validação
-
+- Accesses the landing page  
+- Clicks "Start"  
+- Fills in the basic data  
+- Confirms the provided data  
+- Adds the spreadsheet file  
+- Fixes the file and confirms the error notification  
+- Uploads the corrected file  
+- Waits for validation  
 
 ### 2.3 Frontstage
 
-- Carrega a landing page
-- Inicia o fluxo de cadastro
-- Valida os campos em tempo real
-- Sistema libera a etapa de upload
-- Realiza validação automática de formato
-- Notifica erro por formato inválido
-- Sistema valida novo upload
-- Status de processamento (standby)
-
+- Loads the landing page  
+- Starts the registration flow  
+- Validates fields in real time  
+- System enables the upload step  
+- Performs automatic format validation  
+- Notifies error due to invalid format  
+- System validates new upload  
+- Processing status (standby)  
 
 ### 2.4 Backstage
 
-- Serviço de onboarding cria e mantém a sessão de progresso do usuário.
-- Serviço de validação verifica formato e integridade do arquivo enviado.
-- Sistema de filas coloca o arquivo em processamento.
-- Serviço de ingestão processa, padroniza e grava os dados no banco.
-
+- Onboarding service creates and maintains the user's progress session.  
+- Validation service checks the format and integrity of the uploaded file.  
+- Queue system places the file into processing.  
+- Ingestion service processes, standardizes, and writes the data to the database.  
 
 ### 2.5 Supporting Processes
 
-- Infraestrutura de mensageria suporta o processamento assíncrono.
-- Worker de processamento executa parsing e normalização dos dados.
-- Banco de dados armazena as informações processadas.
+- Messaging infrastructure supports asynchronous processing.  
+- Processing worker executes parsing and data normalization.  
+- Database stores the processed information.  
 
 ## 3. Mapeamento das Linhas do Blueprint
 
