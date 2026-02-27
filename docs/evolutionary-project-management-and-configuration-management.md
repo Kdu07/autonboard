@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [Sprint 1 Analysis](#sprint-1-analysis)
+- [Sprint 2 Analysis](#sprint-2-analysis)
 - [Sprint 2 Planning](#sprint-2-planning)
 
 ## Sprint 1 Analysis
@@ -103,6 +104,98 @@ This sprint followed PMO guidelines by:
 
 Future sprints will continue aligning with PMO standards by ensuring transparency, accountability, and continuous improvement processes.
 
+
+
+## Sprint 2 Analysis
+
+### Context
+Sprint 2 had a reduced duration and a constrained timeline, requiring the team to adapt quickly and prioritize essential deliverables.
+
+### Strengths
+#### S2-ST01 – Effective last-minute coordination and team availability  
+
+**Description:**  
+Effective last-minute coordination and high team availability for quick sync meetings enabled the team to stay aligned despite the compressed timeline.
+
+**Action to Maintain:**  
+- Maintain high availability for short sync meetings when sprint duration is reduced.  
+- Keep coordination channels responsive for quick alignment.
+
+
+#### S2-ST02 – Delivery of core features under time pressure  
+
+**Description:**  
+Two core features were successfully delivered despite time constraints, indicating good collaboration and commitment.
+
+**Action to Maintain:**  
+- Prioritise essential deliverables clearly when scope or duration is constrained.  
+- Preserve focus on the critical path in short sprints.
+
+
+#### S2-ST03 – Pair programming on the critical path  
+
+**Description:**  
+Pair programming on the critical path helped reduce blockers and maintain delivery flow.
+
+**Action to Maintain:**  
+- Continue pairing on critical tasks when timelines are tight.  
+- Use pairing as a default for high-impact or blocking work.
+
+
+### Weaknesses
+#### S2-WK01 – Short sprint duration limiting code review  
+
+**Description:**  
+Sprint duration was too short, limiting proper code review; one PR was merged after a single quick review.
+
+**Improvement Action:**  
+- Introduce a buffer in short sprints and reduce committed scope (e.g. by ~20% when sprint duration is limited).  
+- Ensure at least one thorough review before PR merge, even under time pressure.
+
+**Success Indicator:**  
+- No PR merged without adequate review in Sprint 3; scope adjusted in planning when duration is reduced.
+
+
+#### S2-WK02 – Documentation and DoD completed in a rush at sprint end  
+
+**Description:**  
+Documentation and the DoD checklist were completed in a rushed manner at the end of the sprint instead of being integrated into the workflow.
+
+**Improvement Action:**  
+- Integrate documentation into the Definition of Done and require documentation update before PR merge.  
+- Enforce DoD criteria, including documentation, as part of the normal workflow.
+
+**Success Indicator:**  
+- Documentation and DoD criteria met before or at PR merge in Sprint 3; no last-minute documentation rush.
+
+
+#### S2-WK03 – One planned task moved to backlog due to time pressure  
+
+**Description:**  
+One planned task was moved back to the backlog due to time pressure and underestimation.
+
+**Improvement Action:**  
+- Re-evaluate scope estimation during Sprint 3 Planning.  
+- Improve estimation accuracy (e.g. story points, complexity) and reduce committed scope when duration is limited.
+
+**Success Indicator:**  
+- Fewer tasks deferred to backlog; more accurate scope commitment in Sprint 3.
+
+
+### Improvement opportunities
+For future short sprints, scope must be adjusted proportionally to the available time. A buffer period should be reserved to handle unexpected delays. Documentation and quality checks should be embedded in the Definition of Done to prevent rushed finalization.
+
+### Action plan for next sprint (S3)
+- Reduce committed scope when sprint duration is limited.
+- Reserve at least one buffer period for risk mitigation.
+- Enforce Definition of Done criteria, including documentation before PR merge.
+- Improve estimation accuracy during Sprint Planning.
+
+### Risks identified and follow-up
+The sprint highlighted risks related to scope pressure (R04) and effort underestimation (R05). These risks are formally recorded in the Risk Register and will be monitored in Sprint 3 to ensure mitigation through improved planning and scope control.
+
+### PMO alignment (Sprint 2)
+Sprint 2 followed PMO guidelines by conducting a structured retrospective, identifying strengths and weaknesses, defining improvement actions with success indicators, and recording risks (R04, R05) in the Risk Register. The action plan for Sprint 3 will be reviewed at the start of the next sprint to verify completion and continuous improvement.
 
 
 ## Sprint 2 Planning
