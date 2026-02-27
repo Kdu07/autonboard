@@ -100,91 +100,94 @@ Represents the technical integrations and dependencies that sustain the service 
 - Backstage  
 - Supporting Processes  
 
-## 4. Etapas do Processo
+## 4. Process Stages
 
-### 4.1 Acesso e Cadastro
+### 4.1 Access and Registration
 
-Cliente acessa a landing page e inicia o processo de cadastro.
+Customer accesses the landing page and starts the registration process.
 
 Physical Evidence:
-- Landing page de onboarding
-- Tela de cadastro de dados básicos
+- Onboarding landing page  
+- Basic data registration screen  
 
 Customer Actions:
-- Acessa a landing page
-- Clica em "Start"
-- Preenche os dados básicos
-- Confirma os dados informados
+- Accesses the landing page  
+- Clicks "Start"  
+- Fills in the basic data  
+- Confirms the provided data  
 
 Frontstage:
-- Carrega a landing page (5 segundos)
-- Inicia o fluxo de cadastro (2 a 3 segundos)
-- Valida os campos em tempo real (até 500 ms)
+- Loads the landing page (5 seconds)  
+- Starts the registration flow (2 to 3 seconds)  
+- Validates fields in real time (up to 500 ms)  
 
 Backstage:
-- Serviço de onboarding cria e mantém a sessão de progresso do usuário.
+- Onboarding service creates and maintains the user's progress session.  
 
 Supporting Processes:
-- Infraestrutura de autenticação e sessão
+- Authentication and session infrastructure  
 
-### 4.2 Upload do Arquivo
 
-Cliente realiza o envio da planilha para validação.
+### 4.2 File Upload
 
-Physical Evidence:
-- Componente de upload de arquivo
-
-Customer Actions:
-- Adiciona arquivo da planilha
-- Envia o arquivo
-
-Frontstage:
-- Sistema libera a etapa de upload (1 segundo)
-- Realiza validação automática de formato (1 segundo)
-
-Backstage:
-- Serviço de validação verifica formato e integridade do arquivo enviado.
-
-### 4.3 Tratamento de Erro e Reenvio
-
-Caso o arquivo esteja em formato incorreto, o sistema notifica o cliente.
+Customer uploads the spreadsheet for validation.
 
 Physical Evidence:
-- Notificação de erro de formato
+- File upload component  
 
 Customer Actions:
-- Corrige o arquivo
-- Confirma a notificação de erro
-- Envia o arquivo corrigido
+- Adds the spreadsheet file  
+- Uploads the file  
 
 Frontstage:
-- Notifica erro por formato inválido (1 segundo)
-- Sistema valida novo upload (5 segundos)
+- System enables the upload step (1 second)  
+- Performs automatic format validation (1 second)  
 
 Backstage:
-- Serviço de validação executa nova verificação.
+- Validation service checks the format and integrity of the uploaded file.  
 
-### 4.4 Processamento
 
-Arquivo validado segue para processamento interno.
+### 4.3 Error Handling and Resubmission
+
+If the file is in an incorrect format, the system notifies the customer.
 
 Physical Evidence:
-- Status de upload em validação (standby)
+- Format error notification  
 
 Customer Actions:
-- Aguarda a validação
+- Fixes the file  
+- Confirms the error notification  
+- Uploads the corrected file  
 
 Frontstage:
-- Status de processamento (standby) (1 segundo)
+- Notifies error due to invalid format (1 second)  
+- System validates new upload (5 seconds)  
 
 Backstage:
-- Sistema de filas coloca o arquivo em processamento.
-- Serviço de ingestão processa, padroniza e grava os dados no banco.
+- Validation service performs a new check.  
+
+
+### 4.4 Processing
+
+Validated file proceeds to internal processing.
+
+Physical Evidence:
+- Upload status in validation (standby)  
+
+Customer Actions:
+- Waits for validation  
+
+Frontstage:
+- Processing status (standby) (1 second)  
+
+Backstage:
+- Queue system places the file into processing.  
+- Ingestion service processes, standardizes, and writes the data to the database.  
 
 Supporting Processes:
-- Infraestrutura de mensageria suporta o processamento assíncrono.
-- Worker de processamento executa parsing e normalização dos dados.
-- Banco de dados armazena as informações processadas.
+- Messaging infrastructure supports asynchronous processing.  
+- Processing worker executes parsing and data normalization.  
+- Database stores the processed information.  
 
 ## 5. Technical Improvements  
 
