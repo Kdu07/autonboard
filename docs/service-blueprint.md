@@ -1,200 +1,185 @@
 # Service Blueprint
 
-## Sumário
+## Summary
 
-- [1. BLUEPRINT](#1-blueprint)
-- [2. Swim Lanes](#2-swim-lanes)
-  - [2.1Physical Evidences](#21-physical-evidences)
-  - [2.2 Customer Actions](#22-customer-actions)
-  - [2.3 Frontstage](#23-frontstage)
-  - [2.4 Backstage](#24-backstage)
-  - [2.5 Supporting Processes](#25-supporting-processes)
-- [3. Mapeamento das Linhas do Blueprint](#3-mapeamento-das-linhas-do-blueprint)
-- [4. Etapas do Processo](#4-etapas-do-processo)
-  - [4.1 Acesso e Cadastro](#41-acesso-e-cadastro)
-  - [4.2 Upload do Arquivo](#42-upload-do-arquivo)
-  - [4.3 Tratamento de Erro e Reenvio](#43-tratamento-de-erro-e-reenvio)
-  - [4.4 Processamento](#44-processamento)
-- [5. Melhorias Técnicas](#5-melhorias-técnicas)
-  - [5.1 Duração Estimada](#51-duração-estimada)
-  - [5.2 Gargalos (Fail Points)](#52-gargalos-fail-points)
+- [1. Introduction](#1-introduction)
+- [2. The Persona: Mia King](#2-the-persona-mia-king)
+- [3. Service Blueprint Components](#3-service-blueprint-components)
+  - [3.1 Physical/Digital Evidence](#31-physicaldigital-evidence)
+  - [3.2 Customer Actions](#32-customer-actions)
+  - [3.3 Frontstage (Visible Software)](#33-frontstage-visible-software)
+  - [3.4 Backstage (Internal Processes)](#34-backstage-internal-processes)
+  - [3.5 Support Processes](#35-support-processes)
+- [4. Mapping the Blueprint Lines](#4-mapping-the-blueprint-lines)
+  - [4.1 Line of Interaction](#41-line-of-interaction)
+  - [4.2 Line of Visibility](#42-line-of-visibility)
+  - [4.3 Line of Internal Interaction](#43-line-of-internal-interaction)
+- [5. Process Stages: Mia's Journey](#5-process-stages-mias-journey)
+  - [5.1 Access and Registration](#51-access-and-registration)
+  - [5.2 File Upload](#52-file-upload)
+  - [5.3 Error Handling and Resubmission](#53-error-handling-and-resubmission)
+  - [5.4 Processing](#54-processing)
+- [6. Technical Enhancements](#6-technical-enhancements)
+  - [6.1 Estimated Duration](#61-estimated-duration)
+  - [6.2 Bottlenecks (Failure Points)](#62-bottlenecks-failure-points)
 
+## 1. Introduction
 
-## 1. BLUEPRINT
+This document aims to map the complete lifecycle of the **customer onboarding process**, as represented by the persona Mia King. It identifies the connections between user actions, front-end interfaces, and back-end logic, including external APIs and databases, to ensure a clear, fast, and predictable experience.
 
 <div align="center">
-<sub>Figure 1 - Blueprint</sub><br>
-  <img src="../assets/serviceblueprint.png" width="100%" alt="Blueprint"><br>
+<sub>Figure 1 - Service Blueprint</sub><br>
+  <img src="../assets/serviceblueprint.png" width="80%" alt="Blueprint"><br>
   <sup>Source: Material produced by the authors, 2026.</sup>
 </div>
 
-## 2. Swim Lanes
+## 2. The Persona: Mia King
 
-### 2.1 Physical Evidences
+To guide our blueprint, we've defined the persona representing our primary customer in this process.
 
-- Landing page de onboarding
-- Tela de cadastro de dados básicos
-- Componente de upload de arquivo
-- Notificação de erro de formato
-- Status de upload em validação (standby)
+| Characteristic | Description |
+| :--- | :--- |
+| **Name** | Mia King |
+| **Age** | 28 years old |
+| **Role** | Customer Onboarding Specialist |
+| **Quote** | "If the data comes in right from the start, everything else flows." |
+| **Context** | Mia is analytical and process-oriented. She values precision, organization, and data traceability. She acts as the quality gatekeeper during onboarding, ensuring that everything delivered for integration is technically sound and reliable. |
+| **Pain Points** | Manual data review; consolidating information in spreadsheets; dependence on multiple back-and-forth interactions with clients to fix errors. |
+| **Needs** | Automatic data validation; organization by module and by responsible owner; clear visualization of errors and the status of each submitted section. |
 
+## 3. Service Blueprint Components
 
-### 2.2 Customer Actions
+Before detailing the blueprint, it's crucial to identify the five "Swim Lanes" as defined by IxDF [1].
 
-- Acessa a landing page
-- Clica em "Start"
-- Preenche os dados básicos
-- Confirma os dados informados
-- Adiciona arquivo da planilha
-- Corrige o arquivo e confirma a notificação de erro
-- Envia o arquivo corrigido
-- Aguarda a validação
+### 3.1 Physical Evidence
 
+This represents everything Mia interacts with. For her, who prefers precision and organization, the clarity and traceability of the interface are paramount.
 
-### 2.3 Frontstage
+- Clear and objective onboarding landing page
+- Basic data registration screen with clearly marked mandatory fields
+- File upload component with straightforward instructions
+- Instant format error notification with guidance for correction
+- Upload status in validation (standby) with clear visual feedback
 
-- Carrega a landing page
-- Inicia o fluxo de cadastro
-- Valida os campos em tempo real
-- Sistema libera a etapa de upload
-- Realiza validação automática de formato
-- Notifica erro por formato inválido
-- Sistema valida novo upload
-- Status de processamento (standby)
+### 3.2 Customer Actions
 
+Describes the steps Mia takes to efficiently achieve her goal of completing the onboarding.
 
-### 2.4 Backstage
+- Accesses the landing page
+- Clicks "Start"
+- Fills in basic data, focusing on mandatory fields
+- Confirms the provided data
+- Adds the spreadsheet file (CSV, JSON, etc.)
+- Corrects the file immediately after error notification
+- Uploads the corrected file
+- Waits for validation, trusting the system's feedback
 
-- Serviço de onboarding cria e mantém a sessão de progresso do usuário.
-- Serviço de validação verifica formato e integridade do arquivo enviado.
-- Sistema de filas coloca o arquivo em processamento.
-- Serviço de ingestão processa, padroniza e grava os dados no banco.
+### 3.3 Frontstage
 
+This corresponds to what Mia sees the system doing, addressing her need for a step-by-step process with clear visibility.
 
-### 2.5 Supporting Processes
+- Loads the landing page
+- Initiates the guided registration flow
+- Validates fields in real-time, indicating what is mandatory
+- System enables the upload step after correct completion
+- Performs automatic format validation
+- Notifies error due to invalid format
+- System validates new upload
+- Displays processing status (standby)
 
-- Infraestrutura de mensageria suporta o processamento assíncrono.
-- Worker de processamento executa parsing e normalização dos dados.
-- Banco de dados armazena as informações processadas.
+### 3.4 Backstage
 
-## 3. Mapeamento das Linhas do Blueprint
+Refers to actions Mia doesn't see, but which are triggered by her actions to ensure the information is correct.
 
-### 3.1 Linha de Interação
+- Onboarding service creates and maintains Mia's progress session.
+- Validation service checks the format and integrity of the uploaded file.
+- Queue system places the file into processing.
+- Ingestion service processes, standardizes, and writes data to the database.
 
-Separa as ações do cliente das atividades executadas pelo sistema visível (Frontstage).  
-Representa todos os pontos de contato diretos entre o usuário e a interface.
+### 3.5 Support Processes
 
-- Physical Evidences
-- Customer Actions
-- Frontstage
+Background systems or third-party services that enable the service to function.
 
+- Messaging infrastructure supports asynchronous processing.
+- Processing worker executes data parsing and normalization.
+- Database stores the processed information.
 
-### 3.2 Linha de Visibilidade
+## 4. Mapping the Blueprint Lines
 
-Separa o que é visível ao usuário do que acontece internamente no sistema.  
-Tudo abaixo dessa linha não é percebido diretamente pelo cliente.
+When designing the service blueprint, two critical boundaries must be defined:
 
-- Frontstage
-- Backstage
+### 4.1 Line of Interaction
 
+Separates Mia's actions from activities performed by the visible system (Frontstage).
 
-### 3.3 Linha de Interação Interna
+### 4.2 Line of Visibility
 
-Separa os processos internos principais dos processos de suporte.  
-Representa as integrações e dependências técnicas que sustentam o funcionamento do serviço.
+Separates what is visible to Mia from what happens internally within the system.
 
-- Backstage
-- Supporting Processes
+### 4.3 Line of Internal Interaction
 
-## 4. Etapas do Processo
+Separates the main internal processes from the support processes.
 
-### 4.1 Acesso e Cadastro
+## 5. Process Stages: Mia's Journey
 
-Cliente acessa a landing page e inicia o processo de cadastro.
+The following stages detail Mia's journey, filling the lanes for each action.
 
-Physical Evidence:
-- Landing page de onboarding
-- Tela de cadastro de dados básicos
+### 5.1 Access and Registration
 
-Customer Actions:
-- Acessa a landing page
-- Clica em "Start"
-- Preenche os dados básicos
-- Confirma os dados informados
+Mia accesses the landing page and begins the registration process, expecting a simple and fast flow.
 
-Frontstage:
-- Carrega a landing page (5 segundos)
-- Inicia o fluxo de cadastro (2 a 3 segundos)
-- Valida os campos em tempo real (até 500 ms)
+**Physical/Digital Evidence:** Onboarding page and registration screen.
 
-Backstage:
-- Serviço de onboarding cria e mantém a sessão de progresso do usuário.
+**Customer Actions:** Accesses, clicks "Start," fills in, and confirms data.
 
-Supporting Processes:
-- Infraestrutura de autenticação e sessão
+**Frontstage:** Loads page, initiates flow, and validates fields in real-time.
 
-### 4.2 Upload do Arquivo
+**Backstage:** Onboarding service manages the session.
 
-Cliente realiza o envio da planilha para validação.
+**Support Processes:** Authentication infrastructure.
 
-Physical Evidence:
-- Componente de upload de arquivo
+### 5.2 File Upload
 
-Customer Actions:
-- Adiciona arquivo da planilha
-- Envia o arquivo
+Mia uploads the spreadsheet, expecting the system to guide her.
 
-Frontstage:
-- Sistema libera a etapa de upload (1 segundo)
-- Realiza validação automática de formato (1 segundo)
+**Physical/Digital Evidence:** Upload component.
 
-Backstage:
-- Serviço de validação verifica formato e integridade do arquivo enviado.
+**Customer Actions:** Adds and uploads the file.
 
-### 4.3 Tratamento de Erro e Reenvio
+**Frontstage:** Enables upload and validates format.
 
-Caso o arquivo esteja em formato incorreto, o sistema notifica o cliente.
+**Backstage:** Validation service checks the file.
 
-Physical Evidence:
-- Notificação de erro de formato
+### 5.3 Error Handling and Resubmission
 
-Customer Actions:
-- Corrige o arquivo
-- Confirma a notificação de erro
-- Envia o arquivo corrigido
+If the format is incorrect, the system notifies Mia, who needs clear instructions to correct it.
 
-Frontstage:
-- Notifica erro por formato inválido (1 segundo)
-- Sistema valida novo upload (5 segundos)
+**Physical/Digital Evidence:** Error notification.
 
-Backstage:
-- Serviço de validação executa nova verificação.
+**Customer Actions:** Corrects and resubmits the file.
 
-### 4.4 Processamento
+**Frontstage:** Notifies error and validates the new upload.
 
-Arquivo validado segue para processamento interno.
+**Backstage:** Validation service performs a new check.
 
-Physical Evidence:
-- Status de upload em validação (standby)
+### 5.4 Processing
 
-Customer Actions:
-- Aguarda a validação
+The validated file proceeds to internal processing, and Mia awaits final confirmation.
 
-Frontstage:
-- Status de processamento (standby) (1 segundo)
+**Physical/Digital Evidence:** Validation status.
 
-Backstage:
-- Sistema de filas coloca o arquivo em processamento.
-- Serviço de ingestão processa, padroniza e grava os dados no banco.
+**Customer Actions:** Waits for validation.
 
-Supporting Processes:
-- Infraestrutura de mensageria suporta o processamento assíncrono.
-- Worker de processamento executa parsing e normalização dos dados.
-- Banco de dados armazena as informações processadas.
+**Frontstage:** Displays processing status.
 
-## 5. Technical Improvements  
+**Backstage:** Queue and ingestion service process data.
 
-### 5.1 Estimated Duration
+**Support Processes:** Messaging, worker, and database.
+
+## 6. Technical Improvements  
+To make the blueprint useful for Software Engineering, IxDF-recommended notations are added [1].
+
+### 6.1 Estimated Duration
 
 The “Estimated Duration” labels were not incorporated into the Service Blueprint due to the impossibility of accurately mapping this concept within the proposed structure. However, the following explanatory text provides a more detailed clarification of this issue.
 
@@ -216,10 +201,13 @@ This phenomenon is known as a temporal expectation breakdown. Users hold an impl
 Therefore, in addition to estimating and optimizing technical execution time, it is essential to implement mitigation strategies, such as loading indicators, progress bars, status messages (“Processing file…”, “Validation in progress…”), or even remaining time estimates. These measures do not necessarily reduce the actual processing time, but they significantly reduce the negative perception associated with waiting.
 
 
-### 5.2 Bottlenecks (Fail Points)
+### 6.2 Bottlenecks (Fail Points)
 
 | Bottleneck (Critical Point) | What happens in the Frontstage if it fails or becomes overloaded? |
 |-----------------------------|-------------------------------------------------------------------|
 | File Validation Service | When handling large files or heavy processing loads, validation time can increase significantly. If the service fails or takes longer than expected, the user may only see a “processing” status indefinitely or receive a generic error message. This creates a perception of system freezing, uncertainty about whether the file was successfully submitted, and the possibility of duplicate re-uploads. Without proper handling, the experience is perceived as unstable and unreliable. |
 | Asynchronous Processing Queue | Since multiple users submit files that enter the same validation queue, if the system does not process them concurrently or scale properly, a backlog can form. In the Frontstage, this appears as excessive delay after file submission. The user may believe the system did not respond, leading to frustration, abandonment of the process, or repeated submission attempts. Without transparency regarding queue position or estimated processing time, a temporal expectation breakdown occurs. |
 
+## References
+
+[1] Interaction Design Foundation (IxDF). *Service Blueprint*. Available at: [https://www.interaction-design.org/literature/topics/service-blueprint](https://www.interaction-design.org/literature/topics/service-blueprint). Accessed on: Feb 26, 2026.
