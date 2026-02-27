@@ -1,23 +1,23 @@
 # Service Blueprint
 
-## Sumário
+## Summary
 
 - [1. Blueprint](#1-blueprint)
 - [2. Swim Lanes](#2-swim-lanes)
-  - [2.1Physical Evidences](#21-physical-evidences)
+  - [2.1 Physical Evidences](#21-physical-evidences)
   - [2.2 Customer Actions](#22-customer-actions)
   - [2.3 Frontstage](#23-frontstage)
   - [2.4 Backstage](#24-backstage)
   - [2.5 Supporting Processes](#25-supporting-processes)
-- [3. Mapeamento das Linhas do Blueprint](#3-mapeamento-das-linhas-do-blueprint)
-- [4. Etapas do Processo](#4-etapas-do-processo)
-  - [4.1 Acesso e Cadastro](#41-acesso-e-cadastro)
-  - [4.2 Upload do Arquivo](#42-upload-do-arquivo)
-  - [4.3 Tratamento de Erro e Reenvio](#43-tratamento-de-erro-e-reenvio)
-  - [4.4 Processamento](#44-processamento)
-- [5. Melhorias Técnicas](#5-melhorias-técnicas)
-  - [5.1 Duração Estimada](#51-duração-estimada)
-  - [5.2 Gargalos (Fail Points)](#52-gargalos-fail-points)
+- [3. Blueprint Lines Mapping](#3-blueprint-lines-mapping)
+- [4. Process Stages](#4-process-stages)
+  - [4.1 Access and Registration](#41-access-and-registration)
+  - [4.2 File Upload](#42-file-upload)
+  - [4.3 Error Handling and Resubmission](#43-error-handling-and-resubmission)
+  - [4.4 Processing](#44-processing)
+- [5. Technical Improvements](#5-technical-improvements)
+  - [5.1 Estimated Duration](#51-estimated-duration)
+  - [5.2 Bottlenecks (Fail Points)](#52-bottlenecks-fail-points)
 
 
 ## 1. BLueprint
