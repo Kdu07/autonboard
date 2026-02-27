@@ -16,122 +16,297 @@ Conceptual and Logical Data Model
   - [Table Structure](#table-structure)
   - [Normalization](#normalization)
   - [Referential Integrity](#referential-integrity)
-- [Traceability Between Models](#traceability-between-models)
-- [Final Considerations](#final-considerations)
+- [System Use Cases](#system-use-cases)
+- [Model Traceability](#model-traceability)
 
+---
 
 ## Overview of Data Modeling
 
-Data modeling is a fundamental activity for structuring, organizing, and managing information within a system.  
-In the context of this project, data modeling enables an accurate representation of the problem domain, ensuring data integrity, consistency, and efficient storage.
+Data modeling is an essential activity to structure and organize information in a consistent, scalable, and business-aligned manner.
 
+In this project, the model was developed to represent physical environments managed by the **Equiem** platform, covering clients, buildings, floors, physical spaces (amenities), dynamic configurations, visual resources through image uploads, and **project submission tracking**.
+
+---
 
 ## Conceptual Data Model
 
 ### Entity-Relationship Diagram (ERD)
 
-<div align="center">
-<sub>FIGURE 01 - ERD</sub><br>
-  <img src="../assets/erd.jpeg" width="100%" alt="Porter´s Five Forces"><br>
-  <sup>Source: Material produced by the authors, 2026.</sup>
-</div>
+The diagram was designed using **Crow’s Foot notation**, highlighting entities, cardinalities, mandatory and optional relationships, internal hierarchies, attributes related to visual customization of environments, and the **submission lifecycle of uploaded projects**. Bellow follows the diagram:
 
-The diagram was created using Crow’s Foot notation and accurately represents the entities and relationships described in the following sections.
+<img src="../assets/ERD.jpg" >
 
+---
 
 ### Entity Identification
 
-**Identified entities:**
+- CUSTOMER  
+- BUILDING  
+- FLOOR  
+- AMENITY  
+- AMENITY_CONFIGURATION  
+- SUBMISSION  
 
-- Entity 1  
-- Entity 2  
-- Entity 3  
-- Entity N  
-
+---
 
 ### Attribute Definition
 
-#### Entity: **[Entity Name]**
+#### Entity: CUSTOMER
 
-**Description:**  
-Textual description of the entity and its role within the system.
+Represents a client of the Equiem platform.
 
-**Attributes:**
+- `id` (PK)  
+- `name`  
+- `email`  
+- `modules_enabled` (JSON)  
 
-- `id` (PK) – Unique identifier of the entity  
-- `attribute_1` – Attribute description  
-- `attribute_2` – Attribute description  
-- `attribute_n` – Attribute description  
+The `modules_enabled` attribute stores the functional modules enabled for the client, allowing site customization without the need for additional tables.
 
+---
+
+#### Entity: BUILDING
+
+Represents a physical building belonging to a client.
+
+- `id` (PK)  
+- `customer_id` (FK)  
+- `name`  
+- `type` (commercial, residential, mixed-use)  
+- `address`  
+- `number_of_floors`  
+- `total_area`  
+- `images_url` (JSON)  
+
+The `images_url` attribute stores a list of image URLs associated with the building, such as façades, common areas, and outdoor environments, enabling flexible multiple uploads.
+
+---
+
+#### Entity: FLOOR
+
+Organizes spaces within a building.
+
+- `id` (PK)  
+- `building_id` (FK)  
+- `floor_number`  
+- `floor_area`  
+
+---
+
+#### Entity: AMENITY
+
+Represents any usable physical unit within a building.
+
+- `id` (PK)  
+- `building_id` (FK)  
+- `floor_id` (FK, optional)  
+- `parent_space_id` (FK, optional)  
+- `name`  
+- `type`  
+- `capacity`  
+- `area_m2`  
+- `images_url` (JSON)  
+
+The `images_url` attribute allows storing multiple images related to the physical space, such as rooms, desks, apartments, parking spaces, or common areas.
+
+This model enables the creation of internal hierarchies between spaces, such as rooms containing desks or subdivided environments.
+
+---
+
+#### Entity: AMENITY_CONFIGURATION
+
+Stores dynamic configurations associated with a specific space.
+
+- `id` (PK)  
+- `space_id` (FK)  
+- `key`  
+- `value`  
+- `reservable`  
+- `image_url` (VARCHAR, optional)  
+
+The `key` and `value` attributes allow flexible representation of variable characteristics, while the `image_url` attribute enables associating an illustrative image with the configuration when required.
+
+This is considered a **weak entity**, as its existence depends directly on an AMENITY.
+
+---
+
+#### Entity: SUBMISSION
+
+Represents the submission of a project or file associated with a client, enabling tracking of approval workflow and file storage.
+
+- `id` (PK)  
+- `customer_id` (FK)  
+- `status` (approved, returned, pending)  
+- `file_path`  
+- `upload_date`  
+
+The `status` attribute indicates whether the submission has been approved, returned for adjustments, or is pending review.  
+The `file_path` attribute stores the location of the submitted file, while `upload_date` records the submission timestamp.
+
+---
+
+### Domain Constraints
+
+- The `type` attribute of the BUILDING entity must be one of the following:
+  - commercial  
+  - residential  
+  - mixed-use  
+
+- The `type` attribute of the AMENITY entity must assume predefined values, such as:
+  - room  
+  - desk  
+  - apartment  
+  - parking  
+  - common area  
+
+- The `status` attribute of the SUBMISSION entity must assume one of the following values:
+  - approved  
+  - returned  
+  - pending  
+
+---
 
 ### Entity Relationships
 
-The relationships describe how entities are connected, including cardinality and participation constraints.
-
 | Entity A | Entity B | Cardinality | Participation | Description |
-|---------|----------|-------------|---------------|-------------|
-| Entity 1 | Entity 2 | 1:N | Mandatory / Optional | Relationship description |
-| Entity 2 | Entity 3 | N:N | Optional | Relationship description |
+|--------|----------|-------------|---------------|-------------|
+| CUSTOMER | BUILDING | 1:N | Mandatory | A client owns buildings |
+| BUILDING | FLOOR | 1:N | Mandatory | A building has floors |
+| BUILDING | AMENITY | 1:N | Mandatory | A building has spaces |
+| FLOOR | AMENITY | 1:N | Optional | A space may not belong to a floor |
+| AMENITY | AMENITY | 1:N | Optional | Space hierarchy |
+| AMENITY | AMENITY_CONFIGURATION | 1:N | Mandatory | A space has configurations |
+| CUSTOMER | SUBMISSION | 1:N | Mandatory | A client submits projects |
 
+---
 
 ### Business Rules and Constraints
 
-The following business rules and constraints govern the system behavior:
+- Each building belongs to exactly one client.
+- A space may exist without being assigned to a floor.
+- Spaces may contain other spaces.
+- Configurations are specific to each space.
+- Only modules enabled in CUSTOMER are displayed on the site.
+- A building may have multiple images.
+- A physical space may have multiple images.
+- Submissions must be associated with exactly one client.
+- Each submission has a defined status.
+- Images and submitted files are stored externally and referenced by path or URL.
 
-- A **[actor/entity]** may have at most **X** active records.
-- The **[entity]** status must assume only the following values: **[list of values]**.
-- The maximum allowed time for **[process/action]** is **X** days.
-- Certain relationships are mandatory for record creation.
-
-These rules ensure data validity and consistency.
-
+---
 
 ### Complete Textual Description
 
-This section provides a detailed explanation of all entities, attributes, and relationships, demonstrating how the conceptual model meets the project requirements.
+The conceptual model was designed to represent physical environments managed by the Equiem platform in a structured, flexible, and scalable manner.
 
-- The entity **[Entity Name]** represents ...
-- The relationship between **[Entity A]** and **[Entity B]** allows ...
-- The business rules ensure that ...
+The CUSTOMER entity centralizes system functional configuration through the `modules_enabled` attribute, enabling customization without increasing structural complexity. The BUILDING, FLOOR, and AMENITY entities represent the physical organization of environments, while AMENITY_CONFIGURATION ensures extensibility through dynamic configurations and visual resources.
 
+The SUBMISSION entity introduces control over the project submission workflow, enabling file tracking, approval status management, and historical auditing of uploaded content.
+
+---
 
 ## Logical Data Model
 
+### Logical Diagram
+
+<img src ="../assets/Diagrama.png">
+
 ### Transformation from Conceptual to Logical Model
 
-The logical data model was derived from the conceptual model through the following steps:
+- Entities mapped to relational tables.
+- 1:N relationships implemented through foreign keys.
+- Hierarchies represented using self-referencing relationships.
+- Dynamic configurations isolated in a dedicated table.
+- Images and files stored as URLs or file paths.
+- Submission workflow represented by a dedicated table.
 
-- Each conceptual entity was mapped to a relational table.
-- Attributes were converted into columns with appropriate data types.
-- Relationships were implemented using foreign keys.
-- Many-to-many relationships were resolved using associative tables.
+---
 
-This transformation ensures consistency between both models.
+### Table Structure (Example)
+
+#### Table: CUSTOMER
+
+| Column | Type | PK | Description |
+|------|------|----|-------------|
+| id | SERIAL | ✔ | Identifier |
+| name | VARCHAR(255) |  | Name |
+| email | VARCHAR(255) |  | Email |
+| modules_enabled | JSON |  | Enabled modules |
 
 
-### Table Structure
+#### Table: BUILDING
 
-#### Table: **[table_name]**
+| Column | Type | PK | Description |
+|------|------|----|-------------|
+| id | SERIAL | ✔ | Identifier |
+| customer_id | INT |  | Client |
+| name | VARCHAR(255) |  | Name |
+| type | VARCHAR(50) |  | Type |
+| address | TEXT |  | Address |
+| number_of_floors | INT |  | Number of floors |
+| total_area | DECIMAL |  | Total area |
+| images | JSON |  | Image URLs |
 
-| Column Name | Data Type | PK | FK | Description |
-|------------|-----------|----|----|-------------|
-| id | SERIAL | ✔ |  | Unique identifier |
-| column_1 | VARCHAR(255) |  |  | Attribute description |
-| column_2 | INT |  | ✔ | Reference to another table |
 
+#### Table: SUBMISSION
+
+| Column | Type | PK | Description |
+|------|------|----|-------------|
+| id | SERIAL | ✔ | Identifier |
+| customer_id | INT |  | Client |
+| status | VARCHAR(20) |  | Submission status |
+| file_path | TEXT |  | File storage path |
+| upload_date | TIMESTAMP |  | Upload date |
+
+---
 
 ### Normalization
 
-The logical model was normalized to at least the **Third Normal Form (3NF)**, ensuring:
+The model is normalized up to the **Third Normal Form (3NF)**, ensuring the absence of redundancy and improper dependencies, even with the inclusion of visual attributes and submission tracking.
 
-- Elimination of data redundancy.
-- Full functional dependency on primary keys.
-- Proper separation of multivalued and dependent attributes.
+---
 
-**Normalization decisions:**
+### Referential Integrity
 
-- Entity **[X]** was separated from entity **[Y]** to avoid data redundancy.
-- Many-to-many relationships were resolved through associative tables.
+| Foreign Key | ON DELETE | Justification |
+|------------|-----------|---------------|
+| BUILDING → CUSTOMER | RESTRICT | Client cannot be deleted if buildings exist |
+| FLOOR → BUILDING | CASCADE | Floors depend on building |
+| AMENITY → BUILDING | CASCADE | amenities depend on building |
+| AMENITY → FLOOR | SET NULL | amenity may exist without floor |
+| AMENITY → AMENITY | SET NULL | Preserves hierarchy |
+| CONFIG → AMENITY | CASCADE | Configuration depends on amenity |
+| SUBMISSION → CUSTOMER | CASCADE | Submission depends on client |
+
+---
+
+## System Use Cases
+
+### Use Case 1 — Site Customization
+
+**Actor:** Client  
+**Description:** The client defines which modules are enabled and uploads images for buildings and amenities.  
+**Entities involved:** CUSTOMER, BUILDING, AMENITY  
+**Outcome:** The site is displayed according to enabled modules and configured visual identity.
+
+
+### Use Case 2 — Project Submission
+
+**Actor:** Client  
+**Description:** The client uploads a project file for review and approval.  
+**Entities involved:** CUSTOMER, SUBMISSION  
+**Outcome:** The submission is registered with a status and can be approved or returned for adjustments.
+
+---
+
+## Model Traceability
+
+- Conceptual entities ↔ logical tables  
+- Relationships ↔ foreign keys  
+- Business rules ↔ constraints and deletion policies  
+- Visual resources ↔ image attributes  
+- Submission workflow ↔ submission table  
+
 
 
 ### Referential Integrity
