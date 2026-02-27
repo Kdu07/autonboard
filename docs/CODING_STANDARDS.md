@@ -37,7 +37,7 @@ These standards are enforceable during code review.
 
 **Rule:** PascalCase
 
-✅ **Correct:**
+ **Correct:**
 
 ```python
 class Building:
@@ -45,7 +45,7 @@ class FloorLevel:
 class ReservationService:
 ```
 
-❌ **Incorrect:**
+ **Incorrect:**
 
 ```python
 class building:
@@ -61,7 +61,7 @@ class reservationservice:
 
 **Rule:** snake_case (Python convention)
 
-✅ **Correct:**
+ **Correct:**
 
 ```python
 floor_level = 5
@@ -69,7 +69,7 @@ unit_number = "101A"
 reservation_date = datetime.now()
 ```
 
-❌ **Incorrect:**
+ **Incorrect:**
 
 ```python
 floorLevel = 5
@@ -85,14 +85,14 @@ reservationDate = datetime.now()
 
 **Rule:** UPPER_CASE
 
-✅ **Correct:**
+ **Correct:**
 
 ```python
 MAX_FLOORS = 200
 DEFAULT_STATUS = "ACTIVE"
 ```
 
-❌ **Incorrect:**
+ **Incorrect:**
 
 ```python
 maxFloors = 200
@@ -105,7 +105,7 @@ DefaultStatus = "ACTIVE"
 
 **Rule:** snake_case, verb-first naming
 
-✅ **Correct:**
+ **Correct:**
 
 ```python
 def add_unit(self, unit: Unit) -> None:
@@ -113,7 +113,7 @@ def mark_as_occupied(self) -> None:
 def is_available(self) -> bool:
 ```
 
-❌ **Incorrect:**
+ **Incorrect:**
 
 ```python
 def unitAdd():
@@ -129,7 +129,7 @@ def availability():
 
 **Rule:** snake_case
 
-✅ **Correct:**
+ **Correct:**
 
 ```
 building.py
@@ -137,7 +137,7 @@ floor_level.py
 reservation_service.py
 ```
 
-❌ **Incorrect:**
+ **Incorrect:**
 
 ```
 Building.py
@@ -178,13 +178,13 @@ Python indentation defines blocks. Always use explicit returns.
 
 ### Around operators
 
-✅ **Correct:**
+ **Correct:**
 
 ```python
 if unit.status == UnitStatus.AVAILABLE:
 ```
 
-❌ **Incorrect:**
+ **Incorrect:**
 
 ```python
 if unit.status==UnitStatus.AVAILABLE:
@@ -194,13 +194,13 @@ if unit.status==UnitStatus.AVAILABLE:
 
 ### After commas
 
-✅ **Correct:**
+ **Correct:**
 
 ```python
 def reserve(self, user_id: UserId, date_range: DateTimeRange):
 ```
 
-❌ **Incorrect:**
+ **Incorrect:**
 
 ```python
 def reserve(self,user_id:UserId,date_range:DateTimeRange):
@@ -263,7 +263,7 @@ def add_unit(self, unit: Unit) -> None:
 
 Use only when necessary.
 
-✅ **Good:**
+ **Good:**
 
 ```python
 # Prevent duplicate unit numbers within the same floor
@@ -271,7 +271,7 @@ if self.has_unit(unit.number):
     raise ValueError("Duplicate unit number")
 ```
 
-❌ **Bad:**
+ **Bad:**
 
 ```python
 # This checks if the unit exists
@@ -323,13 +323,13 @@ No executable logic at file root level.
 
 All functions must use type hints.
 
-✅ **Correct:**
+ **Correct:**
 
 ```python
 def total_units(self) -> int:
 ```
 
-❌ **Incorrect:**
+ **Incorrect:**
 
 ```python
 def total_units(self):
@@ -342,14 +342,14 @@ def total_units(self):
 * Use domain-specific exceptions.
 * Never swallow exceptions silently.
 
-✅ **Correct:**
+ **Correct:**
 
 ```python
 if not user.is_active():
     raise UserInactiveError()
 ```
 
-❌ **Incorrect:**
+ **Incorrect:**
 
 ```python
 try:
@@ -376,13 +376,13 @@ class FloorLevel:
 
 ## 7.4 No Magic Numbers
 
-❌ **Incorrect:**
+ **Incorrect:**
 
 ```python
 if level > 200:
 ```
 
-✅ **Correct:**
+ **Correct:**
 
 ```python
 MAX_FLOOR_LEVEL = 200
