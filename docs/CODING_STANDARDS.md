@@ -1,349 +1,490 @@
-# Coding Standards
+# CODING_STANDARDS.md
 
-This document defines enforceable conventions for all code in the project. **Standards apply per file language**: each file must follow the rules for its language (e.g. a `.py` file follows Python rules; a `.tsx` file follows TypeScript/React rules). All code and comments in the repository must be written in **English**.
-
----
-
-## 1. Naming Conventions
-
-### 1.1 Variables and functions
-
-| Language   | Variables / functions | Constants           | Rationale |
-|-----------|------------------------|---------------------|-----------|
-| **Python** | `snake_case`           | `UPPER_SNAKE_CASE`  | PEP 8; consistent with stdlib and ecosystem. |
-| **JavaScript/TypeScript** | `camelCase` | `UPPER_SNAKE_CASE` | ECMAScript convention; matches npm/React ecosystem. |
-
-**Examples**
-
-```python
-# Python — correct
-user_name = "alice"
-def get_user_by_id(user_id: str): ...
-
-MAX_RETRIES = 3
-```
-
-```python
-# Python — incorrect
-userName = "alice"
-def GetUserById(user_id): ...
-```
-
-```typescript
-// TypeScript — correct
-const userName = "alice";
-function getUserById(userId: string): User { ... }
-const MAX_RETRIES = 3;
-```
-
-```typescript
-// TypeScript — incorrect
-const user_name = "alice";
-function get_user_by_id(userId: string) { ... }
-```
-
-### 1.2 Classes and types
-
-| Language   | Classes / types       | Rationale |
-|-----------|------------------------|-----------|
-| **Python** | `PascalCase`           | PEP 8. |
-| **JavaScript/TypeScript** | `PascalCase` | Standard for classes and type names. |
-
-**Examples**
-
-```python
-# Python — correct
-class UserService:
-    pass
-
-class ValidationError(Exception):
-    pass
-```
-
-```typescript
-// TypeScript — correct
-class UserService {}
-interface UserProfile {}
-type UserId = string;
-```
-
-### 1.3 Files and directories
-
-| Context        | Convention   | Example |
-|----------------|-------------|---------|
-| **Python**     | `snake_case` | `user_service.py`, `data_validator.py` |
-| **JS/TS (non-component)** | `kebab-case` | `user-service.ts`, `api-client.ts` |
-| **React/Vue component files** | `PascalCase` | `UserCard.tsx`, `DataTable.vue` |
-| **Directories (any)** | `kebab-case` | `api-clients/`, `user-management/` |
-
-**Rationale:** One rule per language/context avoids ambiguity and matches common tooling (e.g. Python imports vs JS module resolution). Component PascalCase aligns with component names and common framework conventions.
-
-**Examples**
-
-```
-# Correct
-services/user_service.py
-lib/api-client.ts
-components/UserCard.tsx
-utils/format-date.ts
-
-# Incorrect (for this project)
-services/userService.py
-lib/api_client.ts
-components/user-card.tsx
-```
+**Location:** /docs/CODING_STANDARDS.md  
+**Project:** Building Management System  
+**Version:** 1.0  
 
 ---
 
-## 2. Code Formatting
+# 1. Purpose
 
-Formatting is enforced by tools. **One formatter per language**; no optional “pick one” alternatives.
+This document defines mandatory coding standards for the project. All contributors must follow these rules to ensure:
 
-| Language   | Tool    | Line length | Rationale |
-|-----------|---------|-------------|-----------|
-| **Python** | Black   | 88          | PEP 8 default; deterministic, minimal config. |
-| **JavaScript/TypeScript** | Prettier | 100 | Readable lines; single standard for JS/TS. |
+- Consistency
+- Readability
+- Maintainability
+- Scalability
+- Clean code reviews
+- Reduced defects
 
-- **Indentation:** 4 spaces (Python); 2 spaces (JS/TS). Enforced by the formatter.
-- **Braces:** Same line for opening brace (JS/TS); Black handles Python. No manual preference; formatter decides.
-- **Spacing:** Around operators and after commas as per Black/Prettier; no trailing whitespace.
+These standards are enforceable during code review.
 
-**Examples**
+---
+
+# 2. General Principles
+
+1. Code must be readable before being clever.
+2. Domain language must be consistent with the UML model.
+3. All business logic must live inside domain entities.
+4. No duplicated logic.
+5. All public methods must be explicit and intentional.
+
+---
+
+# 3. Naming Conventions
+
+## 3.1 Classes
+
+**Rule:** PascalCase
+
+ **Correct:**
 
 ```python
-# Python — Black 88: correct
-def process_data(source: str, options: dict) -> list[dict]:
-    return [normalize(item) for item in load(source) if item]
+class Building:
+class FloorLevel:
+class ReservationService:
 ```
+
+ **Incorrect:**
 
 ```python
-# Python — incorrect (would be reformatted by Black)
-def process_data( source: str,options: dict )->list[dict]:
-    return [normalize(item) for item in load(source) if item]
+class building:
+class floor_level:
+class reservationservice:
 ```
 
-```typescript
-// TypeScript — Prettier 100: correct
-function processData(source: string, options: Options): Record<string, unknown>[] {
-  return load(source).filter(Boolean).map(normalize);
-}
+**Justification:** PascalCase aligns with industry standards and improves readability.
+
+---
+
+## 3.2 Variables and Attributes
+
+**Rule:** snake_case (Python convention)
+
+ **Correct:**
+
+```python
+floor_level = 5
+unit_number = "101A"
+reservation_date = datetime.now()
+```
+
+ **Incorrect:**
+
+```python
+floorLevel = 5
+UnitNumber = "101A"
+reservationDate = datetime.now()
+```
+
+**Justification:** Snake_case is PEP8 standard and ensures consistency.
+
+---
+
+## 3.3 Constants
+
+**Rule:** UPPER_CASE
+
+ **Correct:**
+
+```python
+MAX_FLOORS = 200
+DEFAULT_STATUS = "ACTIVE"
+```
+
+ **Incorrect:**
+
+```python
+maxFloors = 200
+DefaultStatus = "ACTIVE"
 ```
 
 ---
 
-## 3. Comments and Documentation
+## 3.4 Functions and Methods
 
-### 3.1 When to comment
+**Rule:** snake_case, verb-first naming
 
-- **Do:** Explain “why” and non-obvious business rules or constraints.
-- **Do not:** Restate what the code does when the name and structure are clear.
-
-### 3.2 Docstrings / JSDoc (public API)
-
-- **Python:** Use docstrings for all public modules, classes, and functions (Google or NumPy style; one style project-wide). Include purpose, args, returns, and raised exceptions where relevant.
-- **TypeScript/JavaScript:** Use JSDoc for public functions and exported APIs when they are not self-explanatory.
-
-**Format (English only):**
+ **Correct:**
 
 ```python
-# Python — correct
-def validate_submission(data: dict, schema: dict) -> ValidationResult:
-    """Validate submission data against the given JSON schema.
+def add_unit(self, unit: Unit) -> None:
+def mark_as_occupied(self) -> None:
+def is_available(self) -> bool:
+```
+
+ **Incorrect:**
+
+```python
+def unitAdd():
+def occupied():
+def availability():
+```
+
+**Justification:** Verb-based naming improves clarity of behavior.
+
+---
+
+## 3.5 Files
+
+**Rule:** snake_case
+
+ **Correct:**
+
+```
+building.py
+floor_level.py
+reservation_service.py
+```
+
+ **Incorrect:**
+
+```
+Building.py
+FloorLevel.py
+reservationService.py
+```
+
+---
+
+# 4. Code Formatting
+
+## 4.1 Indentation
+
+* 4 spaces (no tabs)
+
+Enforced via formatter.
+
+---
+
+## 4.2 Line Length
+
+* Maximum: 100 characters
+
+**Why:**
+
+* Improves readability
+* Avoids horizontal scrolling
+
+---
+
+## 4.3 Braces / Blocks
+
+Python indentation defines blocks. Always use explicit returns.
+
+---
+
+## 4.4 Spacing
+
+### Around operators
+
+ **Correct:**
+
+```python
+if unit.status == UnitStatus.AVAILABLE:
+```
+
+ **Incorrect:**
+
+```python
+if unit.status==UnitStatus.AVAILABLE:
+```
+
+---
+
+### After commas
+
+ **Correct:**
+
+```python
+def reserve(self, user_id: UserId, date_range: DateTimeRange):
+```
+
+ **Incorrect:**
+
+```python
+def reserve(self,user_id:UserId,date_range:DateTimeRange):
+```
+
+---
+
+# 5. Comments and Documentation
+
+## 5.1 When to Comment
+
+**Comment:**
+
+* Business rules
+* Non-obvious decisions
+* Complex algorithms
+
+**Do NOT comment:**
+
+* Obvious code
+* Self-explanatory methods
+
+---
+
+## 5.2 Docstring Format
+
+**Rule:** Google-style docstrings
+
+**Example:**
+
+```python
+class Floor:
+    """
+    Represents a floor inside a building.
+
+    Attributes:
+        level (FloorLevel): Floor level value object.
+        units (List[Unit]): Units belonging to this floor.
+    """
+```
+
+**For methods:**
+
+```python
+def add_unit(self, unit: Unit) -> None:
+    """
+    Adds a unit to the floor.
 
     Args:
-        data: Raw submission payload.
-        schema: JSON Schema object.
-
-    Returns:
-        ValidationResult with errors if any.
+        unit (Unit): Unit to be added.
 
     Raises:
-        SchemaError: If schema itself is invalid.
+        ValueError: If unit number already exists.
     """
-    ...
-```
-
-```typescript
-// TypeScript — correct
-/**
- * Validates submission data against the given JSON schema.
- * @param data - Raw submission payload
- * @param schema - JSON Schema object
- * @returns Validation result with errors if any
- */
-function validateSubmission(data: unknown, schema: object): ValidationResult {}
-```
-
-### 3.3 Inline comments
-
-- Use full sentences in English, capitalised. One space after `#` or `//`.
-- Prefer improving names and structure over long inline comments.
-
-```python
-# Correct: explain why
-# Retry up to 3 times to handle transient S3 read errors.
-```
-
-```python
-# Incorrect: restate the code
-# Loop over items
-for item in items:
 ```
 
 ---
 
-## 4. File Organization
+## 5.3 Inline Comments
 
-### 4.1 Import order
+Use only when necessary.
 
-- **Python:** Standard library → third-party → local, each group alphabetically. Enforced by **isort** (Black-compatible profile).
-- **JavaScript/TypeScript:** External packages first, then internal/aliases, then relative. Enforced by **ESLint** import plugin or Prettier import order if configured.
-
-**Example (Python)**
+ **Good:**
 
 ```python
-# Correct
-import os
-from pathlib import Path
+# Prevent duplicate unit numbers within the same floor
+if self.has_unit(unit.number):
+    raise ValueError("Duplicate unit number")
+```
 
-import requests
+ **Bad:**
+
+```python
+# This checks if the unit exists
+if self.has_unit(unit.number):
+```
+
+---
+
+# 6. File Organization
+
+## 6.1 Import Order
+
+1. Standard library
+2. Third-party libraries
+3. Local modules
+
+**Example:**
+
+```python
+# Standard library
+from datetime import datetime
+
+# Third-party
 from pydantic import BaseModel
 
-from .schemas import UserSchema
-from .utils import normalize
+# Local
+from domain.floor import Floor
+from domain.unit import Unit
 ```
-
-### 4.2 Structure within a file
-
-- **Python:** Module docstring → imports → constants → public API (classes/functions) → private helpers. No trailing newlines beyond one.
-- **JS/TS:** Imports at top; then constants; then types/interfaces; then implementation (functions/classes). One component per file for React components.
 
 ---
 
-## 5. Language-Specific Best Practices
+## 6.2 File Structure
 
-### 5.1 Python
+**Order inside file:**
 
-- **Type hints:** Use for function parameters and return types on all new or modified public functions. Improves readability and enables static checking.
-- **Error handling:** Prefer specific exceptions; avoid bare `except:`. Use custom exceptions for domain errors.
+1. Imports
+2. Constants
+3. Class definitions
+4. Private helpers (if needed)
+
+No executable logic at file root level.
+
+---
+
+# 7. Language-Specific Best Practices (Python)
+
+## 7.1 Type Hints (Mandatory)
+
+All functions must use type hints.
+
+ **Correct:**
 
 ```python
-# Correct
-try:
-    result = parse(payload)
-except json.JSONDecodeError as e:
-    raise ValidationError(f"Invalid JSON: {e}") from e
+def total_units(self) -> int:
 ```
 
+ **Incorrect:**
+
 ```python
-# Incorrect
+def total_units(self):
+```
+
+---
+
+## 7.2 Error Handling
+
+* Use domain-specific exceptions.
+* Never swallow exceptions silently.
+
+ **Correct:**
+
+```python
+if not user.is_active():
+    raise UserInactiveError()
+```
+
+ **Incorrect:**
+
+```python
 try:
-    result = parse(payload)
+    ...
 except:
     pass
 ```
 
-- **Linting:** **Ruff** (or Flake8) for style and common bugs; **mypy** in strict or standard mode for type checking where adopted.
+---
 
-### 5.2 JavaScript/TypeScript
+## 7.3 Immutability for Value Objects
 
-- **Types:** Prefer TypeScript; avoid `any` in new code. Use strict null checks.
-- **Error handling:** Use typed errors or discriminated unions where appropriate; do not swallow errors.
+Use `@dataclass(frozen=True)`.
 
-```typescript
-// Correct
-try {
-  await submit(data);
-} catch (err) {
-  logger.error("Submit failed", { err, data });
-  throw err;
-}
+```python
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class FloorLevel:
+    value: int
 ```
-
-- **Linting:** **ESLint** with TypeScript parser; rules aligned with Prettier (no conflicting formatting).
 
 ---
 
-## 6. Version Control Practices
+## 7.4 No Magic Numbers
 
-### 6.1 Branch naming
+ **Incorrect:**
 
-- **Feature branches:** `feature/<short-description>` (e.g. `feature/user-auth`, `feature/validation-api`).
-- **Hotfixes (production):** `hotfix/<short-description>` (e.g. `hotfix/login-timeout`).
-- **Releases:** `release/<short-description>` (e.g. `release/1.0.0`).
-- **Other:** `docs/...`, `chore/...` as needed. No ad-hoc names; names must be consistent and descriptive.
-
-### 6.2 Commit messages (Conventional Commits)
-
-- **Format:** `<type>(<scope>): <subject>`.
-- **Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`.
-- **Subject:** Imperative, lowercase after the colon, no period at the end. Max length ~72 characters.
-
-**Examples**
-
-```
-feat(auth): add login with email and password
-fix(api): correct validation error on empty payload
-docs: update CODING_STANDARDS with import order
+```python
+if level > 200:
 ```
 
-**Incorrect**
+ **Correct:**
 
+```python
+MAX_FLOOR_LEVEL = 200
+if level > MAX_FLOOR_LEVEL:
 ```
-Added login
-fix: Correct validation
-FEAT: add login
-```
-
-### 6.3 Merging rules
-
-- **Direct push/merge to `main` is forbidden.** All changes reach `main` via protected branch workflow (e.g. merge from `develop` or release branches).
-- **All changes into the main development branch (e.g. `develop`) must go through a Pull Request.** No direct commits to `develop`.
-- PRs must be reviewed and approved before merge; CI must pass (format, lint, tests).
 
 ---
 
-## 7. Enforcement: Tools and CI
+# 8. Version Control Standards
 
-Standards are enforced by automated tools. The following are the **minimum required checks**; CI must fail when they do.
+## 8.1 Branch Naming
 
-### 7.1 Python
+**Format:**
 
-| Check      | Tool   | Command (minimum) |
-|-----------|--------|--------------------|
-| Format    | Black  | `black --line-length 88 --check .` |
-| Import order | isort | `isort --check-only --profile black .` |
-| Lint      | Ruff   | `ruff check .` |
-| Type check (if adopted) | mypy | `mypy .` |
+```
+feature/<short-description>
+fix/<short-description>
+refactor/<short-description>
+docs/<short-description>
+```
 
-**CI must fail if:** `black --check` or `isort --check-only` or `ruff check` fails on the changed tree.
+**Examples:**
 
-### 7.2 JavaScript/TypeScript
-
-| Check      | Tool    | Command (minimum) |
-|-----------|---------|--------------------|
-| Format    | Prettier | `prettier --check '**/*.{js,ts,tsx,json}'` |
-| Lint      | ESLint  | `eslint "**/*.{js,ts,tsx}"` |
-
-**CI must fail if:** `prettier --check` or `eslint` fails on the changed files.
-
-### 7.3 Commits and branches (optional but recommended)
-
-- **Commit message format:** Enforce Conventional Commits in CI (e.g. `commitlint`) so CI fails on invalid messages.
-- **Branch protection:** `main` and `develop` protected; no direct push; merge only via PR with passing CI and approval.
+```
+feature/add-amenity-reservation
+fix/unit-duplication-validation
+refactor/building-aggregate
+```
 
 ---
 
-## 8. Summary Checklist (Code Review)
+## 8.2 Commit Message Format
 
-Reviewers must verify:
+Use Conventional Commits:
 
-- [ ] Naming matches language: Python `snake_case` (files, vars, functions), JS/TS `camelCase` (vars, functions), `PascalCase` (classes, components, component files).
-- [ ] File names: Python `snake_case`; JS/TS `kebab-case`; component files `PascalCase`.
-- [ ] Formatting: Black 88 (Python), Prettier 100 (JS/TS); no manual overrides that contradict tools.
-- [ ] Comments and docstrings in English; docstrings on public API.
-- [ ] Imports ordered (isort for Python; ESLint/Prettier for JS/TS).
-- [ ] No bare `except` (Python); no untyped `any` or swallowed errors (TS) in new code.
-- [ ] Branch name matches convention (`feature/...`, `hotfix/...`, `release/...`, `docs/...`, `chore/...`); commit message is Conventional Commits; no direct merge to `main`; PR required for target branch.
+```
+type(scope): short description
+```
 
-This document is the single source of truth for coding standards; all team members must follow it, and CI must enforce the automated parts.
+**Examples:**
+
+```
+feat(building): add floor uniqueness validation
+fix(unit): prevent duplicate unit numbers
+refactor(user): extract email value object
+docs: update coding standards
+```
+
+**Allowed types:**
+
+* feat
+* fix
+* refactor
+* docs
+* test
+* chore
+
+---
+
+## 8.3 Pull Requests
+
+Must include:
+
+* Clear description
+* Linked issue (if applicable)
+* No failing tests
+* Code review approval
+
+---
+
+# 9. Enforceability
+
+These rules are enforced through:
+
+* Code review checklist
+* Automated formatting (Black)
+* Linting (Flake8)
+* Type checking (mypy)
+* CI pipeline validation
+
+Any PR not conforming to standards will be rejected.
+
+---
+
+# 10. Why These Standards Improve Quality
+
+* Consistency reduces cognitive load
+* Type hints reduce runtime errors
+* Strict naming improves domain clarity
+* Clear commit messages improve traceability
+* Formatting automation removes stylistic debates
+* Enforced structure prevents architectural decay
+
+---
+
+# Final Statement
+
+Following these standards ensures:
+
+* Maintainable architecture
+* Clean domain modeling
+* Professional-level code quality
+* Scalable and production-ready system
+
+All contributors are required to follow this document.
