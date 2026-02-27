@@ -266,3 +266,18 @@ Transparency, accountability, and continuous improvement are maintained across s
 - **evolutionary-project-management-and-configuration-management.md**: Detailed Sprint 1 analysis (strengths, weaknesses, risks), risk table with mitigation and contingency, and Sprint 2 planning (including link to the planning spreadsheet).
 - **ConfigurationManagement.md**: Version control, GitFlow, branch policies, and configuration practices.
 All project and configuration management documentation is stored exclusively in the `/docs` folder, in accordance with the module’s evaluation requirements and repository organization standards.
+
+## Sprint Planning – Tasks with DoR, DoD and T-Shirt Sizing
+
+A comprehensive task planning document was produced based on the defined artifacts and evaluation criteria.  
+The document details the Sprint tasks with clear descriptions, Definition of Ready (DoR), Definition of Done (DoD), and T-Shirt Size (XS, S, M, L), ensuring traceability, academic rigor, and alignment with project deliverables and documentation requirements.
+
+The PDF includes tasks related to:
+- Deployment Architecture and NFR justification  
+- Database physical model and configuration  
+- Coding architecture, standards, and incremental feature development  
+- Unit testing, coverage analysis, and usability testing  
+- Project management, risk tracking, PMO alignment, and configuration management  
+
+📎 Access the complete document:  
+https://drive.google.com/file/d/1yfzs6LI_FrGFvm4lg6mtXiDsRl6cJ4jH/view?usp=sharing
