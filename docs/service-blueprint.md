@@ -73,34 +73,32 @@
 - Processing worker executes parsing and data normalization.  
 - Database stores the processed information.  
 
-## 3. Mapeamento das Linhas do Blueprint
+## 3. Blueprint Lines Mapping
 
-### 3.1 Linha de Interação
+### 3.1 Line of Interaction
 
-Separa as ações do cliente das atividades executadas pelo sistema visível (Frontstage).  
-Representa todos os pontos de contato diretos entre o usuário e a interface.
+Separates customer actions from activities performed by the visible system (Frontstage).  
+Represents all direct touchpoints between the user and the interface.
 
-- Physical Evidences
-- Customer Actions
-- Frontstage
+- Physical Evidences  
+- Customer Actions  
+- Frontstage  
 
+### 3.2 Line of Visibility
 
-### 3.2 Linha de Visibilidade
+Separates what is visible to the user from what happens internally in the system.  
+Everything below this line is not directly perceived by the customer.
 
-Separa o que é visível ao usuário do que acontece internamente no sistema.  
-Tudo abaixo dessa linha não é percebido diretamente pelo cliente.
+- Frontstage  
+- Backstage  
 
-- Frontstage
-- Backstage
+### 3.3 Line of Internal Interaction
 
+Separates the main internal processes from the supporting processes.  
+Represents the technical integrations and dependencies that sustain the service operation.
 
-### 3.3 Linha de Interação Interna
-
-Separa os processos internos principais dos processos de suporte.  
-Representa as integrações e dependências técnicas que sustentam o funcionamento do serviço.
-
-- Backstage
-- Supporting Processes
+- Backstage  
+- Supporting Processes  
 
 ## 4. Etapas do Processo
 
