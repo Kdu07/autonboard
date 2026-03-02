@@ -12,7 +12,7 @@ const pool = new Pool({
 })
 
 const filePath1 = path.join(__dirname, '01_create_database.sql');
-const filePath2 = path.join(__dirname, '02_create_database.sql');
+const filePath2 = path.join(__dirname, '02_initial_data.sql');
 const sql = fs.readFileSync(filePath1, 'utf8');
 const seed = fs.readFileSync(filePath2, "utf8");
 
@@ -30,11 +30,22 @@ async function runSQLSchema(){
     try{
         await pool.query(sql)
         console.log("Script SQL injetado, banco de dados criado!");
-        runSQLSeed();
     }
     catch(error){
-        console.log("erro ao injetar SQL, ERRO: " + error);
+        console.log("erro ao injetar SQL, ou banco já criado");
     }
 }
 
-runSQLSchema();
+async function main() {
+    try{
+        await runSQLSchema();
+        await runSQLSeed();
+    }catch(error){
+        console.error(error)
+    }
+    finally{
+        pool.end();
+    }
+}
+
+main();
