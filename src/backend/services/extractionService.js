@@ -1,0 +1,1 @@
+// Extração do arquivo e lógica de negócio
