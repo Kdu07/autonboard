@@ -1,18 +1,33 @@
 const db = require('../../database/runDB/init')
 
 class UploadModel {
-  // Criar novo usuário
   static async create(customer_id, file_path) {
     const query = 'INSERT INTO submission (customer_id, file_path, upload_date) VALUES ($1, $2, NOW()) RETURNING *';
     const values = [customer_id, file_path];
     const result = await db.query(query, values);
     return result.rows[0];
   }
+
+  static async getAll() {
+    const query = 'SELECT * FROM submission';
+    const result = await db.query(query);
+    return result.rows;
+  }
 }
 
-//uploadModel = new UploadModel();
-//res = uploadModel.create();
-//console.log(res);
+async function testCreate() {
+  const res = await UploadModel.create(1, '/uploads/file.pdf');
+  console.log(res);
+}
+
+// testCreate();
+
+async function testGetAll() {
+  const res = await UploadModel.getAll( );
+  console.log(res);
+}
+
+testGetAll();
 
 module.exports = UploadModel;
 
