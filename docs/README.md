@@ -1,33 +1,189 @@
 # Read this to Understand the Project's Folder Structure
+```
+project-root/
+│
+├── src/
+│   │
+│   ├── frontend/
+│   │   ├── public/
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   ├── pages/
+│   │   │   ├── services/
+│   │   │   ├── hooks/
+│   │   │   └── styles/
+│   │   ├── package.json
+│   │   └── README.md
+│   │
+│   ├── backend/
+│   │   ├── controllers/
+│   │   │   ├── BuildingController.cs
+│   │   │   ├── TenantController.cs
+│   │   │   ├── UploadController.cs
+│   │   │   └── ScheduleController.cs
+│   │   │
+│   │   ├── services/
+│   │   │   ├── BuildingService.cs
+│   │   │   ├── TenantService.cs
+│   │   │   ├── ExcelImportService.cs
+│   │   │   └── ScheduleService.cs
+│   │   │
+│   │   ├── models/
+│   │   │   ├── Building.cs
+│   │   │   ├── Tenant.cs
+│   │   │   ├── Unit.cs
+│   │   │   ├── OperationalSchedule.cs
+│   │   │   └── DocumentImport.cs
+│   │   │
+│   │   ├── config/
+│   │   │   ├── appsettings.json
+│   │   │   └── environment.json
+│   │   │
+│   │   ├── middleware/
+│   │   │   ├── ErrorHandlingMiddleware.cs
+│   │   │   └── AuthMiddleware.cs
+│   │   │
+│   │   ├── Program.cs
+│   │   └── README.md
+│   │
+│   └── database/
+│       ├── migrations/
+│       ├── seeds/
+│       ├── schema.sql
+│       └── README.md
+│
+├── tests/
+│   ├── backend/
+│   └── frontend/
+│
+└── assets/
+    ├── sample-excel/
+    └── diagrams/
+```
 
-## **Architectural Rationale**
+## Purpose of Each Major Directory
 
-This project adopts a 3 layer architecture combined with MVC principles to ensure a clear separation of concerns.
+### `/src`
 
-The backend is structured into controllers, services, and models to enforce responsibility boundaries:
+Contains all application source code. The structure is divided to clearly separate frontend, backend, and database responsibilities.
 
-* Controllers handle only HTTP orchestration.
+---
 
-* Services encapsulate business logic.
+### `/src/frontend`
 
-* Models represent domain entities and persistence rules.
+Responsible for the client-side application.
 
-This separation reduces coupling between components and increases cohesion within each module.
+**Subdirectories:**
 
-By isolating business logic in the service layer, the system becomes:
+- **public/** — Static assets served directly by the frontend.
+- **src/components/** — Reusable UI components.
+- **src/pages/** — Application pages and routing views.
+- **src/services/** — API communication layer.
+- **src/hooks/** — Custom React hooks.
+- **src/styles/** — Global and modular styles.
 
-* Easier to test (services can be unit tested independently)
+**Rationale:**  
+This modular structure promotes component reuse, maintainability, and scalability of the user interface.
 
-* More scalable (business rules can evolve without affecting controllers)
+### `/src/backend`
 
-* More maintainable (clear boundaries prevent logic leakage)
+Contains the server-side application following a layered architecture.
 
-The database layer is separated to ensure that persistence concerns do not interfere with domain logic. This abstraction allows future changes in storage technology ( migrating from SQL to NoSQL) without impacting higher layers.
+#### controllers/
 
-The frontend is fully isolated from backend implementation details, interacting only through defined APIs. This guarantees independence of deployment and future extensibility (e.g., adding a mobile client).
+Handle HTTP requests and responses only.  
+They must not contain business logic.
 
-The naming convention follows domain-driven clarity, ensuring that files reflect their bounded responsibility (e.g., BuildingController, BuildingService). This improves readability and long-term maintainability.
+#### services/
 
-Overall, this structure supports scalability, modular growth, independent testing, and clean dependency flow.
+Encapsulate business rules and application use cases.  
+This is the core business layer.
 
-This structure allows horizontal scalability of the backend and independent frontend deployment. Additionally, the service layer can later be refactored into microservices if the system grows in complexity and this scalability is designed by creating for each file inside the folders a domain responsibility that in the future can be translated to microservices.
+#### models/
+
+Represent domain entities and persistence mappings.
+
+#### config/
+
+Application configuration files per environment.
+
+#### middleware/
+
+Cross-cutting concerns such as:
+
+- authentication  
+- error handling  
+- request pipeline behavior  
+
+#### Program.cs
+
+Application entry point.
+
+**Rationale:**  
+This separation enforces the Single Responsibility Principle and keeps business logic isolated and testable.
+
+### `/src/database`
+
+Responsible for persistence-related artifacts.
+
+- **migrations/** — Database schema evolution scripts  
+- **seeds/** — Initial data population  
+- **schema.sql** — Base database structure  
+
+**Rationale:**  
+Isolating database concerns allows future migration to different storage technologies with minimal impact.
+
+### `/tests`
+
+Contains automated tests separated by layer.
+
+- **backend/** — Unit and integration tests for server logic  
+- **frontend/** — UI and component tests  
+
+**Rationale:**  
+Test separation improves maintainability and supports independent CI pipelines.
+
+### `/assets`
+
+Static project resources.
+
+- **sample-excel/** — Example input files  
+- **diagrams/** — UML and architectural diagrams  
+
+**Rationale:**  
+Keeps non-code artifacts organized and version-controlled.
+
+## Architectural Rationale
+
+This project adopts a **three-layer architecture combined with MVC principles** to ensure a clear separation of concerns.
+
+The backend is structured into controllers, services, and models to enforce strict responsibility boundaries:
+
+- Controllers handle only HTTP orchestration.
+- Services encapsulate business logic.
+- Models represent domain entities and persistence rules.
+
+This separation:
+
+- reduces coupling between components  
+- increases cohesion within modules  
+- improves testability  
+- supports long-term scalability  
+
+The database layer is isolated to prevent persistence concerns from leaking into the domain logic. This abstraction enables future migration from SQL to NoSQL without impacting higher layers.
+
+The frontend is fully decoupled from backend implementation details and communicates only through defined APIs, enabling independent deployment and future clients (e.g., mobile applications).
+
+Naming conventions follow domain-driven clarity (e.g., `BuildingController`, `BuildingService`), improving readability and maintainability.
+
+
+## Scalability Considerations
+
+The current structure supports:
+
+- horizontal backend scaling  
+- independent frontend deployment  
+- clear modular boundaries  
+- future microservice extraction from the service layer  
+
+Each module is organized around a well-defined domain responsibility, allowing gradual evolution toward a distributed architecture if system complexity grows.

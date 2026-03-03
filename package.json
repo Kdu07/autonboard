@@ -1,7 +1,6 @@
 {
   "name": "g01",
   "version": "1.0.0",
-  "description": "To make it easy for you to get started with GitLab, here's a list of recommended next steps.",
   "main": "index.js",
   "directories": {
     "doc": "docs",
@@ -10,16 +9,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://git.inteli.edu.br/graduacao/2026-1a/t17/g01.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@types/express": "^5.0.6",
-    "@types/node": "^25.3.3",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
-  },
+  "description": "",
   "dependencies": {
     "dotenv": "^17.3.1",
     "pg": "^8.19.0"
