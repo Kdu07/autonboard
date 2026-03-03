@@ -20,8 +20,8 @@ const filePath2 = path.join(__dirname, '02_initial_data.sql');
 const sql = fs.readFileSync(filePath1, 'utf8');
 const seed = fs.readFileSync(filePath2, "utf8");
 
-/*faz a verificação se os dados mockados já estão no banco de dados, usando o nome de edifíco inventado
-isso evita dados mockados duplicados*/
+// faz a verificação se os dados mockados já estão no banco de dados, usando o nome de edifíco inventado
+//isso evita dados mockados duplicados
 async function was_created() {
     const result = await pool.query("SELECT * FROM building WHERE name = $1", ["Edifício Inovação"])
     if(result.rows.length > 0){
@@ -36,14 +36,14 @@ async function was_created() {
 async function run_SQL_Seed(){
     const result  = await was_created()
     if(result == true){
-        console.log("The database has already been populated")
+        console.log("O banco já foi povoado anteriormente")
     }
     else{
         try{
             await pool.query(seed)
         }
         catch(error){
-            console.log("Erro while running the seed ", + error)
+            console.log("Erro ao rodar a seed ERRO: ", + error)
         }
     }
 }
@@ -54,15 +54,15 @@ async function run_SQL_Schema(){
     try{
         //espera o envio, caso de certo, escreve no console, caso de errado, joga um erro no console.
         await pool.query(sql)
-        console.log("SQL injected, database has been created.");
+        console.log("Script SQL injetado, banco de dados criado!");
     }
     catch(error){
-        console.log("Error while injecting SQL, or the Database has already been created.");
+        console.log("erro ao injetar SQL, ou banco já criado");
     }
 }
 
-/*main serve para fazer com que as duas funções anteriores rodem uma após a outra,
- garantindo que a seed sera executada sempre após o DB ja ter sido criado*/
+//main serve para fazer com que as duas funções anteriores rodem uma após a outra,
+//  garantindo que a seed sera executada sempre após o DB ja ter sido criado
 async function main() {
     try{
         await run_SQL_Schema();
@@ -77,3 +77,5 @@ async function main() {
 }
 
 main();
+
+module.exports = pool;
