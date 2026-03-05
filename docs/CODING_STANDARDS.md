@@ -508,7 +508,7 @@ src
 └ frontend
 ├ app
 └ public
-
+```
 
 Each layer has a clear responsibility and interacts only with adjacent layers.
 
