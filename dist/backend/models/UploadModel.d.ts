@@ -1,19 +1,13 @@
-export interface Submission {
-    id: number;
-    customer_id: number;
-    status: string;
-    file_path: string;
-    upload_date: Date;
-}
+import { IUpload } from '../interfaces/global.interfaces';
 declare class UploadModel {
     /**
-     * Cria um novo registro de upload com o caminho do arquivo
+     * Creates a new upload record with the file path
      */
-    static create(customer_id: number, file_path: string): Promise<Submission>;
+    static create(customer_id: number, file_path: string): Promise<IUpload>;
     /**
-     * Retorna todos os registros de upload
+     * Returns all upload records
      */
-    static getAll(): Promise<Submission[]>;
+    static getAll(): Promise<IUpload[]>;
 }
 export default UploadModel;
 //# sourceMappingURL=UploadModel.d.ts.map

@@ -16,6 +16,10 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/backend/**/*", "src/database/**/*"],
+  "ts-node": {
+    "esm": true,
+    "experimentalEsm": true
+  },
+  "include": ["src/app.ts", "src/backend/**/*", "src/database/**/*"],
   "exclude": ["node_modules", "dist", "tests", "src/frontend"]
 }
