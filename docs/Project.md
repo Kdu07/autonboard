@@ -34,3 +34,12 @@ The following tools were selected to support the testing process:
 - **Markdown (.md)**: versioned and structured documentation of the test plan  
 
 These tools were chosen due to their wide adoption in the industry, ease of use, and suitability for the academic context of the project.
+
+# Functional Test Planning
+
+## Functional Tests Overview
+
+Functional tests aim to validate whether all functionalities of the Equiem system correctly meet the defined **Functional Requirements (FRs)**. The focus is on the complete onboarding workflow, from the initial upload to the final consolidation and external integration.
+
+The planning includes both main flows and exception scenarios, ensuring that the system responds correctly to invalid inputs, operational errors, and unexpected interruptions.
+
