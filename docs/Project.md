@@ -1,4 +1,4 @@
-# Test Plan – Equiem Project
+# Test Plan
 
 ## Table of Contents
 1. [General Planning](#general-planning)  
@@ -212,3 +212,200 @@ The planning includes both main flows and exception scenarios, ensuring that the
 2. Generate consolidated data package  
 3. Send it to the external system  
 4. Confirm successful integration  
+
+# Non-Functional Test Planning
+
+## Non-Functional Tests Overview
+
+Non-functional requirement (NFR) tests evaluate essential quality attributes for the success of the **Equiem** system, ensuring that the onboarding process operates with robustness, stability, adequate performance, and architectural evolution capability.
+
+Unlike functional tests, NFR tests validate **how the system behaves** under conditions such as high load, failures, and future scalability scenarios.
+
+The objective of these tests is to ensure that the system maintains **data integrity, performance, reliability, and extensibility**, even in adverse or high-demand situations.
+
+The tests defined below ensure compliance with **NFR01 to NFR05**.
+
+## NFR Test Cases
+
+### CT-NF01 – Data Integrity and Compliance
+
+**Non-Functional Requirement:** NFR01 – Data Integrity Compliance  
+
+#### Objective
+
+Ensure that only data fully compliant with the internal schema can be validated, consolidated, and exported by the system.
+
+#### Test Scenarios
+
+**Positive Scenario**
+- Upload a dataset that fully follows the required schema and contains valid values.
+
+**Negative Scenario**
+- Upload a dataset containing missing mandatory fields, invalid data types, or inconsistent values.
+
+#### Execution Steps
+
+1. Access the onboarding interface.
+2. Upload a dataset that follows the correct schema.
+3. Run the validation process.
+4. Verify that the system accepts the dataset and allows export.
+
+Negative test:
+
+5. Upload a dataset with missing or incorrect fields.
+6. Run the validation process.
+7. Verify that the system blocks the export and reports validation errors.
+
+#### Expected Result
+
+- Valid datasets are accepted and exported successfully.
+- Invalid records are blocked.
+- Export is prevented when inconsistencies exist.
+- A detailed error report is generated for incorrect records.
+
+
+### CT-NF02 – Large File Handling and Responsiveness
+
+**Non-Functional Requirement:** NFR02 – Large File Handling and Responsiveness  
+
+#### Objective
+
+Validate that the system supports uploads of files up to **100MB** while maintaining interface responsiveness and system stability.
+
+#### Test Scenarios
+
+**Positive Scenario**
+
+- Upload a file close to the maximum allowed size (e.g., 95–100MB).
+
+**Negative Scenario**
+
+- Attempt to upload a file larger than the maximum limit.
+
+#### Execution Steps
+
+1. Prepare a test dataset with approximately 100MB.
+2. Upload the dataset using the onboarding interface.
+3. Monitor system responsiveness during upload and processing.
+4. Verify that processing completes successfully.
+
+Negative test:
+
+5. Attempt to upload a dataset larger than the allowed limit.
+6. Verify that the system rejects the file and displays an appropriate message.
+
+#### Expected Result
+
+- Files within the allowed limit are processed successfully.
+- The interface remains responsive during upload and processing.
+- The application does not crash or freeze.
+- Files exceeding the limit are rejected with a clear error message.
+
+
+### CT-NF03 – Processing Reliability
+
+**Non-Functional Requirement:** NFR03 – Processing Reliability  
+
+#### Objective
+
+Ensure that failures during data processing do not cause data corruption or partial persistence.
+
+#### Test Scenarios
+
+**Positive Scenario**
+
+- Execute the normal validation and processing flow without interruptions.
+
+**Negative Scenario**
+
+- Simulate an interruption during processing (e.g., network failure or server restart).
+
+#### Execution Steps
+
+1. Upload a valid dataset.
+2. Start the processing pipeline.
+3. Confirm that the data is processed successfully.
+
+Negative test:
+
+4. Start processing a dataset.
+5. Simulate a system interruption (e.g., stop the service or disconnect the network).
+6. Restart the system.
+7. Verify that no partial or corrupted data was stored.
+
+#### Expected Result
+
+- Successful processing results in consistent stored data.
+- Interrupted processes do not corrupt stored data.
+- The system maintains data consistency after recovery.
+
+
+### CT-NF04 – File Format Extensibility
+
+**Non-Functional Requirement:** NFR04 – Extensible File Format Support  
+
+#### Objective
+
+Validate that new file formats can be added without requiring changes to the core system logic.
+
+#### Test Scenarios
+
+**Positive Scenario**
+
+- Add support for a new format using the system's extensible structure.
+
+**Negative Scenario**
+
+- Attempt to process an unsupported format.
+
+#### Execution Steps
+
+1. Implement support for an additional test format (e.g., JSON or XML).
+2. Upload a file using the new format.
+3. Execute the validation process.
+
+Negative test:
+
+4. Upload a file with an unsupported format.
+5. Attempt to process it.
+
+#### Expected Result
+
+- Newly supported formats are processed successfully without modifying the core logic.
+- Unsupported formats are rejected with an informative error message.
+
+
+### CT-NF05 – Concurrent Submission Support
+
+**Non-Functional Requirement:** NFR05 – Concurrent Submission Handling  
+
+#### Objective
+
+Ensure the system safely handles multiple simultaneous data submissions.
+
+#### Test Scenarios
+
+**Positive Scenario**
+
+- Multiple users upload datasets simultaneously.
+
+**Negative Scenario**
+
+- Simultaneous submissions under high load conditions.
+
+#### Execution Steps
+
+1. Simulate multiple users (e.g., 5–10) uploading datasets at the same time.
+2. Monitor system behavior during concurrent processing.
+3. Verify that each dataset is processed independently.
+
+Negative test:
+
+4. Increase the number of concurrent submissions to stress the system.
+5. Observe potential failures or delays.
+
+#### Expected Result
+
+- The system processes submissions without data conflicts.
+- Each upload is handled independently.
+- No data loss or corruption occurs under concurrent load.
