@@ -409,3 +409,29 @@ Negative test:
 - The system processes submissions without data conflicts.
 - Each upload is handled independently.
 - No data loss or corruption occurs under concurrent load.
+
+## NFR Test Coverage
+
+The defined tests ensure coverage of the most critical non-functional aspects of the system:
+
+**Data Integrity**
+
+CT-NF01 guarantees that only valid and consistent data can be processed and exported.
+
+**Performance and Responsiveness**
+
+CT-NF02 verifies that the system maintains stability and responsiveness even when handling large files.
+
+**Reliability**
+
+CT-NF03 ensures that the system maintains data consistency even in the presence of failures or interruptions.
+
+**Extensibility**
+
+CT-NF04 validates that the system architecture supports future file formats without requiring structural modifications.
+
+**Scalability and Concurrency**
+
+CT-NF05 ensures that the system can support multiple users and concurrent submissions safely.
+
+Together, these tests provide confidence that the system will remain **stable, scalable, and reliable** in real-world onboarding scenarios.
