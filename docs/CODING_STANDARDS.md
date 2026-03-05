@@ -478,19 +478,6 @@ Any PR not conforming to standards will be rejected.
 
 ---
 
-# Final Statement
-
-Following these standards ensures:
-
-* Maintainable architecture
-* Clean domain modeling
-* Professional-level code quality
-* Scalable and production-ready system
-
-All contributors are required to follow this document.
-
----
-
 # 11. System Architecture Overview
 
 The project follows a **layered architecture** that separates responsibilities across backend, database, and frontend components.
@@ -504,3 +491,212 @@ This structure ensures:
 
 The main architectural layers are:
 Frontend → Controllers → Services → Models → Database
+
+```markdown
+### Directory Structure
+src
+├ backend
+│ ├ controllers
+│ ├ middleware
+│ ├ models
+│ └ services
+│
+├ database
+│ ├ config
+│ └ runDB
+│
+└ frontend
+├ app
+└ public
+
+
+Each layer has a clear responsibility and interacts only with adjacent layers.
+
+---
+
+# 12. Design Patterns
+
+The system uses several software design patterns to ensure modularity, scalability, and maintainability.
+
+The following patterns are adopted in this project:
+
+1. Model-View-Controller (MVC)
+2. Service Layer Pattern
+3. Domain Model Pattern
+4. Middleware Pattern
+5. Layered Architecture Pattern
+
+Each pattern is described below along with its implementation within the project.
+
+---
+
+# 12.1 Model-View-Controller (MVC)
+
+## Description
+MVC is implemented through the separation of frontend views, backend controllers, and domain models:
+- **Model** → Represents domain data and business rules.
+- **View** → Represents the user interface.
+- **Controller** → Handles user input and coordinates application logic.
+This separation improves modularity and maintainability.
+
+## Implementation in the Project
+### Model Layer
+Location:
+src/backend/models/
+Responsibility:
+- Define domain entities
+- Represent system data
+- Contain core business structures
+
+### View Layer
+Location:
+src/frontend/app/
+Responsibility:
+- Provide the user interface
+- Interact with backend APIs
+- Display application data
+The frontend is implemented using **Next.js**, which communicates with the backend through HTTP requests.
+
+---
+
+# 12.2 Service Layer Pattern
+## Description
+The **Service Layer Pattern** separates business logic from controllers.
+Controllers should only:
+- Receive requests
+- Validate input
+- Call services
+- Return responses
+All application logic must reside in service classes.
+
+## Implementation
+Location:
+src/backend/services/
+Examples:
+BuildingService.cs
+CustomerService.cs
+SubmissionService.cs
+UsersService.cs
+
+Responsibilities:
+- Execute business logic
+- Orchestrate domain operations
+- Communicate with models and database
+Example flow:
+HTTP Request
+→ Controller
+→ Service
+→ Model / Database
+
+This pattern improves:
+- Testability
+- Maintainability
+- Code reuse
+---
+
+# 12.3 Domain Model Pattern
+## Description
+The **Domain Model Pattern** encapsulates business data and domain concepts into structured entities.
+These models represent the core concepts of the system.
+## Implementation
+Location:
+src/backend/models/
+Examples:
+Building
+Floor
+Customer
+Submission
+User
+Each model represents a real-world concept within the Building Management System.
+Responsibilities:
+- Represent system entities
+- Store structured data
+- Maintain domain relationships
+---
+
+# 12.4 Middleware Pattern
+## Description
+Middleware intercepts requests before they reach controllers.
+It is used for:
+- Authentication
+- Logging
+- Error handling
+- Security validation
+
+## Implementation
+Location:
+src/backend/middleware/
+Examples:
+AuthMiddleware.cs
+ErrorHandlingMiddleware.cs
+
+Responsibilities:
+- Validate authentication tokens
+- Catch and standardize errors
+- Enforce application policies
+---
+
+# 12.5 Layered Architecture Pattern
+## Description
+The system follows a **Layered Architecture**, where each layer has a specific responsibility.
+Layers interact only with adjacent layers, reducing coupling.
+Architecture flow:
+Frontend
+↓
+Controllers
+↓
+Services
+↓
+Models
+↓
+Database
+
+### Benefits
+- Clear separation of responsibilities
+- Easier debugging
+- Easier testing
+- Improved scalability
+---
+
+# 13. Database Architecture
+The database layer is separated from the backend application logic.
+Location:
+src/database/
+Structure:
+config/
+runDB/
+
+### Responsibilities
+- Database configuration
+- Schema creation
+- Initial data seeding
+Example scripts:
+01_create_database.sql
+02_initial_data.sql
+
+This separation allows the database to evolve independently from the application logic.
+---
+
+# 14. Architectural Benefits
+The chosen architecture and design patterns provide several advantages:
+
+### Maintainability
+Clear separation of responsibilities makes the codebase easier to maintain.
+
+### Scalability
+New services and features can be added without modifying existing layers.
+
+### Testability
+Services and controllers can be tested independently.
+
+### Team Collaboration
+Clear structure allows multiple developers to work on different layers simultaneously.
+---
+
+# Final Statement
+The coding standards and architectural patterns defined in this document ensure that the project maintains:
+- Consistent coding practices
+- Structured architecture
+- Clear separation of responsibilities
+- Maintainable and scalable software design
+All contributors must adhere to these standards when developing or modifying the system.
