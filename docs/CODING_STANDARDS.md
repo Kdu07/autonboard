@@ -2,7 +2,7 @@
 
 **Location:** /docs/CODING_STANDARDS.md  
 **Project:** Building Management System  
-**Version:** 1.0  
+**Version:** 2.0  
 
 ---
 
@@ -488,3 +488,19 @@ Following these standards ensures:
 * Scalable and production-ready system
 
 All contributors are required to follow this document.
+
+---
+
+# 11. System Architecture Overview
+
+The project follows a **layered architecture** that separates responsibilities across backend, database, and frontend components.
+
+This structure ensures:
+
+- Separation of concerns
+- Scalability
+- Easier testing
+- Maintainability
+
+The main architectural layers are:
+Frontend → Controllers → Services → Models → Database
