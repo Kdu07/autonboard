@@ -1,20 +1,11 @@
-// Importe o banco de dados (ajuste o caminho se necessário)
 import db from '../../database/runDB/init';
-
-// Interface que define a estrutura da tabela no banco
-export interface Submission {
-  id: number;
-  customer_id: number;
-  status: string;
-  file_path: string;
-  upload_date: Date;
-}
+import { IUpload } from '../interfaces/global.interfaces';
 
 class UploadModel {
   /**
-   * Cria um novo registro de upload com o caminho do arquivo
+   * Creates a new upload record with the file path
    */
-  static async create(customer_id: number, file_path: string): Promise<Submission> {
+  static async create(customer_id: number, file_path: string): Promise<IUpload> {
     const query = `
       INSERT INTO submission (customer_id, file_path, upload_date) 
       VALUES ($1, $2, NOW()) 
@@ -27,9 +18,9 @@ class UploadModel {
   }
 
   /**
-   * Retorna todos os registros de upload
+   * Returns all upload records
    */
-  static async getAll(): Promise<Submission[]> {
+  static async getAll(): Promise<IUpload[]> {
     const query = 'SELECT * FROM submission';
     const result = await db.query(query);
     return result.rows;
