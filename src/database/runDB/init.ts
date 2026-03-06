@@ -1,80 +1,89 @@
-import fs from 'fs';
-import path from 'path';
-import { Pool, QueryResult } from 'pg';
-import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
+import fs from "fs";
+import path from "path";
+import  {Pool}  from "pg";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-// Obter __dirname em módulos ES6
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const {
+  DB_USER,
+  DB_HOST,
+  DB_DATABASE,
+  DB_PASSWORD,
+  DB_PORT
+} = process.env;
 
-// Abre uma pool para criação no DB
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
-    port: parseInt(process.env.DB_PORT || '5432', 10),
+
+const pool: Pool = new Pool({
+  user: DB_USER,
+  host: DB_HOST,
+  database: DB_DATABASE,
+  password: DB_PASSWORD,
+  port: Number(DB_PORT), // precisa converter para number
 });
 
-// Usa a path para sempre achar os arquivos de seed e create
-const filePath1 = path.join(__dirname, '01_create_database.sql');
-const filePath2 = path.join(__dirname, '02_initial_data.sql');
+// Caminhos
+const filePath1: string = path.join(__dirname, "01_create_database.sql");
+const filePath2: string = path.join(__dirname, "02_initial_data.sql");
 
-// Usa fs para ler o arquivo e o transformar em utf8, para posteriormente ser usado pelo código
-const sql = fs.readFileSync(filePath1, 'utf8');
-const seed = fs.readFileSync(filePath2, 'utf8');
+// Leitura dos arquivos
+const sql: string = fs.readFileSync(filePath1, "utf8");
+const seed: string = fs.readFileSync(filePath2, "utf8");
 
-// Faz a verificação se os dados mockados já estão no banco de dados, usando o nome de edifício inventado
-// Isso evita dados mockados duplicados
-async function was_created(): Promise<boolean> {
-    const result: QueryResult = await pool.query('SELECT * FROM building WHERE name = $1', ['Edifício Inovação']);
-    if (result.rows.length > 0) {
-        return true;
-    } else {
-        return false;
-    }
+//  Verifica se já foi criado
+async function wasCreated(): Promise<boolean> {
+  const result = await pool.query(
+    "SELECT * FROM building WHERE name = $1",
+    ["Edifício Inovação"]
+  );
+
+  return result.rows.length > 0;
 }
 
-// Função assíncrona que envia dados mockados para as tabelas
-async function run_SQL_Seed(): Promise<void> {
-    const result = await was_created();
-    if (result === true) {
-        console.log('O banco já foi povoado anteriormente');
-    } else {
-        try {
-            await pool.query(seed);
-        } catch (error) {
-            console.log('Erro ao rodar a seed ERRO: ', error);
-        }
-    }
+// Executa seed
+async function runSQLSeed(): Promise<void> {
+  const alreadyCreated: boolean = await wasCreated();
+
+  if (alreadyCreated) {
+    console.log("The database has already been populated.");
+    return;
+  }
+
+  try {
+    await pool.query(seed);
+    console.log("Seed executed successfully.");
+  } 
+  catch (error) {
+    console.error("Error while running the seed:", error);
+  }
 }
 
-// Função assíncrona que cria as tabelas
-async function run_SQL_Schema(): Promise<void> {
-    try {
-        // Espera o envio, caso de certo, escreve no console, caso de errado, joga um erro no console.
-        await pool.query(sql);
-        console.log('Script SQL injetado, banco de dados criado!');
-    } catch (error) {
-        console.log('Erro ao injetar SQL, ou banco já criado');
-    }
+// Executa schema
+async function runSQLSchema(): Promise<void> {
+  try {
+    await pool.query(sql);
+    console.log("SQL injected, database has been created.");
+  } 
+  catch (error) {
+    console.error(
+      "Error while injecting SQL, or the Database has already been created.",
+      error
+    );
+  }
 }
 
-// Main serve para fazer com que as duas funções anteriores rodem uma após a outra,
-// Garantindo que a seed será executada sempre após o DB já ter sido criado
+// Função principal
 async function main(): Promise<void> {
-    try {
-        await run_SQL_Schema();
-        await run_SQL_Seed();
-    } catch (error) {
-        console.error(error);
-    } finally {
-        // Encerra o pool
-        await pool.end();
-    }
+  try {
+    await runSQLSchema();
+    await runSQLSeed();
+  } 
+  catch (error) {
+    console.error("Unexpected error:", error);
+  } 
+  finally {
+    await pool.end();
+  }
 }
 
 main();

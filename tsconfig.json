@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "esnext",
+    "module": "commonjs",
     "lib": ["ES2022"],
     "outDir": "./dist",
     "rootDir": "./src",
@@ -17,5 +17,9 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["src/backend/**/*", "src/database/**/*"],
-  "exclude": ["node_modules", "dist", "tests", "src/frontend"]
+  "exclude": ["node_modules", "dist", "tests", "src/frontend"],
+  "ts-node": {
+    "esm": false,
+    "experimentalEsm": false
+  }
 }
