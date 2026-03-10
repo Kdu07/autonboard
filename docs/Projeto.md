@@ -117,3 +117,88 @@ The infrastructure choices are strictly dictated by the project's Non-Functional
 | **NFR05** | Concurrent Submission Handling | The stateless API and queue-based architecture allow elastic horizontal scaling. Cloud orchestrators can automatically spin up additional Worker Nodes to drain the queue faster during submission spikes. |
 
 ---
+
+## 20.6. Infrastructure Provisioning and DevOps Lifecycle
+
+To guarantee reproducibility, scalability, and security across all environments (Development, Staging, and Production), the deployment strategy incorporates modern DevOps practices, moving away from manual cloud console configurations. This automation directly satisfies **NFR03 (Processing Reliability)** and **NFR05 (Concurrent Submission Handling)**.
+
+### 20.6.1. Infrastructure as Code (Terraform)
+
+All cloud resources detailed in the deployment diagram are provisioned declaratively using **Terraform (HCL)**. This eliminates configuration drift and ensures strict environment parity.
+
+```hcl
+# infra/main.tf
+provider "aws" { region = "us-east-1" }
+
+# Edge & Frontend (CDN & S3)
+resource "aws_s3_bucket" "frontend_app" {
+  bucket = "equiem-onboarding-frontend-prod"
+}
+
+resource "aws_cloudfront_distribution" "frontend_cdn" {
+  origin {
+    domain_name = aws_s3_bucket.frontend_app.bucket_regional_domain_name
+    origin_id   = "S3-EquiemFrontend"
+  }
+  enabled    = true
+  web_acl_id = aws_wafv2_web_acl.api_gateway_waf.arn
+  viewer_certificate { cloudfront_default_certificate = true }
+}
+
+# Edge Security (WAF)
+resource "aws_wafv2_web_acl" "api_gateway_waf" {
+  name  = "equiem-waf-prod"
+  scope = "CLOUDFRONT"
+  default_action { allow {} }
+  visibility_config {
+    cloudwatch_metrics_enabled = true
+    metric_name                = "EquiemWaf"
+    sampled_requests_enabled   = true
+  }
+}
+
+# Compute Tier (ECS Cluster for API and Worker)
+resource "aws_ecs_cluster" "app_cluster" {
+  name = "equiem-compute-cluster"
+}
+
+resource "aws_ecs_service" "backend_api" {
+  name          = "equiem-api-node"
+  cluster       = aws_ecs_cluster.app_cluster.id
+  desired_count = 2
+}
+
+resource "aws_ecs_service" "background_worker" {
+  name          = "equiem-worker-node"
+  cluster       = aws_ecs_cluster.app_cluster.id
+  desired_count = 2
+}
+
+# Middleware Tier (Message Broker)
+resource "aws_mq_broker" "event_queue" {
+  broker_name        = "equiem-message-broker"
+  engine_type        = "RabbitMQ"
+  engine_version     = "3.11.20"
+  host_instance_type = "mq.m5.large"
+  user {
+    username = "admin"
+    password = "SecurePassword123!"
+  }
+}
+
+# Storage Tier (Database & Blob)
+resource "aws_db_instance" "sql_database" {
+  allocated_storage   = 100
+  engine              = "sqlserver-ex"
+  instance_class      = "db.t3.large"
+  publicly_accessible = false
+}
+
+resource "aws_s3_bucket" "object_storage" {
+  bucket = "equiem-onboarding-files-storage"
+}
+```
+
+---
+
+
