@@ -103,3 +103,17 @@ The decision to adopt a distributed, queue-based architecture directly addresses
 **Access Control.** The API Gateway intercepts requests to validate JSON Web Tokens (JWT) before traffic reaches the internal subnets. The database and storage nodes are placed in private subnets, completely isolated from the public internet, accessible only by the Backend and Worker nodes.
 
 ---
+
+## 20.5. Integration with Non-Functional Requirements (NFRs)
+
+The infrastructure choices are strictly dictated by the project's Non-Functional Requirements. The table below maps each NFR to its corresponding architectural decision.
+
+| NFR | Description | Architectural Impact |
+|---|---|---|
+| **NFR01** | Data Integrity Compliance | Relational Database configured with cascading rules and referential integrity constraints. The Backend API enforces DDD constraints before data reaches the persistence layer. |
+| **NFR02** | Large File Handling and Responsiveness | File uploads are mapped directly to the Object Storage Node; the Message Broker triggers the async Worker Node for background processing, preventing UI freezes for files up to 100 MB. |
+| **NFR03** | Processing Reliability | The Message Broker guarantees delivery. If a Worker Node crashes mid-processing, the message is returned to the queue or sent to a Dead Letter Queue (DLQ) for retry, ensuring zero data loss. |
+| **NFR04** | Extensible File Format Support | The Worker Node is deployed as an independent service. Adding a new file parser (e.g., PDF data extraction) only requires updating the worker environment, without risking the stability of the core API. |
+| **NFR05** | Concurrent Submission Handling | The stateless API and queue-based architecture allow elastic horizontal scaling. Cloud orchestrators can automatically spin up additional Worker Nodes to drain the queue faster during submission spikes. |
+
+---
