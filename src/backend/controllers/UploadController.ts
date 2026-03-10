@@ -21,7 +21,3 @@ export async function create(req:Request, res:Response):Promise<Response> {
 }
 
 
-module.exports = {
-    getAll,
-    create
-}
