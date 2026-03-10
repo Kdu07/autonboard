@@ -1,5 +1,5 @@
 {
-  "type": "module",
+  "type": "commonjs",
   "name": "g01",
   "version": "1.0.0",
   "main": "dist/app.js",
@@ -12,6 +12,7 @@
     "start": "node dist/app.js",
     "dev": "ts-node app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:upload": "node tests/backend/upload.test.js",
     "type-check": "tsc --noEmit"
   },
   "repository": {
