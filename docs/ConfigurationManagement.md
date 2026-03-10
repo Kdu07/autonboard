@@ -1,13 +1,8 @@
-## Configuration Management
+# Configuration Management
 
-#### GitFlow Strategy
+This document describes the configuration management practices adopted by the team to control versions, manage branches, and maintain repository integrity.
 
-The project follows the GitFlow branching strategy with the following branches:
-- **main**: Contains stable and production-ready code.
-- **develop**: Integration branch for ongoing development.
-- **feature/***: Used for developing new features.
-- **hotfix/***: Used for critical fixes in production when necessary.
-- **release/**: Used to prepare a new production release, allowing final adjustments, bug fixes, and validation before merging into main and develop.
+All configuration management documentation is stored in the `/docs` folder.
 
 #### Branch Creation Policy
 
