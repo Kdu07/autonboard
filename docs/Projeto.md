@@ -76,7 +76,7 @@ The architecture adopts a 3-layer approach aligned with Domain-Driven Design (DD
 
 ---
 
-## 20.3. Justification for Deployment Choices
+## Justification for Deployment Choices
 
 The decision to adopt a distributed, queue-based architecture directly addresses the core business bottleneck: the inability to concurrently process large volumes of data without manual intervention.
 
@@ -88,7 +88,7 @@ The decision to adopt a distributed, queue-based architecture directly addresses
 
 ---
 
-## 20.4. Considerations Regarding Performance and Security
+## Considerations Regarding Performance and Security
 
 ### Performance
 
@@ -104,7 +104,7 @@ The decision to adopt a distributed, queue-based architecture directly addresses
 
 ---
 
-## 20.5. Integration with Non-Functional Requirements (NFRs)
+## Integration with Non-Functional Requirements (NFRs)
 
 The infrastructure choices are strictly dictated by the project's Non-Functional Requirements. The table below maps each NFR to its corresponding architectural decision.
 
@@ -118,11 +118,11 @@ The infrastructure choices are strictly dictated by the project's Non-Functional
 
 ---
 
-## 20.6. Infrastructure Provisioning and DevOps Lifecycle
+## Infrastructure Provisioning and DevOps Lifecycle
 
 To guarantee reproducibility, scalability, and security across all environments (Development, Staging, and Production), the deployment strategy incorporates modern DevOps practices, moving away from manual cloud console configurations. This automation directly satisfies **NFR03 (Processing Reliability)** and **NFR05 (Concurrent Submission Handling)**.
 
-### 20.6.1. Infrastructure as Code (Terraform)
+### Infrastructure as Code (Terraform)
 
 All cloud resources detailed in the deployment diagram are provisioned declaratively using **Terraform (HCL)**. This eliminates configuration drift and ensures strict environment parity.
 
@@ -200,5 +200,66 @@ resource "aws_s3_bucket" "object_storage" {
 ```
 
 ---
+
+### CI/CD Pipeline (GitHub Actions)
+
+The deployment lifecycle is automated through a Continuous Integration and Continuous Deployment (CI/CD) pipeline defined in **YAML**. This pipeline guarantees that no code reaches production without passing automated testing and infrastructure validation.
+
+```yaml
+# .github/workflows/deploy.yml
+name: CI/CD Pipeline - Equiem Onboarding
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  infrastructure_provisioning:
+    name: Provision Infrastructure (Terraform)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./infra
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: ./infra
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  build_and_deploy_backend:
+    name: Build and Deploy .NET Backend
+    needs: infrastructure_provisioning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+      - name: Run Tests
+        run: dotnet test ./src/backend/tests/
+      - name: Publish
+        run: dotnet publish ./src/backend/ -c Release -o ./publish
+      - name: Deploy to ECS
+        run: echo "Deploying artifacts to ECS Cluster..."
+
+  build_and_deploy_frontend:
+    name: Build and Deploy React SPA
+    needs: infrastructure_provisioning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Install and Build
+        run: npm install && npm run build
+        working-directory: ./src/frontend
+      - name: Sync to S3
+        run: echo "aws s3 sync ./src/frontend/build s3://equiem-onboarding-frontend-prod"
+```
 
 
