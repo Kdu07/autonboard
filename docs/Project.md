@@ -10,11 +10,7 @@
 4. [Non-Functional Test Planning (NFRs)](#non-functional-test-planning-nfrs)  
    1. [Overview](#non-functional-tests-overview)  
    2. [NFR Test Cases](#nfr-test-cases)  
-   3. [NFR Test Coverage](#nfr-test-coverage)  
-5. [Usability Testing](#usability-testing)  
-   1. [Participant Profiles](#participant-profiles)  
-   2. [Test Execution Script](#test-execution-script)  
-6. [Final Considerations](#final-considerations)
+   3. [NFR Test Coverage](#nfr-test-coverage)    
 
 # General Planning
 
