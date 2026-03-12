@@ -2,7 +2,9 @@
 
 ### UML Deployment Diagram
 
-The following UML Deployment Diagram illustrates the physical and logical distribution of the system across cloud infrastructure, utilizing a decoupled, highly available architecture to handle asynchronous file processing and data integrity.
+**Purpose (per [Visual Paradigm](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-deployment-diagram/) and [Creately](https://creately.com/guides/deployment-diagram-examples/)).** A deployment diagram shows the *runtime* topology: which hardware or execution environments host which software, and how they communicate. It bridges design and implementation and supports planning for scalability, reliability, and security. Use it to answer: what systems will this integrate with? Who connects and how? What middleware and protocols are used? How will the system be monitored?
+
+The following diagram illustrates the physical and logical distribution of the system across cloud infrastructure, using a decoupled, highly available architecture for asynchronous file processing and data integrity. Nodes are grouped by tier; stereotypes `«device»` and `«executionEnvironment»` distinguish node types; connections show communication paths with protocol and port.
 
 ```mermaid
 graph TD
@@ -77,37 +79,49 @@ The architecture follows a layered view aligned with DDD: deployment distributes
 
 ---
 
-## Justification for Deployment Choices
+## 20.3. Justification for Deployment Choices
 
-The decision to adopt a distributed, queue-based architecture (*Diagram 1*) addresses the core business bottleneck: processing large volumes of data concurrently without manual intervention.
+The decision to adopt a distributed, queue-based architecture directly addresses the core business bottleneck: the inability to concurrently process large volumes of data without manual intervention.
 
-| Tier (*Diagram 1*) | Decision | Justification |
-|-------------------|----------|---------------|
-| **Compute** | Backend API Node and Background Worker Node separated | Long-running tasks (e.g. normalising a 100 MB spreadsheet) do not consume API threads; avoids timeouts and keeps the UI responsive. |
-| **Compute** | API and Worker stateless; session via JWT; files written directly to Object Storage | Horizontal scalability: add more Compute nodes during onboarding peaks. |
-| **Data Storage** | Files in Object Storage Node, not in the Relational Database | Avoids DB bloat, reduces backup cost; Worker can stream files into memory. |
-| **Middleware** | Message Broker between API and Worker | Decoupling and guaranteed delivery; API publishes events, Worker consumes at a controlled rate. |
-| **Client / Edge** | CDN for frontend; WAF as single entry point | Low-latency static assets; security and rate limiting in one place. |
+**Decoupling Compute from Processing.** By separating the `Backend API Node` from the `Background Worker Node`, the system ensures that long-running tasks — such as standardizing a 100 MB spreadsheet — do not consume API threads. This prevents timeout errors and guarantees that the client interface remains fast and responsive.
+
+**Stateless API Design.** The application servers are designed to be stateless, storing sessions via JWT and persisting files directly to Object Storage. This allows the infrastructure to scale horizontally by adding more servers seamlessly during peak onboarding periods.
+
+**Dedicated Object Storage.** Storing physical files in a Blob Storage node rather than in the relational database prevents database bloat, reduces backup costs, and allows async workers to stream file data directly into memory for processing.
 
 ---
 
-## Considerations Regarding Performance and Security
-
-The options below refer to the *nodes* and connections in *Diagram 1* (Client/Edge, Compute, Middleware, Data Storage).
+## 20.4. Considerations Regarding Performance and Security
 
 ### Performance
 
-| Aspect | Where (*Diagram 1*) | Measure |
-|--------|---------------------|--------|
-| **Load leveling** | Middleware (Message Broker) + Compute (API, Worker) | The Broker absorbs spikes: many clients submitting files at once; the API accepts, writes to Object Storage and publishes events; Workers consume at a controlled rate, avoiding CPU/memory exhaustion. |
-| **Latency** | Client/Edge (CDN) | React frontend served via CDN; assets cached close to users; lower initial load time. |
+**Load Leveling.** The Message Broker acts as a shock absorber. If 50 clients submit large onboarding files simultaneously, the API accepts the files instantly, offloads them to Object Storage, and queues the processing events. The workers consume these events at a controlled rate, preventing CPU or memory exhaustion.
+
+**Latency Mitigation.** Serving the React frontend via a CDN ensures that static assets are cached geographically close to the users (office managers globally), reducing initial load times.
 
 ### Security
 
-| Aspect | Where (*Diagram 1*) | Measure |
-|--------|---------------------|--------|
-| **Data in transit and at rest** | All external links; Data Storage (DB, Object Storage) | External traffic forced over HTTPS (TLS 1.3). Sensitive data in DB and Blob encrypted at rest (AES-256). |
-| **Access control** | Edge (WAF/API Gateway); Data Storage | WAF validates JWT before traffic reaches internal subnets. DB and Object Storage in private subnets; only Compute nodes (API, Worker) have access. |
+**Data Protection in Transit and at Rest.** All external communication is forced over HTTPS (TLS 1.3). Sensitive data stored in the Relational Database and Object Storage is encrypted at rest using AES-256.
+
+**Access Control.** The API Gateway intercepts requests to validate JSON Web Tokens (JWT) before traffic reaches the internal subnets. The database and storage nodes are placed in private subnets, completely isolated from the public internet, accessible only by the Backend and Worker nodes.
+
+### Monitoring
+
+Per deployment diagram best practice ([Visual Paradigm](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-deployment-diagram/): *“How will you monitor the system once deployed?”* The WAF is configured with CloudWatch metrics (`visibility_config` in Terraform). The pipeline and compute nodes (ECS) integrate with monitoring for service health, API latency, queue depth, and DB/storage usage, so the runtime topology in *Diagram 1* can be observed and alerted on.
+
+---
+
+## 20.5. Deployment Planning Checklist
+
+Based on the [Deployment Planning Checklist](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-deployment-diagram/) (Visual Paradigm), the project addresses:
+
+| Area | Addressed by |
+|------|----------------|
+| **Installation** | Terraform provisions all nodes in *Diagram 1*; CI/CD deploys artifacts. Installer is automation; success is validated by tests and health checks. |
+| **Rollback** | Version-controlled infrastructure and code; rollback via pipeline revert or Terraform state. |
+| **Different versions in production** | GitFlow and environments (Dev, Staging, Prod); parity via same Terraform and container images. |
+| **Physical sites / order of deploy** | Single region in the example (e.g. `us-east-1`); multi-site would extend Terraform modules. |
+| **Training and documentation** | Docs in `/docs`; deployment and topology described in this document and *Diagram 1*. |
 
 ---
 
