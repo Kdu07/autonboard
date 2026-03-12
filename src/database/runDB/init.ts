@@ -28,8 +28,22 @@ const pool: Pool = new Pool({
 });
 
 // Caminhos
-const filePath1: string = path.join(__dirname, "01_create_database.sql");
-const filePath2: string = path.join(__dirname, "02_initial_data.sql");
+// When compiled the JS lives under dist/src/database/runDB, but the SQL
+// files remain in the original source directory.  To simplify the build we
+// always resolve back to the source folder so the scripts can be read from
+// either environment.
+// __dirname during execution will be either
+//  * <project>/src/database/runDB when running via ts-node, or
+//  * <project>/dist/src/database/runDB when running the built output.
+// In either case we want to point at the source folder containing the SQL
+// files, so start from the project root and then append the relative path.
+// climbing three levels from dist/src/database/runDB reaches the project
+// root.
+// prefer using the current working directory (project root) when available.
+// this guarantees we reference the src folder containing the SQL files.
+const baseRunDB = path.join(process.cwd(), "src", "database", "runDB");
+const filePath1: string = path.join(baseRunDB, "01_create_database.sql");
+const filePath2: string = path.join(baseRunDB, "02_initial_data.sql");
 
 // Leitura dos arquivos
 const sql: string = fs.readFileSync(filePath1, "utf8");

@@ -5,10 +5,14 @@ import { IUpload } from '../interfaces/global.interfaces';
 export class UploadService {
   
   /**
-   * Receives the file and customer ID, validates them, and sends them to the database.
+   * Receives the multer file object, the customer ID and a status value,
+   * performs basic validations and delegates persistence to the model.
    */
-  static async processUpload(file: IUpload, customerId: number) {
-    
+  static async processUpload(
+    file: Express.Multer.File | undefined,
+    customerId: number,
+    status: string = 'pending'
+  ) {
     // Ensure the file was actually received
     if (!file) {
       throw new Error('No file was uploaded.');
@@ -31,8 +35,8 @@ export class UploadService {
       throw new Error('The uploaded file is empty.');
     }
 
-    // Call the Model to save to the database
-    const savedUpload = await UploadModel.create(customerId, file.file_path);
+    // Call the Model to save to the database including status
+    const savedUpload = await UploadModel.create(customerId, file.path, status);
 
     // Return the result to the caller (the Controller)
     return savedUpload;
