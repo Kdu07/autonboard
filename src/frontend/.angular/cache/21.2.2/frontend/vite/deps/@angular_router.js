@@ -1,6 +1,6 @@
 import {
   Title
-} from "./chunk-V7X2I75O.js";
+} from "./chunk-L2MTV2BI.js";
 import {
   HashLocationStrategy,
   LOCATION_INITIALIZED,
@@ -12,7 +12,7 @@ import {
   PlatformLocation,
   PlatformNavigation,
   ViewportScroller
-} from "./chunk-7WU3UXMD.js";
+} from "./chunk-ZYV6MMPU.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   ApplicationRef,
@@ -118,7 +118,7 @@ import {
   ɵɵloadQuery,
   ɵɵqueryRefresh,
   ɵɵsanitizeUrlOrResourceUrl
-} from "./chunk-256NUFMR.js";
+} from "./chunk-XCBUDJG3.js";
 
 // node_modules/@angular/router/fesm2022/_router-chunk.mjs
 var PRIMARY_OUTLET = "primary";
@@ -5950,7 +5950,7 @@ function mapToCanDeactivate(providers) {
 function mapToResolve(provider) {
   return (...params) => inject(provider).resolve(...params);
 }
-var VERSION = new Version("21.2.2");
+var VERSION = new Version("21.2.4");
 export {
   ActivatedRoute,
   ActivatedRouteSnapshot,
