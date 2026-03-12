@@ -1,50 +1,46 @@
 ## Technical Infrastructure and Deploy Mapping
 
-## UML Deployment Diagram
+### UML Deployment Diagram
 
 The following UML Deployment Diagram illustrates the physical and logical distribution of the system across cloud infrastructure, utilizing a decoupled, highly available architecture to handle asynchronous file processing and data integrity.
 
 ```mermaid
 graph TD
-    %% Define Client Node
-    subgraph "Client Node: Customer Device"
-        Browser["Web Browser (React SPA)"]
+    subgraph Client["«device» Client Node: Customer Device"]
+        Browser["Web Browser\n(React SPA)"]
     end
 
-    %% Define Cloud Edge / Gateway
-    subgraph "Cloud Edge Network"
-        CDN["CDN & Static Web Hosting\n(Frontend Assets)"]
-        WAF["Web Application Firewall & API Gateway\n(Traffic Routing & Security)"]
+    subgraph Edge["«executionEnvironment» Cloud Edge"]
+        CDN["CDN & Static Hosting\n(Frontend Assets)"]
+        WAF["WAF & API Gateway\n(Routing & Security)"]
     end
 
-    %% Define Compute Nodes
-    subgraph "Compute Tier: Application Servers"
-        API["Backend API Node\n(TypeScript Kestrel Server)"]
-        Worker["Background Worker Node\n(Async Data Processing Service)"]
+    subgraph Compute["«device» Compute Tier"]
+        API["Backend API Node\n(Kestrel)"]
+        Worker["Background Worker\n(Async Processing)"]
     end
 
-    %% Define Middleware & Messaging
-    subgraph "Middleware Tier"
+    subgraph Middleware["«executionEnvironment» Middleware"]
         Queue["Message Broker\n(Event Queue)"]
     end
 
-    %% Define Data Nodes
-    subgraph "Data Storage Tier"
-        DB["Relational Database Server\n(SQL Database)"]
-        Blob["Object Storage Node\n(Files & Images)"]
+    subgraph Storage["«device» Data Storage Tier"]
+        DB["SQL Database"]
+        Blob["Object Storage\n(Files & Images)"]
     end
 
-    %% Connections
-    Browser -- "HTTPS (TLS 1.3)" --> CDN
-    Browser -- "HTTPS (TLS 1.3)\nREST/JWT" --> WAF
-    WAF -- "HTTPS" --> API
-    API -- "AMQP (TCP 5672)\nPublish Event" --> Queue
-    Queue -- "AMQP (TCP 5672)\nConsume Event" --> Worker
-    API -- "HTTPS\nUpload/Download" --> Blob
-    Worker -- "HTTPS\nStream Large Files" --> Blob
-    API -- "TCP (1433)\nRead/Write" --> DB
-    Worker -- "TCP (1433)\nBulk Upsert" --> DB
+    Browser -->|HTTPS TLS 1.3| CDN
+    Browser -->|HTTPS REST/JWT| WAF
+    WAF -->|HTTPS| API
+    API -->|AMQP :5672 Publish| Queue
+    Queue -->|AMQP :5672 Consume| Worker
+    API -->|HTTPS Upload/Download| Blob
+    Worker -->|HTTPS Stream| Blob
+    API -->|TCP :1433 R/W| DB
+    Worker -->|TCP :1433 Bulk| DB
 ```
+
+*Diagram 1 — Deployment diagram showing the distribution of the infrastructure: the client accesses the edge layer (CDN/WAF), which routes requests to the API. Asynchronous processing is handled by workers through a message broker, with persistence in a relational database and object storage.*
 
 ---
 ## Infrastructure Elements and Component Specification
