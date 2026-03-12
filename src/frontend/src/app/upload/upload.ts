@@ -34,7 +34,7 @@ export class Upload {
 
 
     if (!this.arquivoSelecionado || this.estaEnviando) {
-      alert("Selecione um arquivo primeiro!");
+      alert("Please select a file first!");
       return;
     }
 
@@ -52,7 +52,7 @@ export class Upload {
       if (this.progresso >= 100) {
         clearInterval(interval);
         this.estaEnviando = false;
-        alert('Upload concluído com sucesso!');
+        alert('Upload completed successfully!');
       }
 
 

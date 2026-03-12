@@ -11,12 +11,6 @@
 /* SIDEBAR */
 
 
-/* SIDEBAR */
-
-
-/* SIDEBAR */
-
-
 .sidebar {
   width: 280px;            /* largura maior */
   min-height: 100vh;
@@ -67,7 +61,10 @@
   height: 70px;            /* botão bem maior */
   width: 100%;
 
-
+  font-size: 20px;       /* <-- ADICIONE ISSO AQUI */
+  font-weight: bold;     /* Opcional: deixa a letra mais grossa */
+  color: white;
+  
   border-radius: 35px;
   border: none;
 
@@ -85,17 +82,18 @@
   transition: all 0.2s ease;
 }
 
+.active-style {
+  background: #ffffff !important; /* Cor de destaque */
+  color: #0b0a5e;                /* Cor do texto */
+  transform: scale(1.06);        /* Mantém o tamanho levemente maior */
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); /* Brilho opcional */
+}
 
 .menu-item:hover {
   transform: scale(1.06);
+  background: #ffffff;
+  color: #0b0a5e;
 }
-
-
-.menu-item.active {
-  background: white;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
-}
-
 
 /* CONTAINER PRINCIPAL */
 

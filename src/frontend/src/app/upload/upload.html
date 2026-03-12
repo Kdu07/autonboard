@@ -1,36 +1,21 @@
 <div class="app-layout">
 
-
-  <!-- Sidebar -->
   <aside class="sidebar">
-
 
     <div class="logo">AUTONBOARD</div>
 
-
     <nav class="menu">
-      <button class="menu-item" routerLink="/dashboard"></button>
-      <button class="menu-item" routerLink="/analytics"></button>
-      <button class="menu-item" routerLink="/relatorios"></button>
-      <button class="menu-item active" routerLink="/upload"></button>
-      <button class="menu-item" routerLink="/configuracoes"></button>
-      <button class="menu-item" routerLink="/perfil"></button>
+      <button class="menu-item" routerLink="/" routerLinkActive="active-style">Upload</button>
+      <button class="menu-item" routerLink="/Landingpage" routerLinkActive="active-style">Test</button>
     </nav>
-
 
   </aside>
 
-
-  <!-- Conteúdo -->
   <main class="main-container">
 
-
-      <!-- Upload -->
       <div class="upload-area-container">
 
-
         <div class="upload-box" (click)="fileInput.click()">
-
 
           <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -41,26 +26,21 @@
             </path>
           </svg>
 
-
           <div class="upload-title">
-            {{ arquivoSelecionado ? arquivoSelecionado : 'Arraste e solte o arquivo aqui' }}
+            {{ arquivoSelecionado ? arquivoSelecionado : 'Drag and drop file here' }}
           </div>
-
 
           <div class="upload-subtitle">
-            Máximo de 100MB por arquivo
+            Maximum 100MB per file
           </div>
 
-
         </div>
-
 
         <div class="progress-container">
           <div class="progress-bar-fundo">
             <div class="progress-bar-preenchimento" [style.width.%]="progresso"></div>
           </div>
         </div>
-
 
         <input
           type="file"
@@ -69,72 +49,59 @@
           (change)="onFileSelected($event)"
         >
 
-
         <button
           class="btn-upload"
           (click)="fazerUpload()"
           [disabled]="estaEnviando"
         >
-          {{ estaEnviando ? 'ENVIANDO...' : 'UPLOAD' }}
+          {{ estaEnviando ? 'UPLOADING...' : 'UPLOAD' }}
         </button>
 
-
         <p class="disclaimer-text">
-          Os arquivos serão enviados ao banco de dados.
+          Files will be sent to the database.
         </p>
 
-
       </div>
 
-
-      <!-- Histórico -->
       <div class="history-area-container">
 
-
         <div class="history-box">
-          <div class="history-title">Histórico de Uploads</div>
+          <div class="history-title">Upload History</div>
         </div>
-<ul class="info-list">
+        
+        <ul class="info-list">
 
+          <li class="info-item">
+            <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
+            </svg>
+            Allowed formats: .pdf .xlsx .csv
+          </li>
 
-  <li class="info-item">
-    <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
-      </path>
-    </svg>
-    Formatos permitidos: .pdf .xlsx .csv
-  </li>
+          <li class="info-item">
+            <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
+            </svg>
+            Maximum size: 100MB
+          </li>
 
+          <li class="info-item">
+            <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
+            </svg>
+            Multiple files supported
+          </li>
 
-  <li class="info-item">
-    <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
-      </path>
-    </svg>
-    Tamanho máximo: 100MB
-  </li>
-
-
-  <li class="info-item">
-    <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
-      </path>
-    </svg>
-    Múltiplos arquivos suportados
-  </li>
-
-
-</ul>
-
+        </ul>
 
       </div>
-
 
   </main>
 
-
 </div>
-
