@@ -1,0 +1,1 @@
+{"version":3,"file":"UploadModel.d.ts","sourceRoot":"","sources":["../../../src/backend/models/UploadModel.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,OAAO,EAAE,MAAM,iCAAiC,CAAC;AAE1D,cAAM,WAAW;IACf;;OAEG;WACU,MAAM,CAAC,WAAW,EAAE,MAAM,EAAE,SAAS,EAAE,MAAM,GAAG,OAAO,CAAC,OAAO,CAAC;IAY7E;;OAEG;WACU,MAAM,IAAI,OAAO,CAAC,OAAO,EAAE,CAAC;CAK1C;AAED,eAAe,WAAW,CAAC"}
