@@ -23,7 +23,7 @@ The tests were defined considering the business requirements, the constraints of
 The following tools were selected to support the testing process:
 
 - **Postman**: manual and automated testing of REST APIs  
-- **Jest** (or equivalent tool): automated testing of business logic  
+- **Jest**: automated testing of business logic  
 - **Google Chrome**: manual functional tests and usability testing  
 - **k6 / Apache JMeter**: load and concurrency simulation  
 - **Google Sheets**: recording results and feedback from usability tests  
@@ -209,6 +209,27 @@ The planning includes both main flows and exception scenarios, ensuring that the
 3. Send it to the external system  
 4. Confirm successful integration  
 
+# Functional Test Coverage
+
+The following analysis demonstrates **how the planned functional tests cover the system requirements**:
+
+| FR | Coverage | How Coverage Ensures Requirement is Met |
+|----|----------|----------------------------------------|
+| FR01 | ✅ Full | Tests both positive (valid upload) and negative (invalid file or no authentication), ensuring only authorized users can upload files. |
+| FR02 | ✅ Full | Validates standardization process, handling compatible and incompatible data to maintain schema integrity. |
+| FR03 | ✅ Full | Confirms persistence layer saves standardized data securely without overwriting existing records. |
+| FR04 | ✅ Full | Verifies detection of errors, duplicates, and conflicts; ensures only valid data progresses. |
+| FR05 | ✅ Full | Tests safe replacement of corrected data, preventing loss of previous versions. |
+| FR06 | ✅ Full | Validates visual comparison, highlighting differences to support user review. |
+| FR07 | ✅ Full | Ensures automatic progress saving works, maintaining session continuity. |
+| FR08 | ✅ Full | Checks dynamic interface adapts to active modules, preventing irrelevant section display. |
+| FR09 | ✅ Full | Confirms section dependencies are enforced, guaranteeing process correctness. |
+| FR10 | ✅ Full | Validates multi-user collaboration on sections, supporting parallel work. |
+| FR11 | ✅ Full | Ensures onboarding status is updated correctly, providing accurate feedback to users. |
+| FR12 | ✅ Full | Confirms final data consolidation and integration with external systems succeed, guaranteeing end-to-end process reliability. |
+
+> **Discussion:** All FRs are covered with clear positive and negative scenarios. The coverage ensures that every critical system function is tested, confirming both correctness and robustness. Each test scenario directly maps to its corresponding FR and reflects real-world usage, providing confidence that the system meets business and project requirements.
+
 # Non-Functional Test Planning
 
 ## Non-Functional Tests Overview
@@ -259,7 +280,6 @@ Negative test:
 - Export is prevented when inconsistencies exist.
 - A detailed error report is generated for incorrect records.
 
-
 ### CT-NF02 – Large File Handling and Responsiveness
 
 **Non-Functional Requirement:** NFR02 – Large File Handling and Responsiveness  
@@ -296,7 +316,6 @@ Negative test:
 - The interface remains responsive during upload and processing.
 - The application does not crash or freeze.
 - Files exceeding the limit are rejected with a clear error message.
-
 
 ### CT-NF03 – Processing Reliability
 
@@ -335,7 +354,6 @@ Negative test:
 - Interrupted processes do not corrupt stored data.
 - The system maintains data consistency after recovery.
 
-
 ### CT-NF04 – File Format Extensibility
 
 **Non-Functional Requirement:** NFR04 – Extensible File Format Support  
@@ -369,7 +387,6 @@ Negative test:
 
 - Newly supported formats are processed successfully without modifying the core logic.
 - Unsupported formats are rejected with an informative error message.
-
 
 ### CT-NF05 – Concurrent Submission Support
 
@@ -430,4 +447,4 @@ CT-NF04 validates that the system architecture supports future file formats with
 
 CT-NF05 ensures that the system can support multiple users and concurrent submissions safely.
 
-Together, these tests provide confidence that the system will remain **stable, scalable, and reliable** in real-world onboarding scenarios.
+> **Discussion:** All NFRs cover critical non-functional aspects, ensuring that the system is robust, stable, extensible, and reliable in real-world onboarding scenarios.
