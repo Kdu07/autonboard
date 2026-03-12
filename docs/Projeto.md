@@ -139,13 +139,13 @@ Infrastructure choices are driven by the project's non-functional requirements, 
 
 ---
 
-## Infrastructure Provisioning and DevOps Lifecycle
+## 20.6. Infrastructure Provisioning and DevOps Lifecycle
 
-To guarantee reproducibility, scalability and security across all environments (Development, Staging, Production), the deployment strategy uses DevOps practices and avoids manual cloud configuration. This automation supports **NFR03 (Processing Reliability)** and **NFR05 (Concurrent Submission Handling)**. The resources correspond to the tiers in *Diagram 1*: Edge, Compute, Middleware, Data Storage.
+To guarantee reproducibility, scalability, and security across all environments (Development, Staging, and Production), the deployment strategy incorporates modern DevOps practices, moving away from manual cloud console configurations. This automation directly satisfies **NFR03 (Processing Reliability)** and **NFR05 (Concurrent Submission Handling)**. The provisioned resources implement the topology in *Diagram 1* (Edge, Compute, Middleware, Data Storage) and address the *installation* and *reproducibility* aspects of the [Deployment Planning Checklist](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-deployment-diagram/) (Visual Paradigm): who installs, how long it takes, and how to avoid configuration drift.
 
-### Infrastructure as Code (Terraform)
+### 20.6.1. Infrastructure as Code (Terraform)
 
-All cloud resources represented in *Diagram 1* are provisioned declaratively with **Terraform (HCL)**. This reduces configuration drift and keeps environment parity.
+All cloud resources represented in the deployment diagram (*Diagram 1*) are provisioned declaratively using **Terraform (HCL)**. This eliminates configuration drift and ensures strict environment parity. The HCL blocks below map to the diagram’s tiers: Edge & Frontend (CDN, WAF), Compute (ECS API and Worker), Middleware (Message Broker), and Storage (RDS, S3).
 
 ```hcl
 # infra/main.tf
