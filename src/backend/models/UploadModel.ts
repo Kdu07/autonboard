@@ -1,4 +1,4 @@
-import db from '../../database/runDB/init';
+import db from '../../database/config/db'
 import { IUpload } from '../interfaces/global.interfaces';
 
 class UploadModel {

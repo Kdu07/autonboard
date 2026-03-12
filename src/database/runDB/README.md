@@ -14,6 +14,7 @@ This folder contains the official physical schema, data dictionary, and initiali
 ## Dependencies
 
 - Node.js 18+
+- ts
 - npm
 - pg (node-postgres)
 - dotenv
@@ -32,7 +33,7 @@ npm install
     DB_DATABASE=your_db
     DB_PORT=5432
     ```
-2.  **Schema Creation and seeding:** Run the script `init.js`. This will generate all tables, primary keys, and foreign keys. Also, it's going to populate the DB with some mocked data to test if everything is working as expected. OBS: This script just executes `01_create_database.sql` and `02_initial_data.sql` in the correct order.
+2.  **Schema Creation and seeding:** Run the script `npm run startDB`. This will generate all tables, primary keys, and foreign keys. Also, it's going to populate the DB with some mocked data to test if everything is working as expected. OBS: This script just executes `01_create_database.sql` and `02_initial_data.sql` in the correct order.
 
 
 ---
