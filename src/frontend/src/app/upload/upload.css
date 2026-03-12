@@ -12,7 +12,7 @@
 
 
 .sidebar {
-  width: 280px;            /* largura maior */
+  width: 280px;            
   min-height: 100vh;
 
 
@@ -38,7 +38,7 @@
 .logo {
   color: white;
   font-weight: 900;
-  font-size: 28px;         /* AUTONBOARD bem maior */
+  font-size: 28px;         
   letter-spacing: 3px;
 }
 
@@ -58,11 +58,11 @@
 
 
 .menu-item {
-  height: 70px;            /* botão bem maior */
+  height: 70px;            
   width: 100%;
 
-  font-size: 20px;       /* <-- ADICIONE ISSO AQUI */
-  font-weight: bold;     /* Opcional: deixa a letra mais grossa */
+  font-size: 20px;       
+  font-weight: bold;    
   color: white;
   
   border-radius: 35px;
@@ -83,10 +83,10 @@
 }
 
 .active-style {
-  background: #ffffff !important; /* Cor de destaque */
-  color: #0b0a5e;                /* Cor do texto */
-  transform: scale(1.06);        /* Mantém o tamanho levemente maior */
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); /* Brilho opcional */
+  background: #ffffff !important; 
+  color: #0b0a5e;                
+  transform: scale(1.06);        
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); 
 }
 
 .menu-item:hover {
