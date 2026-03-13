@@ -1,1 +1,0 @@
-//# sourceMappingURL=Amenity.d.ts.map
