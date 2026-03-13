@@ -7,11 +7,13 @@ project-root/
 │   ├── frontend/
 │   │   ├── public/
 │   │   ├── src/
-│   │   │   ├── components/
-│   │   │   ├── pages/
-│   │   │   ├── services/
-│   │   │   ├── hooks/
-│   │   │   └── styles/
+│   │   │   ├── app/
+│   │   │   │   ├── landingpage
+│   │   │   │   └── upload
+│   │   │   │   
+│   │   │   ├── index.html
+│   │   │   └── main.ts
+│   │   │   
 │   │   ├── package.json
 │   │   └── README.md
 │   │
@@ -76,11 +78,7 @@ Responsible for the client-side application.
 **Subdirectories:**
 
 - **public/** — Static assets served directly by the frontend.
-- **src/components/** — Reusable UI components.
-- **src/pages/** — Application pages and routing views.
-- **src/services/** — API communication layer.
-- **src/hooks/** — Custom React hooks.
-- **src/styles/** — Global and modular styles.
+- **src/app/** — Application pages and routing views.
 
 **Rationale:**  
 This modular structure promotes component reuse, maintainability, and scalability of the user interface.
