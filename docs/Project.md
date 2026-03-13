@@ -7,6 +7,7 @@
 4. [Coding Architecture](#coding-architecture)
 5. [Directory Structure](#directory-structure)
 6. [Technical Infrastructure and Deploy Mapping](#technical-infrastructure-and-deploy-mapping)
+7. [Video Evidence](#video-evidence)
 
 # General Planning
 
@@ -1170,3 +1171,9 @@ jobs:
       - name: Sync to S3
         run: echo "aws s3 sync ./src/frontend/build s3://equiem-onboarding-frontend-prod"
 ```
+
+# Video Evidence 
+
+[![Watch the video](https://img.youtube.com/vi/2lrxsI1QkUs/0.jpg)](https://youtu.be/2lrxsI1QkUs)
+
+[Watch the video](https://youtu.be/2lrxsI1QkUs)
