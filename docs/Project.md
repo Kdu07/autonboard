@@ -1,4 +1,5 @@
-# Project evolution Sprint 3
+# Test Plan
+
 ## Table of Contents
 1. [Test Planning](#test-planning)  
 2. [Unit Tests](#unit-tests)  
@@ -7,7 +8,6 @@
 5. [Directory Structure](#directory-structure)
 6. [Technical Infrastructure and Deploy Mapping](#technical-infrastructure-and-deploy-mapping)
 
-# Test Plannin
 # General Planning
 
 The tests described in this document aim to ensure the **quality, reliability, performance, and usability** of the Equiem system. The planning includes positive and negative scenarios, evaluating both functional behavior and non-functional attributes, as well as the real experience of end users.
@@ -444,6 +444,7 @@ CT-NF04 validates that the system architecture supports future file formats with
 CT-NF05 ensures that the system can support multiple users and concurrent submissions safely.
 
 > **Discussion:** All NFRs cover critical non-functional aspects, ensuring that the system is robust, stable, extensible, and reliable in real-world onboarding scenarios.
+<<<<<<< docs/Project.md
 
 ---
 
@@ -1172,3 +1173,5 @@ jobs:
       - name: Sync to S3
         run: echo "aws s3 sync ./src/frontend/build s3://equiem-onboarding-frontend-prod"
 ```
+=======
+>>>>>>> docs/Project.md
