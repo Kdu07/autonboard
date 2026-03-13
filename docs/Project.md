@@ -1,17 +1,9 @@
-# Test Plan
-
+# Project evolution Sprint 3
 ## Table of Contents
-1. [General Planning](#general-planning)  
-2. [Testing Tools and Technologies](#testing-tools-and-technologies)  
-3. [Functional Test Planning](#functional-test-planning)  
-   1. [Overview](#functional-tests-overview)  
-   2. [Functional Test Cases](#functional-test-cases)  
-   3. [Functional Test Coverage](#functional-test-coverage)  
-4. [Non-Functional Test Planning (NFRs)](#non-functional-test-planning-nfrs)  
-   1. [Overview](#non-functional-tests-overview)  
-   2. [NFR Test Cases](#nfr-test-cases)  
-   3. [NFR Test Coverage](#nfr-test-coverage)    
+1. [Test Planning](#test-planning)  
+2. [Unit Tests](#unit-tests)  
 
+# Test Planning
 # General Planning
 
 The tests described in this document aim to ensure the **quality, reliability, performance, and usability** of the Equiem system. The planning includes positive and negative scenarios, evaluating both functional behavior and non-functional attributes, as well as the real experience of end users.
@@ -448,3 +440,50 @@ CT-NF04 validates that the system architecture supports future file formats with
 CT-NF05 ensures that the system can support multiple users and concurrent submissions safely.
 
 > **Discussion:** All NFRs cover critical non-functional aspects, ensuring that the system is robust, stable, extensible, and reliable in real-world onboarding scenarios.
+
+# Unit tests
+
+This document presents the strategy, execution, and results of the unit tests conducted in the project according to the Sprint 3 requirements. The focus of this stage was to ensure the integrity of backend functionalities (Node.js + TypeScript) and preparation for the frontend (Angular + TypeScript), aligning the tests with the defined Functional Requirements (FR) and Non-Functional Requirements (NFR).
+
+## 1. Unit Testing Strategy
+The adopted unit testing strategy aims to ensure the reliability, correctness, and maintainability of the code by validating the behavior of each component in isolation.
+
+### Guiding Principles
+- Total Isolation: Extensive use of mocks for all external dependencies such as databases, APIs, and third-party services (Auth0).
+- Critical Path Coverage: Initial focus on the business rules related to file upload and processing.
+- Determinism: Ensuring that tests produce the same results in any development environment.
+- Automation: Full integration with the development cycle using Jest.
+
+## 2. Test Scope
+Tests were implemented covering the main layers of the system architecture.
+
+### Backend (Node.js + TypeScript)
+- Services (UploadService): Validation of business rules, file size limits, and allowed extensions.
+- Controllers (UploadController): Handling HTTP requests and response codes (200, 400, 500).
+- Middleware (UploadMiddleware): Spreadsheet processing logic (ExcelJS) and validation of required fields.
+- Models (UploadModel): Data persistence integrity and database queries (mocked).
+
+### Frontend (Angular + TypeScript)
+- Services and Components: Base test structure prepared using Jasmine and Karma, focusing on dependency injection and component creation.
+
+## 3. Tools and Technologies
+| Layer | Tool | Description |
+|---|---|---|
+| Backend | Jest | Main framework for tests and assertions |
+| Backend | ts-jest | Allows tests to run directly in TypeScript |
+| Backend | ExcelJS Mocks | Simulation of Excel file processing |
+| Frontend | Jasmine | Behavior-driven framework for Angular tests |
+| Frontend | Karma | Test runner for browsers |
+
+## 4. Test Directory Structure
+The organization follows a modular pattern to facilitate test script location and maintenance.
+
+```text
+tests/
+├── backend/
+│   ├── UploadController.test.ts
+│   ├── UploadMiddleware.test.ts
+│   ├── UploadModel.test.ts
+│   └── UploadService.test.ts
+└── frontend/
+  └── app.component.spec.ts
