@@ -833,7 +833,7 @@ They help structure:
 
 The project is organized into **backend and frontend layers**, each containing its own internal structure.
 
-
+```
 project-root
 │
 ├── assets
@@ -863,7 +863,7 @@ project-root
 ├── tsconfig.json
 ├── README.md
 └── .gitignore
-
+```
 
 
 ## Backend Folders
