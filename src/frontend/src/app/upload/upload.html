@@ -1,0 +1,107 @@
+<div class="app-layout">
+
+  <aside class="sidebar">
+
+    <div class="logo">AUTONBOARD</div>
+
+    <nav class="menu">
+      <button class="menu-item" routerLink="/" routerLinkActive="active-style">Upload</button>
+      <button class="menu-item" routerLink="/Landingpage" routerLinkActive="active-style">Test</button>
+    </nav>
+
+  </aside>
+
+  <main class="main-container">
+
+      <div class="upload-area-container">
+
+        <div class="upload-box" (click)="fileInput.click()">
+
+          <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5 0 10-9.78 2.096A4.001 4.001 0 003 15z">
+            </path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M12 11v6m0-6l-3 3m3-3l3 3">
+            </path>
+          </svg>
+
+          <div class="upload-title">
+            {{ arquivoSelecionado ? arquivoSelecionado : 'Drag and drop file here' }}
+          </div>
+
+          <div class="upload-subtitle">
+            Maximum 100MB per file
+          </div>
+
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-bar-fundo">
+            <div class="progress-bar-preenchimento" [style.width.%]="progresso"></div>
+          </div>
+        </div>
+
+        <input
+          type="file"
+          #fileInput
+          style="display: none"
+          (change)="onFileSelected($event)"
+        >
+
+        <button
+          class="btn-upload"
+          (click)="fazerUpload()"
+          [disabled]="estaEnviando"
+        >
+          {{ estaEnviando ? 'UPLOADING...' : 'UPLOAD' }}
+        </button>
+
+        <p class="disclaimer-text">
+          Files will be sent to the database.
+        </p>
+
+      </div>
+
+      <div class="history-area-container">
+
+        <div class="history-box">
+          <div class="history-title">Upload History</div>
+        </div>
+        
+        <ul class="info-list">
+
+          <li class="info-item">
+            <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
+            </svg>
+            Allowed formats: .pdf .xlsx .csv
+          </li>
+
+          <li class="info-item">
+            <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
+            </svg>
+            Maximum size: 100MB
+          </li>
+
+          <li class="info-item">
+            <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+              </path>
+            </svg>
+            Multiple files supported
+          </li>
+
+        </ul>
+
+      </div>
+
+  </main>
+
+</div>
