@@ -445,6 +445,7 @@ CT-NF04 validates that the system architecture supports future file formats with
 CT-NF05 ensures that the system can support multiple users and concurrent submissions safely.
 
 > **Discussion:** All NFRs cover critical non-functional aspects, ensuring that the system is robust, stable, extensible, and reliable in real-world onboarding scenarios.
+---
 
 # Unit tests
 
@@ -898,7 +899,7 @@ The following diagram illustrates the physical and logical distribution of the s
 ```mermaid
 graph TD
     subgraph Client["«device» Client Node: Customer Device"]
-        Browser["Web Browser\n(React SPA)"]
+        Browser["Web Browser\n(Angular SPA)"]
     end
 
     subgraph Edge["«executionEnvironment» Cloud Edge"]
@@ -1177,3 +1178,39 @@ jobs:
 [![Watch the video](https://img.youtube.com/vi/2lrxsI1QkUs/0.jpg)](https://youtu.be/2lrxsI1QkUs)
 
 [Watch the video](https://youtu.be/2lrxsI1QkUs)
+
+## Authentication (Planned Integration with Auth0)
+
+Although authentication has not yet been implemented in the current version of the system, the project architecture already considers the integration of an external authentication service using **Auth0**.
+
+Auth0 will be responsible for providing secure identity management and access control for the application, ensuring that only authenticated users can access protected onboarding functionalities.
+
+### Planned Authentication Flow
+
+The authentication process will follow a **token-based architecture using JSON Web Tokens (JWT)**. The expected flow is described below:
+
+1. A user accesses the frontend application developed in **Angular**.
+2. When authentication is required, the user will be redirected to the **Auth0 login interface**.
+3. After successful authentication, Auth0 will generate a **JWT access token**.
+4. The frontend will store this token securely and include it in the **Authorization header** of API requests.
+5. The backend API developed in **Node.js + TypeScript** will validate the token using Auth0's public keys.
+6. Only requests containing valid tokens will be allowed to access protected endpoints, such as file upload and onboarding management.
+
+### Backend Protection Strategy
+
+To enforce authentication in the backend, a **middleware layer** will be implemented. This middleware will intercept incoming requests and verify the presence and validity of the JWT token before allowing the request to reach the controller layer.
+
+Protected routes will include:
+
+- File upload endpoints
+- Submission management endpoints
+- Onboarding data retrieval endpoints
+
+If a request does not contain a valid authentication token, the API will return an **HTTP 401 (Unauthorized)** response.
+
+### Current Status
+
+At the current stage of the project (Sprint 3), the authentication mechanism has **not yet been implemented in the codebase**. However, the architecture and API design already anticipate this integration, ensuring that the authentication layer can be incorporated without requiring significant structural changes to the system.
+
+The implementation of Auth0 authentication is planned for a future sprint as the user access management features are introduced.
+

@@ -52,23 +52,14 @@ async function parseSpreadsheet(filePath: string): Promise<any[]> {
   const sheet = workbook.worksheets[0];
   const rows: any[] = [];
   sheet.eachRow((row) => {
-    // row.values is a 1-indexed array; copy as is or process further if needed
     rows.push(row.values);
   });
   return rows;
 }
 
 export const UploadMiddleware = {
-  /**
-   * multer middleware to read a single file field named "file".
-   * This should be applied to the route before `process`.
-   */
   multerSingle: upload.single("file"),
 
-  /**
-   * After multer has stored the file this middleware will parse it with
-   * ExcelJS and ensure the required body fields are present.
-   */
   async process(req: Request, res: Response, next: NextFunction) {
     if (!req.file) {
       return res.status(400).json({ error: "File is required" });
@@ -76,7 +67,6 @@ export const UploadMiddleware = {
 
     try {
       const parsed = await parseSpreadsheet(req.file.path);
-      // attach parsed data for downstream handlers if needed
       (req as any).parsedData = parsed;
     } catch (err: any) {
       return res
