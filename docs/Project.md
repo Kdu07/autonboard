@@ -487,3 +487,75 @@ tests/
 │   └── UploadService.test.ts
 └── frontend/
   └── app.component.spec.ts
+``` 
+
+## 5. Implemented Test Cases and Results
+
+The table below details the validated scenarios, relating **Test Case IDs (CT)** with their respective **Functional Requirements (FR)** and **Non-Functional Requirements (NFR)**.
+
+| ID    | Module           | Tested Scenario                                   | Related Requirement        | Result |
+|------|------------------|---------------------------------------------------|----------------------------|--------|
+| CT-01 | UploadService     | Accept valid CSV file                             | FR01 (Data Upload)         | PASS   |
+| CT-02 | UploadService     | Accept valid XLSX file                            | FR01 (Data Upload)         | PASS   |
+| CT-03 | UploadService     | Reject invalid format (.pdf)                      | NFR04 (Extensible Formats) | PASS   |
+| CT-04 | UploadService     | Reject zero-size file                             | NFR03 (Reliability)        | PASS   |
+| CT-05 | UploadService     | Reject when no file is sent                       | FR04 (Data Validation)     | PASS   |
+| CT-16 | UploadController  | Return data in getAll method                      | FR11 (Status and Feedback) | PASS   |
+| CT-17 | UploadController  | Create upload through controller                  | FR01 (Data Upload)         | PASS   |
+| CT-20 | UploadController  | Handle database error                             | NFR03 (Reliability)        | PASS   |
+| CT-21 | UploadModel       | Data persistence in database query                | FR03 (Data Persistence)    | PASS   |
+| CT-22 | UploadModel       | Retrieve list of uploads                          | FR11 (Status and Feedback) | PASS   |
+| CT-23 | UploadMiddleware  | Error when file is missing                        | FR04 (Data Validation)     | PASS   |
+| CT-24 | UploadMiddleware  | Error in required fields (customer_id)            | FR04 (Data Validation)     | PASS   |
+| CT-25 | UploadMiddleware  | Failure during Excel spreadsheet parsing          | NFR03 (Reliability)        | PASS   |
+| CT-26 | UploadMiddleware  | Processing and next() call                        | FR02 (Standardization)     | PASS   |
+
+
+## 6. Test Coverage (Code Coverage)
+
+Below are the consolidated code coverage results obtained using `jest --coverage`.
+
+### Backend Summary
+
+| Metric     | Percentage |
+|------------|-----------|
+| Statements | 86.66%    |
+| Branches   | 81.25%    |
+| Functions  | 72.72%    |
+| Lines      | 86.66%    |
+
+
+### File-Level Coverage Details
+
+| File                   | Lines Coverage | Uncovered Lines        |
+|------------------------|---------------|------------------------|
+| UploadController.ts     | 91.66%        | 19                     |
+| UploadMiddleware.ts     | 75.67%        | 13-18, 29-37, 47      |
+| UploadModel.ts          | 100%          | -                      |
+| UploadService.ts        | 100%          | -                      |
+| db.ts                   | 100%          | -                      |
+
+## 7. Execution Evidence
+The tests were successfully executed in the terminal. Below is the summary of the latest execution.
+
+Command: npm run test:coverage
+
+Test Suites: 4 passed, 4 total
+
+Tests: 14 passed, 14 total
+
+Snapshots: 0 total
+
+Time: 5.631 s
+
+Note: The execution was validated in the local environments of all group members, ensuring
+
+development environment parity and compliance with NFR02 (Responsiveness).
+
+## 8. CI/CD Integration
+Tests can be automatically executed in CI pipelines using the command:
+npm run test:coverage
+This ensures that new code changes do not break existing functionalities.
+
+## 9. Conclusion
+The Sprint 3 unit tests cover the critical functionalities of file upload and data persistence, ensuring compliance with the requirements of Data Integrity (NFR01) and Standardization (FR02). The backend coverage of 86.66% of lines ensures that the core business logic is protected against regressions, facilitating future expansion to support additional file formats (NFR04).
