@@ -3,6 +3,10 @@
 1. [Test Planning](#test-planning)  
 2. [Unit Tests](#unit-tests)  
 3. [Functional Requirements Implementation Analysis](#functional-requirements-implementation)
+4. [Coding Architecture](#coding-architecture)
+5. [Directory Structure](#directory-structure)
+
+
 # Test Planning
 # General Planning
 
@@ -679,3 +683,204 @@ Functional requirements FR06, FR07, FR08, FR09, FR10, and FR12 do not currently 
 These functionalities include mechanisms for comparing different versions of submitted data, automatic persistence of onboarding progress, dynamic interfaces based on active modules, dependency control between onboarding sections, collaborative assignment of tasks among contributors, and secure consolidation of data for integration with external systems.
 
 The absence of these components indicates that the system is still in an early implementation phase, focusing primarily on the basic infrastructure for uploading and storing onboarding submissions.
+
+--- 
+
+# Coding Architecture
+
+## Architecture Model
+
+The system follows a **Layered Architecture based on the MVC pattern (Model–View–Controller)**, separating responsibilities between data handling, business logic, and user interface.
+
+The backend is implemented using **Node.js with TypeScript**, while the frontend is built using **Angular**.
+
+This architecture improves **maintainability, scalability, and separation of concerns**, allowing each layer of the system to evolve independently.
+
+
+## Backend Architecture
+
+The backend is organized into multiple layers, each with a specific responsibility.
+
+### Controllers
+Controllers are responsible for **handling HTTP requests and responses**.
+
+They:
+- Receive requests from the client
+- Validate and extract request data
+- Call the appropriate service
+- Return the response to the client
+
+Controllers do **not contain business logic**, keeping them lightweight.
+
+
+### Services
+Services implement the **core business logic of the application**.
+
+They:
+- Process application rules
+- Coordinate data operations
+- Interact with models and repositories
+
+This layer ensures that business logic is **centralized and reusable**.
+
+
+### Models
+Models represent the **data structures of the system**.
+
+They define:
+- The structure of entities
+- Data attributes
+- Database interaction logic
+
+Models are used by services to **read and write data**.
+
+
+### Routes
+Routes define the **API endpoints exposed by the backend**.
+
+They:
+- Map HTTP methods (GET, POST, PUT, DELETE)
+- Connect endpoints to controllers
+- Organize the API structure
+
+
+### Middleware
+Middleware functions run **before the request reaches the controller**.
+
+They are used for:
+- Authentication
+- Request validation
+- Logging
+- Error handling
+
+
+### Interfaces
+Interfaces define **TypeScript contracts and types** used across the system.
+
+They help enforce:
+- Type safety
+- Consistency between layers
+- Better code maintainability
+
+
+## Frontend Architecture (Angular)
+
+The frontend follows the **Angular modular architecture**, which organizes the application into reusable and maintainable units.
+
+### Components
+Components are responsible for the **user interface and interaction logic**.
+
+Each component:
+- Displays UI elements
+- Handles user events
+- Communicates with services
+
+
+### Services
+Angular services handle **communication with the backend API and shared logic**.
+
+They:
+- Perform HTTP requests
+- Process API responses
+- Share data between components
+
+
+### Modules
+Modules organize the application into **logical functional blocks**, improving scalability and maintainability.
+
+They help structure:
+- Components
+- Services
+- Routing
+
+
+## Architecture Diagram
+
+            +----------------------+
+            |      Frontend        |
+            |       (Angular)      |
+            |                      |
+            |   Components        |
+            |   Services          |
+            |   Modules           |
+            +----------+-----------+
+                       |
+                       | HTTP Requests
+                       v
+            +----------------------+
+            |       Backend        |
+            |   (Node.js + TS)     |
+            |                      |
+            |      Routes          |
+            |        |             |
+            |     Controllers      |
+            |        |             |
+            |      Services        |
+            |        |             |
+            |       Models         |
+            |                      |
+            |     Middleware       |
+            +----------------------+
+                       |
+                       v
+                +-------------+
+                |  Database   |
+                +-------------+
+
+---
+
+# Directory Structure
+
+The project is organized into **backend and frontend layers**, each containing its own internal structure.
+
+
+project-root
+│
+├── assets
+│
+├── docs
+│
+├── src
+│ │
+│ ├── backend
+│ │ ├── controllers
+│ │ ├── interfaces
+│ │ ├── middleware
+│ │ ├── models
+│ │ ├── routes
+│ │ └── services
+│ │
+│ ├── database
+│ │
+│ ├── frontend
+│ │ ├── public
+│ │ └── src
+│ │ └── app
+│ │
+│ └── tests
+│
+├── package.json
+├── tsconfig.json
+├── README.md
+└── .gitignore
+
+
+
+## Backend Folders
+
+| Folder | Description |
+|------|------|
+| controllers | Handles HTTP requests and responses |
+| services | Contains business logic |
+| models | Defines system data structures |
+| routes | Defines API endpoints |
+| middleware | Handles authentication, validation, and request processing |
+| interfaces | TypeScript interfaces and type definitions |
+
+
+## Frontend Folders
+
+| Folder | Description |
+|------|------|
+| public | Static frontend resources |
+| src/app | Angular application source code |
