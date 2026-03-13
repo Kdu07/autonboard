@@ -444,9 +444,6 @@ CT-NF04 validates that the system architecture supports future file formats with
 CT-NF05 ensures that the system can support multiple users and concurrent submissions safely.
 
 > **Discussion:** All NFRs cover critical non-functional aspects, ensuring that the system is robust, stable, extensible, and reliable in real-world onboarding scenarios.
-<<<<<<< docs/Project.md
-
----
 
 # Unit tests
 
@@ -1173,5 +1170,3 @@ jobs:
       - name: Sync to S3
         run: echo "aws s3 sync ./src/frontend/build s3://equiem-onboarding-frontend-prod"
 ```
-=======
->>>>>>> docs/Project.md
