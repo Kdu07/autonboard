@@ -1,4 +1,4 @@
--- Criação da tabela CUSTOMER
+-- Creation of the CUSTOMER table
 CREATE TABLE IF NOT EXISTS CUSTOMER (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS CUSTOMER (
     modules_enabled JSONB
 );
 
--- Criação da tabela BUILDING
+-- Creation of the BUILDING table
 CREATE TABLE IF NOT EXISTS BUILDING (
     id SERIAL PRIMARY KEY,
     customer_id INT NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS BUILDING (
     CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE
 );
 
--- Criação da tabela FLOOR
+-- Creation of the FLOOR table
 CREATE TABLE IF NOT EXISTS FLOOR (
     id SERIAL PRIMARY KEY,
     building_id INT NOT NULL,
@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS FLOOR (
     CONSTRAINT fk_building FOREIGN KEY (building_id) REFERENCES BUILDING(id) ON DELETE CASCADE
 );
 
--- Criação da tabela AMENITY
--- Nota: parent_amenity_id permite a autorreferência para sub-amenidades
+-- Creation of the AMENITY table
+-- Note: parent_amenity_id allows self-referencing for sub-amenities
 CREATE TABLE IF NOT EXISTS AMENITY (
     id SERIAL PRIMARY KEY,
     building_id INT NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS AMENITY (
     CONSTRAINT fk_amenity_parent FOREIGN KEY (parent_amenity_id) REFERENCES AMENITY(id) ON DELETE CASCADE
 );
 
--- Criação da tabela AMENITY_CONFIGURATION
+-- Creation of the AMENITY_CONFIGURATION table
 CREATE TABLE IF NOT EXISTS AMENITY_CONFIGURATION (
     id SERIAL PRIMARY KEY,
     amenity_id INT NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS AMENITY_CONFIGURATION (
     CONSTRAINT fk_config_amenity FOREIGN KEY (amenity_id) REFERENCES AMENITY(id) ON DELETE CASCADE
 );
 
--- Criação da tabela SUBMISSION
+-- Creation of the SUBMISSION table
 CREATE TABLE IF NOT EXISTS SUBMISSION (
     id SERIAL PRIMARY KEY,
     customer_id INT NOT NULL,
