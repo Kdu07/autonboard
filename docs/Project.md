@@ -2,12 +2,18 @@
 
 ## Table of Contents
 1. [General Planning](#general-planning)  
-2. [Testing Tools and Technologies](#testing-tools-and-technologies)  
-3. [Functional Test Planning](#functional-test-planning)  
+2. [Feature development](#feature-development)
+   1. [Overview of the Feature](#overview-of-the-feature)
+   2. [Feature Objectives](#feature-objectives)
+   3. [Functional Description](#functional-description)
+   4. [Feature Workflow](#feature-workflow)
+   5. [Validation and Business Rules](#validation-and-business-rules)
+3. [Testing Tools and Technologies](#testing-tools-and-technologies)  
+4. [Functional Test Planning](#functional-test-planning)  
    1. [Overview](#functional-tests-overview)  
    2. [Functional Test Cases](#functional-test-cases)  
    3. [Functional Test Coverage](#functional-test-coverage)  
-4. [Non-Functional Test Planning (NFRs)](#non-functional-test-planning-nfrs)  
+5. [Non-Functional Test Planning (NFRs)](#non-functional-test-planning-nfrs)  
    1. [Overview](#non-functional-tests-overview)  
    2. [NFR Test Cases](#nfr-test-cases)  
    3. [NFR Test Coverage](#nfr-test-coverage)    
@@ -17,6 +23,71 @@
 The tests described in this document aim to ensure the **quality, reliability, performance, and usability** of the Equiem system. The planning includes positive and negative scenarios, evaluating both functional behavior and non-functional attributes, as well as the real experience of end users.
 
 The tests were defined considering the business requirements, the constraints of the academic project, and the feasibility of execution in a controlled environment.
+
+# FEATURE DEVELOPMENT  
+File Upload Feature — Frontend Implementation
+
+---
+
+# Overview of the Feature
+
+The File Upload feature allows users to submit structured project files through the platform’s web interface. These files typically contain information related to buildings, floors, amenities, or other entities managed by the system.
+
+The upload interface is implemented in the **presentation layer (frontend)** of the application and provides a user-friendly mechanism for selecting and submitting files. Once a file is uploaded, it is transmitted to the backend API, where it is stored and prepared for further processing.
+
+This feature supports the system’s onboarding workflow by enabling clients to provide large datasets in bulk instead of manually configuring each entity within the platform.
+
+---
+
+# Feature Objectives
+
+The main objectives of this feature are:
+
+- Allow users to upload project files directly through the web interface.
+- Provide an intuitive and accessible file submission interface.
+- Validate file format and size before transmission.
+- Ensure secure and reliable communication with the backend API.
+- Support the platform’s data onboarding process through file-based submissions.
+
+---
+
+# Functional Description
+
+The File Upload feature enables users to select a file from their local device and submit it to the system using a dedicated upload interface.
+
+From the user's perspective, the process consists of selecting a valid file, confirming the upload action, and receiving feedback indicating whether the upload was successful.
+
+On the technical side, the frontend captures the selected file through a file input component and sends it to the backend API using an HTTP request. The backend then handles storage and further processing of the file.
+
+The frontend is responsible for managing the interaction with the user, validating the file before upload, and communicating with the backend API to initiate the submission process.
+
+---
+
+# Feature Workflow
+
+The feature operates through the following interaction flow:
+
+1. The user accesses the file upload interface in the web application.
+2. The user selects a file from their local device.
+3. The frontend validates the selected file based on predefined rules.
+4. If validation succeeds, the frontend sends the file to the backend API using a POST request.
+5. The backend receives the file and stores it in the system storage layer.
+6. The system registers the submission and prepares the file for further processing.
+7. The frontend receives a response from the API and informs the user about the upload result.
+
+---
+
+# Validation and Business Rules
+
+The following validation rules apply to file uploads:
+
+- Only authenticated users are allowed to upload files.
+- Supported file formats include `.csv` and `.xlsx`.
+- The maximum allowed file size is **100 MB**.
+- The file must follow the expected data structure required by the system.
+- The backend performs final validation to ensure data integrity and security.
+
+These rules ensure that only valid and properly structured files are submitted to the system for processing.
 
 # Testing Tools and Technologies
 
