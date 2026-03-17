@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient, HttpEventType } from '@angular/common/http';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-upload',
@@ -10,21 +10,16 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
   imports: [CommonModule, RouterModule],
   templateUrl: './upload.html',
   styleUrl: './upload.css',
-  // Disable style encapsulation to allow global styles to affect this component if needed
   encapsulation: ViewEncapsulation.None
 })
 export class Upload {
 
-  // State management for UI progress and file handling
   progresso: number = 0;
   arquivoSelecionado: File | null = null;
   estaEnviando: boolean = false;
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Capture the file from the input change event
-   */
   onFileSelected(event: any) {
     const file = event.target.files?.[0] ?? null;
 
@@ -34,13 +29,16 @@ export class Upload {
     }
   }
 
-  /**
-   * Handles the multipart/form-data submission with progress tracking
-   */
   fazerUpload() {
-    // Guard clause to prevent empty uploads or double submissions
+
     if (!this.arquivoSelecionado || this.estaEnviando) {
-      alert('Please select a file first!');
+
+      Swal.fire({
+        icon: 'warning',
+        title: 'Arquivo não selecionado',
+        text: 'Selecione um arquivo antes de fazer upload.'
+      });
+
       return;
     }
 
@@ -54,23 +52,47 @@ export class Upload {
 
     this.http
       .post('http://localhost:3000/upload', formData, {
-        reportProgress: true, // Enables tracking of upload progress
-        observe: 'events'     // Allows us to see interim HttpEvents (like progress)
+        reportProgress: true,
+        observe: 'events'
       })
       .subscribe({
         next: (event) => {
-          // Calculate percentage based on bytes loaded vs total size
+
           if (event.type === HttpEventType.UploadProgress && event.total) {
             this.progresso = Math.round((event.loaded / event.total) * 100);
-          } else if (event.type === HttpEventType.Response) {
-            // Reset state upon successful server response
+          }
+
+          else if (event.type === HttpEventType.Response) {
+
             this.estaEnviando = false;
-            alert('Upload completed successfully!');
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Upload concluído',
+              text: 'O arquivo foi enviado com sucesso!',
+              confirmButtonText: 'OK'
+            });
+
           }
         },
+
         error: (err) => {
+
           this.estaEnviando = false;
-          alert('Upload failed: ' + (err?.message ?? err));
+
+          const mensagemErro =
+            err?.error?.message ||
+            err?.error?.erro ||
+            err?.message ||
+            'Erro desconhecido ao enviar o arquivo.';
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro no upload',
+            text: mensagemErro,
+            footer: 'Verifique o servidor ou tente novamente.'
+          });
+
         }
       });
   }
