@@ -6,6 +6,16 @@ CREATE TABLE IF NOT EXISTS CUSTOMER (
     modules_enabled JSONB
 );
 
+-- Creation of the APP_USER table (authentication)
+CREATE TABLE IF NOT EXISTS APP_USER (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Creation of the BUILDING table
 CREATE TABLE IF NOT EXISTS BUILDING (
     id SERIAL PRIMARY KEY,

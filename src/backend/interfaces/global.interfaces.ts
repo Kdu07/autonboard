@@ -10,3 +10,20 @@ export interface IUpload {
   mimetype: string;
   size: number;
 }
+
+export type UserRole = "admin" | "user";
+
+export interface IUser {
+  id: number;
+  name: string;
+  email: string;
+  password_hash: string;
+  role: UserRole;
+  created_at: Date;
+}
+
+export interface IAuthTokenPayload {
+  sub: number;
+  email: string;
+  role: UserRole;
+}
