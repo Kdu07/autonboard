@@ -1,4 +1,4 @@
-export class LocationHierarquiFetch{
+export default class LocationHierarchyFetch{
     static async post_customers(name:string, region:string, status:string){
         try {
             const response = await fetch("https://equiem.onrender.com/customers", {
@@ -123,4 +123,3 @@ export class LocationHierarquiFetch{
         }
     }
 }
-
