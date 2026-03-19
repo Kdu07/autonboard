@@ -1,4 +1,3 @@
-import { values } from 'pdf-lib';
 import db from '../../database/config/db'
 import * as Interfaces from '../interfaces/db.interfaces';
 
