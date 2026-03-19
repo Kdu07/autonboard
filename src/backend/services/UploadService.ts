@@ -1,6 +1,6 @@
 // Directly import your Model
 import UploadModel from '../models/UploadModel';
-import { IUpload } from '../interfaces/global.interfaces';
+import { IUpload } from '../interfaces/db.interfaces';
 
 export class UploadService {
   
