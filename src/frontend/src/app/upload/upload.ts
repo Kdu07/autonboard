@@ -53,7 +53,7 @@ export class Upload {
     this.progresso = 0;
 
     this.http
-      .post('http://localhost:3000/upload', formData, {
+      .post('/upload', formData, {
         reportProgress: true, // Enables tracking of upload progress
         observe: 'events'     // Allows us to see interim HttpEvents (like progress)
       })

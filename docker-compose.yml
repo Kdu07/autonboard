@@ -1,0 +1,76 @@
+version: "2.4"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    command:
+      # Keeps Postgres memory usage lower for demo environments.
+      - "postgres"
+      - "-c"
+      - "shared_buffers=32MB"
+      - "-c"
+      - "work_mem=8MB"
+      - "-c"
+      - "maintenance_work_mem=16MB"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./src/database/runDB/01_create_database.sql:/docker-entrypoint-initdb.d/01_create_database.sql:ro
+      - ./src/database/runDB/02_initial_data.sql:/docker-entrypoint-initdb.d/02_initial_data.sql:ro
+    networks:
+      - app-network
+    mem_limit: 256m
+    cpus: 0.5
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.prod
+    depends_on:
+      - postgres
+    environment:
+      DB_USER: ${DB_USER}
+      DB_HOST: postgres
+      DB_DATABASE: ${DB_DATABASE}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
+      DB_SSL: ${DB_SSL}
+
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    volumes:
+      # UploadMiddleware escreve em: dist/uploads (não dist/src/uploads)
+      - ./src/uploads:/app/dist/uploads
+    networks:
+      - app-network
+    mem_limit: 128m
+    cpus: 0.5
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.prod
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    mem_limit: 128m
+    cpus: 0.5
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+

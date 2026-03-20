@@ -38,7 +38,13 @@ const fileFilter = (
     "application/vnd.ms-excel"
   ];
 
-  if (allowedMimetypes.includes(file.mimetype)) {
+  const allowedExtensions = [".csv", ".xlsx", ".xls"];
+  const fileExt = path.extname(file.originalname).toLowerCase();
+
+  const isAllowedByMime = allowedMimetypes.includes(file.mimetype);
+  const isAllowedByExt = allowedExtensions.includes(fileExt);
+
+  if (isAllowedByMime || isAllowedByExt) {
     cb(null, true);
   } else {
     cb(new Error("Invalid file type. Please upload a CSV or Excel file."));

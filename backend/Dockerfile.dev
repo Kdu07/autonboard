@@ -1,0 +1,18 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY tsconfig.json ./tsconfig.json
+COPY app.ts ./app.ts
+COPY src ./src
+
+ENV NODE_ENV=development
+
+EXPOSE 3000
+
+# Uses your existing dev script: "dev": "tsx app.ts"
+CMD ["npm", "run", "dev"]
+
