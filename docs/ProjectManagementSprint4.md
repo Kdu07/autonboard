@@ -13,11 +13,11 @@ All project management documentation is stored in the `/docs` folder as required
 Sprint 4 focused on consolidating the system into a stable and demonstrable functional increment. Building on previous sprints, the team emphasized quality, integration, and validation of core components.
 
 The sprint focused on:
-- Completion of core features
-- Stabilization of database interactions
-- Expansion of test coverage
-- Validation of deployment architecture
-- Strengthening of project management practices
+- Completion of core features  
+- Stabilization of database interactions  
+- Expansion of test coverage  
+- Validation of deployment architecture  
+- Strengthening of project management practices  
 
 ---
 
@@ -30,7 +30,6 @@ The sprint focused on:
 | Deferred tasks | ~3 |
 | Completion rate | ~92% |
 | Average PR review time | ~5 hours |
-| Number of commits | ~50 |
 
 These metrics provide objective evidence to support the sprint retrospective and indicate improved process stability compared to previous sprints.
 
@@ -51,9 +50,6 @@ Scope adjustments applied after Sprint 3 resulted in fewer last-minute task addi
 
 ## 1.4 Weaknesses
 
-### Testing still evolving  
-Despite improvements, test coverage was not uniformly applied across all modules, which limited validation depth and increased the risk of undetected defects during integration and deployment phases.
-
 ### Dependency bottlenecks  
 Dependencies between backend and frontend tasks caused localized delays, particularly in integration points, temporarily blocking progress and reducing parallelization of work.
 
@@ -62,28 +58,31 @@ While delivery metrics were tracked, quality-related metrics (e.g., test coverag
 
 ---
 
-## 1.5 Improvement Actions
+## 1.5 Improvement Actions (Traceable)
 
-| Issue | Action | Responsible | Verification Sprint |
-|------|------|------|------|
-| Technical debt accumulation | Allocate dedicated refactoring tasks in next sprint | Entire team | Sprint 5 |
-| Incomplete test coverage | Define minimum coverage targets | QA / Team | Sprint 5 |
-| Dependency delays | Improve task sequencing and dependency mapping | Scrum facilitator | Sprint 5 |
+| Issue | Action | Success Criteria | Tracking Mechanism | Responsible | Verification Sprint |
+|------|------|------|------|------|------|
+| Dependency bottlenecks | Improve task sequencing and dependency mapping | Reduce blocked tasks to < 1 per day | Issue tracking + daily logs | Scrum facilitator | Sprint 5 |
+| Limited quality metrics | Define and track test coverage | Achieve ≥ 70% test coverage | Test reports + CI pipeline | Team | Sprint 5 |
 
 ---
 
-## 1.6 Traceability of Improvements Across Sprints
+## 1.6 Traceability of Improvements Across Sprints  
 
-Continuous improvement actions remain tracked through Issues and documented evidence.
+Continuous improvement actions are tracked through Issues and supporting evidence.
 
-| Action ID | Description | Tracking Mechanism | Status |
-|------|------|------|------|
-| WK01 | Improve estimation accuracy | Retrospective checklist | In progress |
-| WK02 | Integrate documentation into DoD | PR verification | Implemented |
-| WK03 | Introduce sprint metrics tracking | Planning template | Implemented |
-| WK04 | Improve test coverage | Test reports + PRs | In progress |
+| Action ID | Description | Linked Issue | Success Criteria | Tracking Mechanism | Status |
+|-----------|-------------|-------------|------------------|-------------------|--------|
+| WK01 | Improve estimation accuracy | Sprint metrics deviation | Completion rate ≥ 90% | Sprint metrics | In progress |
+| WK02 | Integrate documentation into DoD | Documentation delays | 100% PRs include docs | PR verification | Implemented |
+| WK03 | Introduce sprint metrics tracking | Lack of metrics | Metrics tracked every sprint | Planning template | Implemented |
+| WK04 | Improve test coverage | Limited quality metrics | ≥ 70% coverage | Test reports + CI | In progress |
+| WK05 | Improve test strategy definition | Weak validation process | Test plan defined and used | Test documentation | In progress |
+| WK06 | Enhance backlog refinement clarity | Task ambiguity | All tasks meet DoR | Grooming sessions | In progress |
+| WK07 | Reduce scope overload | Scope pressure | Planned vs delivered ≥ 90% | Sprint metrics | In progress |
+| WK08 | Improve QA validation process | Testing inconsistency | All features validated before merge | QA checklist + PR flow | In progress |
 
-Each action continues to be reviewed at the beginning of subsequent sprints.
+These actions are reviewed at the start of each new sprint to ensure continuity, measurability, and validation of improvements.
 
 ---
 
@@ -91,11 +90,11 @@ Each action continues to be reviewed at the beginning of subsequent sprints.
 
 ## Risk Register
 
-| ID | Risk | Probability | Impact | Mitigation | Status |
-|----|------|------|------|------|------|
-| R01 | Effort underestimation | Low | Medium | Improved estimation process | Mitigating |
-| R02 | Scope pressure | Low | Medium | Controlled sprint planning | Mitigating |
-| R03 | Incomplete test coverage | Medium | High | Increase testing effort | Open |
+| ID | Risk | Probability | Impact | Mitigation | Status | Evolution |
+|----|------|------|------|------|------|------|
+| R01 | Effort underestimation | Low | Medium | Improved estimation process | Mitigating | Reduced from Sprint 3 |
+| R02 | Scope pressure | Low | Medium | Controlled sprint planning | Mitigating | Reduced from Sprint 3 |
+| R03 | Incomplete test coverage | Medium | High | Increase testing effort | Open | New / more visible in Sprint 4 |
 
 ### Risk Tracking Mechanism
 
@@ -107,8 +106,8 @@ Status categories:
 - **Closed**
 
 Risk reviews occur during:
-- Sprint Planning
-- Sprint Retrospective
+- Sprint Planning  
+- Sprint Retrospective  
 
 Evidence of updates is stored in `/docs`.
 
@@ -123,125 +122,5 @@ Project management practices remain aligned with PMO principles through verifiab
 | Sprint planning | Issues + Sprint Milestone |
 | Task tracking | GitLab Issue Board |
 | Risk management | Versioned Risk Register |
-| Retrospective documentation | `/docs` retrospective sections |
-| Documentation governance | `/docs` folder structure |
 
 This structure ensures transparency, accountability, and traceability of decisions.
-
----
-
-# 2. Next Sprint Planning (Sprint 5)
-
-## 2.1 Sprint Objective
-
-The objective of Sprint 5 is to **refine, optimize, and finalize the system**, focusing on:
-
-- Reducing technical debt
-- Improving test coverage and reliability
-- Final system validation
-- Performance and usability improvements
-
----
-
-## 2.2 Team Capacity Planning
-
-| Team Members | Available Hours |
-|------|------|
-| Member 1 | 16h |
-| Member 2 | 16h |
-| Member 3 | 16h |
-| Member 4 | 16h |
-| Member 5 | 16h |
-| Member 6 | 16h |
-| Member 7 | 16h |
-
-**Total Sprint Capacity: 130 hours**
-
-Planning respects this capacity to prevent scope overload.
-
----
-
-## 2.3 Prioritization Strategy
-
-Tasks are prioritized according to:
-
-1. System stability and bug fixing  
-2. Technical debt reduction  
-3. Testing and quality assurance  
-4. Documentation and final evidence  
-
-This prioritization ensures a stable and high-quality final delivery.
-
----
-
-## 2.4 Sprint Task Planning
-
-Sprint 5 planning is focused on refining the system and addressing remaining gaps identified in Sprint 4. Tasks are structured to ensure incremental improvements in quality, stability, and performance.
-
-Effort estimation continues using T-shirt sizing, with clear Definition of Ready (DoR) and Definition of Done (DoD) criteria to ensure task clarity and completion.
-
----
-
-## 2.5 Definition of Ready (DoR)
-
-A task is considered ready when:
-
-- Clear description exists  
-- Acceptance criteria are defined  
-- Dependencies are identified  
-- Required resources are available  
-
----
-
-## 2.6 Definition of Done (DoD)
-
-A task is considered done when:
-
-- Implementation is completed  
-- Code passes review  
-- Tests are executed successfully  
-- Documentation is updated  
-- Evidence is committed to the repository  
-
----
-
-# 3. Group Development Process Management
-
-## 3.1 Daily Meetings Policy
-
-**Frequency:**  
-Daily during project workdays.
-
-**Duration:**  
-Maximum of 15 minutes.
-
-**Participants:**  
-All team members.
-
-**Structure:**
-- What was completed since the last meeting  
-- What will be done next  
-- Blockers or risks identified  
-
-**Traceability rule:**  
-Each update must reference the corresponding Issue ID.
-
----
-
-## 3.2 GitLab Usage Policy
-
-The project uses a centralized repository.
-
-Key rules:
-
-- All development work must be associated with an Issue  
-- Pull Requests are mandatory for merges  
-- Direct commits to main or develop are not allowed  
-
----
-
-## 3.3 Commit Policy
-
-Commit messages follow **Conventional Commits**.
-
-Examples:
