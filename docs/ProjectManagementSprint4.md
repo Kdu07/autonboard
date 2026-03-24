@@ -73,14 +73,9 @@ Continuous improvement actions are tracked through Issues and supporting evidenc
 
 | Action ID | Description | Linked Issue | Success Criteria | Tracking Mechanism | Status |
 |-----------|-------------|-------------|------------------|-------------------|--------|
-| WK01 | Improve estimation accuracy | Sprint metrics deviation | Completion rate ≥ 90% | Sprint metrics | In progress |
-| WK02 | Integrate documentation into DoD | Documentation delays | 100% PRs include docs | PR verification | Implemented |
-| WK03 | Introduce sprint metrics tracking | Lack of metrics | Metrics tracked every sprint | Planning template | Implemented |
-| WK04 | Improve test coverage | Limited quality metrics | ≥ 70% coverage | Test reports + CI | In progress |
-| WK05 | Improve test strategy definition | Weak validation process | Test plan defined and used | Test documentation | In progress |
-| WK06 | Enhance backlog refinement clarity | Task ambiguity | All tasks meet DoR | Grooming sessions | In progress |
-| WK07 | Reduce scope overload | Scope pressure | Planned vs delivered ≥ 90% | Sprint metrics | In progress |
-| WK08 | Improve QA validation process | Testing inconsistency | All features validated before merge | QA checklist + PR flow | In progress |
+| WK01 | Enhance backlog refinement clarity | Task ambiguity | All tasks meet DoR | Grooming sessions | In progress |
+| WK02 | Reduce scope overload | Scope pressure | Planned vs delivered ≥ 90% | Sprint metrics | In progress |
+| WK03 | Improve QA validation process | Testing inconsistency | All features validated before merge | QA checklist + PR flow | In progress |
 
 These actions are reviewed at the start of each new sprint to ensure continuity, measurability, and validation of improvements.
 
