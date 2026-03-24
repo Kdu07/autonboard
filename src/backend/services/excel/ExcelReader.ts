@@ -1,5 +1,6 @@
 
 import * as Excel from 'exceljs'
+import { ExcelParser } from './ExcelParser';
 
 export class ExcelReader {
 
@@ -17,19 +18,3 @@ export class ExcelReader {
     }
 
 }
-
-async function main(){
-    const excelReader = new ExcelReader();
-
-    const filePath = 'src/uploads/Pessoal Bookable.xlsx';
-
-    const worksheet = await excelReader.read(filePath);
-
-     worksheet.eachRow((row, rowNumber) => {
-        console.log(row.values);
-    });
-}
-
-main();
-
-// rodar aqruivo: npx ts-node src/backend/ExcelReader.ts

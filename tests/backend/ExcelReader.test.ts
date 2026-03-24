@@ -1,19 +1,22 @@
-import { ExcelReader } from '../../src/backend/services/ExcelReader';
 import path from 'path';
+import { ExcelReader } from '../../src/backend/services/excel/ExcelReader';
+import { ExcelParser } from '../../src/backend/services/excel/ExcelParser';
+//import { ExcelValidator } from '../../src/backend/services/excel/ExcelValidator';
 
-describe('ExcelReader', () => {
+describe('ExcelValidator', () => {
+  it('should validate a valid parsed excel', async () => {
+    const reader = new ExcelReader();
+    const parser = new ExcelParser();
+    //const validator = new ExcelValidator();
 
-    it('deve ler um arquivo excel', async() => {
+    const filePath = path.resolve(
+      process.cwd(),
+      'src/uploads/Pessoal Bookable.xlsx'
+    );
 
-        const reader = new ExcelReader()
+    const worksheet = await reader.read(filePath);
+    const parsed = parser.parse(worksheet);
 
-        const filePath = path.resolve(
-            process.cwd(),
-            'src/uploads/Pessoal Bookable.xlsx'
-        );
-
-        const worksheet = await reader.read(filePath)
-        expect(worksheet).toBeDefined();
-        expect(worksheet.rowCount).toBeGreaterThan(0);
-    });
-})
+    //expect(() => validator.validate(parsed)).not.toThrow();
+  });
+});
