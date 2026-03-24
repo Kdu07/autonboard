@@ -1358,7 +1358,11 @@ The 3D surface plot illustrates the relationship between Batch Size (B), Worker 
 
 The visualization shows that increasing the number of workers leads to substantial throughput gains, particularly when combined with larger batch sizes. This behavior highlights the strong influence of parallelism on system performance, while also revealing non-linear scaling effects.
 
-![Throughput Surface](./SEU_ARQUIVO.png)
+<div align="center">
+<sub>Figure</sub><br>
+  <img src="../assets/graph-phase2.png" width="80%" alt="Graph"><br>
+  <sup>Source: Material produced by the authors, 2026.</sup>
+</div>
 
 *Figure A.1 – 3D surface representing system throughput as a function of Batch Size (B) and Worker Count (W).*
 
