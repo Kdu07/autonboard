@@ -1,6 +1,7 @@
 import db from '../../database/config/db'
 import * as Interfaces from '../interfaces/db.interfaces';
 
+
 export class ExtractionModel {
     static async createCustomer(name: string, email: string, modules_enabled: Record<string, any> | null): Promise<Interfaces.ICustomer> {
         const sql = `

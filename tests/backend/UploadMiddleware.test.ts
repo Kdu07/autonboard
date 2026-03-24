@@ -27,7 +27,7 @@ describe("UploadMiddleware.process", () => {
     await UploadMiddleware.process(req as Request, res as Response, next);
 
     expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ error: "File is required" });
+    expect(res.json).toHaveBeenCalledWith({ error: "No file provided" });
     expect(next).not.toHaveBeenCalled();
   });
 
@@ -53,7 +53,7 @@ describe("UploadMiddleware.process", () => {
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
-      error: "customer_id and status are required"
+      error: "Missing required fields: customer_id and status"
     });
 
     expect(next).not.toHaveBeenCalled();
@@ -79,10 +79,10 @@ describe("UploadMiddleware.process", () => {
 
     await UploadMiddleware.process(req as Request, res as Response, next);
 
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.status).toHaveBeenCalledWith(422);
 
     expect(res.json).toHaveBeenCalledWith({
-      error: "Error processing spreadsheet",
+      error: "Failed to parse spreadsheet",
       details: "parse error"
     });
 
