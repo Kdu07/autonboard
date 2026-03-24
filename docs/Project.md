@@ -1289,40 +1289,49 @@ At the current stage of the project (Sprint 3), the authentication mechanism has
 The implementation of Auth0 authentication is planned for a future sprint as the user access management features are introduced.
 
 
-# Appendix A: System Configuration and Optimization Report
+## Appendix A: System Configuration and Optimization Report
 
-## Overview
+### Overview
 
 This appendix presents the analytical process used to determine the optimal configuration of the system. The goal is to identify the best combination of Batch Size (B) and Worker Count (W) in order to maximize throughput, based on benchmarking data, regression modeling, and multivariable calculus.
 
----
 
 ### Benchmark Data Log
 
-The table below contains the experimental data collected from system benchmarking. Tests were executed using a dataset of approximately 50,000 records, varying Batch Size (B) and Worker Count (W).
+During this phase, a benchmark was conducted to evaluate system performance by varying two key parameters: Batch Size (B) and Worker Count (W). A synthetic dataset containing 50,000 records was used to ensure consistency across all tests.
+
+A total of 12 distinct combinations of (B, W) were executed. Each experiment was repeated three times, and the average execution time and throughput (measured in records per second) were calculated in order to reduce variability and improve result reliability.
+
+The processing workflow was structured into batches and executed concurrently using multiple workers. Additionally, a simulated computational load was introduced to better approximate real-world conditions involving I/O and CPU usage.
+
+The results indicate that increasing both Batch Size and Worker Count leads to significant improvements in throughput. However, this improvement is not linear, suggesting the presence of system constraints such as resource contention, overhead, and diminishing returns from parallelism.
+
+This observed non-linearity justifies the use of a quadratic regression model in the next phase, where the collected data will be used to mathematically model system performance and identify the optimal configuration.
+
+
+### Benchmark Results
 
 | Batch Size (B) | Worker Count (W) | Throughput (records/sec) |
 |----------------|------------------|---------------------------|
-|                |                  |                           |
-|                |                  |                           |
-|                |                  |                           |
-|                |                  |                           |
-|                |                  |                           |
-|                |                  |                           |
-|                |                  |                           |
-|                |                  |                           |
-|                |                  |                           |
-|                |                  |                           |
-|                |                  |                           |
-|                |                  |                           |
+| 100            | 2                | 12807.93                  |
+| 100            | 8                | 51131.77                  |
+| 100            | 16               | 330330.56                 |
+| 500            | 2                | 65185.27                  |
+| 500            | 8                | 302685.99                 |
+| 500            | 16               | 475384.11                 |
+| 1000           | 2                | 140209.64                 |
+| 1000           | 8                | 483373.35                 |
+| 1000           | 16               | 847608.34                 |
+| 2000           | 2                | 510109.59                 |
+| 2000           | 8                | 934358.53                 |
+| 2000           | 16               | 2007323.83                |
 
 > A minimum of 12 combinations were tested to ensure a reliable regression model.
 
----
 
 ### Performance Model
 
-A quadratic regression model was used to approximate system throughput as a function of Batch Size (B) and Worker Count (W).
+A quadratic regression model will be used to approximate system throughput as a function of Batch Size (B) and Worker Count (W).
 
 **General form:**
 
@@ -1330,100 +1339,77 @@ T(B, W) = aB² + cW² + dBW + eB + fW + g
 
 **Fitted model:**
 
-T(B, W) = ____________________________________________
+T(B, W) = *(to be defined in Phase 2)*
 
----
 
 ### Model Accuracy
 
-- R² (coefficient of determination): __________
+- R² (coefficient of determination): *(to be calculated)*
 
-This value represents how well the model fits the observed data.
-
----
 
 ### Visualization
 
-Insert a 3D surface plot of T(B, W), generated using a tool such as Excel, Python, or MATLAB.
+A 3D surface plot of T(B, W) will be generated based on the regression model.
 
----
 
 ### Optimization Derivation
 
-The optimization process was performed analytically using multivariable calculus.
+This section will present the analytical optimization using multivariable calculus.
 
 **Partial derivatives:**
 
-∂T/∂B = ____________________________________________
+∂T/∂B = *(to be calculated)*  
+∂T/∂W = *(to be calculated)*  
 
-∂T/∂W = ____________________________________________
 
----
-
-**Critical point (solution of the system):**
+**Critical point:**
 
 ∂T/∂B = 0  
 ∂T/∂W = 0  
 
-- Optimal Batch Size (Bopt) = __________  
-- Optimal Worker Count (Wopt) = __________  
+- Optimal Batch Size (Bopt) = *(to be calculated)*  
+- Optimal Worker Count (Wopt) = *(to be calculated)*  
 
----
 
 **Hessian matrix test:**
 
-T_BB = __________  
-T_WW = __________  
-T_BW = __________  
+T_BB = *(to be calculated)*  
+T_WW = *(to be calculated)*  
+T_BW = *(to be calculated)*  
 
-H = (T_BB * T_WW) - (T_BW)² = __________  
+H = *(to be calculated)*  
 
 **Conclusion:**  
-If H > 0 and T_BB < 0, the critical point is a local maximum.
+To be determined after computation.
 
-Classification of the point: __________________________
-
----
 
 ### Strategic Recommendation
 
+This section will translate the mathematical findings into practical engineering decisions.
+
 **Recommended configuration:**
 
-- Batch Size (B): __________  
-- Worker Count (W): __________  
+- Batch Size (B): *(to be determined)*  
+- Worker Count (W): *(to be determined)*  
 
----
 
 ### Sensitivity Analysis
 
-Discuss which variable has a greater impact on throughput and why:
+To be developed after analyzing the model coefficients and derivatives.
 
-______________________________________________________________
-
-______________________________________________________________
-
----
 
 ### Practical Scenarios
 
-**Memory-constrained environments:**
+**Memory-constrained environments:**  
+*(to be discussed)*  
 
-______________________________________________________________
+**High-throughput scenarios:**  
+*(to be discussed)*  
 
-**High-throughput scenarios:**
+**Latency-sensitive systems:**  
+*(to be discussed)*  
 
-______________________________________________________________
-
-**Latency-sensitive systems:**
-
-______________________________________________________________
-
----
 
 ### Final Considerations
 
-Summarize why analytical optimization is preferable over trial-and-error tuning:
-
-______________________________________________________________
-
-______________________________________________________________
+The final conclusions will summarize the importance of analytical optimization over trial-and-error tuning.
