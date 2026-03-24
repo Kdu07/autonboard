@@ -1288,3 +1288,142 @@ At the current stage of the project (Sprint 3), the authentication mechanism has
 
 The implementation of Auth0 authentication is planned for a future sprint as the user access management features are introduced.
 
+
+# Appendix A: System Configuration and Optimization Report
+
+## Overview
+
+This appendix presents the analytical process used to determine the optimal configuration of the system. The goal is to identify the best combination of Batch Size (B) and Worker Count (W) in order to maximize throughput, based on benchmarking data, regression modeling, and multivariable calculus.
+
+---
+
+### Benchmark Data Log
+
+The table below contains the experimental data collected from system benchmarking. Tests were executed using a dataset of approximately 50,000 records, varying Batch Size (B) and Worker Count (W).
+
+| Batch Size (B) | Worker Count (W) | Throughput (records/sec) |
+|----------------|------------------|---------------------------|
+|                |                  |                           |
+|                |                  |                           |
+|                |                  |                           |
+|                |                  |                           |
+|                |                  |                           |
+|                |                  |                           |
+|                |                  |                           |
+|                |                  |                           |
+|                |                  |                           |
+|                |                  |                           |
+|                |                  |                           |
+|                |                  |                           |
+
+> A minimum of 12 combinations were tested to ensure a reliable regression model.
+
+---
+
+### Performance Model
+
+A quadratic regression model was used to approximate system throughput as a function of Batch Size (B) and Worker Count (W).
+
+**General form:**
+
+T(B, W) = aB² + cW² + dBW + eB + fW + g
+
+**Fitted model:**
+
+T(B, W) = ____________________________________________
+
+---
+
+### Model Accuracy
+
+- R² (coefficient of determination): __________
+
+This value represents how well the model fits the observed data.
+
+---
+
+### Visualization
+
+Insert a 3D surface plot of T(B, W), generated using a tool such as Excel, Python, or MATLAB.
+
+---
+
+### Optimization Derivation
+
+The optimization process was performed analytically using multivariable calculus.
+
+**Partial derivatives:**
+
+∂T/∂B = ____________________________________________
+
+∂T/∂W = ____________________________________________
+
+---
+
+**Critical point (solution of the system):**
+
+∂T/∂B = 0  
+∂T/∂W = 0  
+
+- Optimal Batch Size (Bopt) = __________  
+- Optimal Worker Count (Wopt) = __________  
+
+---
+
+**Hessian matrix test:**
+
+T_BB = __________  
+T_WW = __________  
+T_BW = __________  
+
+H = (T_BB * T_WW) - (T_BW)² = __________  
+
+**Conclusion:**  
+If H > 0 and T_BB < 0, the critical point is a local maximum.
+
+Classification of the point: __________________________
+
+---
+
+### Strategic Recommendation
+
+**Recommended configuration:**
+
+- Batch Size (B): __________  
+- Worker Count (W): __________  
+
+---
+
+### Sensitivity Analysis
+
+Discuss which variable has a greater impact on throughput and why:
+
+______________________________________________________________
+
+______________________________________________________________
+
+---
+
+### Practical Scenarios
+
+**Memory-constrained environments:**
+
+______________________________________________________________
+
+**High-throughput scenarios:**
+
+______________________________________________________________
+
+**Latency-sensitive systems:**
+
+______________________________________________________________
+
+---
+
+### Final Considerations
+
+Summarize why analytical optimization is preferable over trial-and-error tuning:
+
+______________________________________________________________
+
+______________________________________________________________
