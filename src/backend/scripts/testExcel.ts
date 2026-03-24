@@ -2,12 +2,12 @@ import path from 'path';
 
 import { ExcelReader } from '../services/excel/ExcelReader';
 import { ExcelParser } from '../services/excel/ExcelParser';
-//import { ExcelValidator } from '../services/excel/ExcelValidator';
+import { ExcelValidator } from '../services/excel/ExcelValidator';
 
 async function main() {
   const reader = new ExcelReader();
   const parser = new ExcelParser();
-  //const validator = new ExcelValidator();
+  const validator = new ExcelValidator();
 
   const filePath = path.resolve(
     process.cwd(),
@@ -18,7 +18,7 @@ async function main() {
 
   const parsed = parser.parse(worksheet);
 
-  //validator.validate(parsed);
+  validator.validate(parsed);
 
   console.log(JSON.stringify(parsed, null, 2));
 }
