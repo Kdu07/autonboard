@@ -203,6 +203,24 @@ Sprint 4 planning was defined to ensure a structured and incremental evolution o
 | A19-T11  | Presentation        | Define Storytelling Structure                  | Organize problem, journey, solution and results.                      | S    | Content ready                                | Narrative structured                                                       |
 | A19-T12  | Presentation        | Rehearse Final Presentation                    | Practice presentation delivery.                                       | XS   | Slides ready                                 | Team prepared                                                              |
 
+# 2.5 Definition of Ready (DoR)
+A task is considered ready when:
+
+- Clear description exists
+- Acceptance criteria are defined
+- Dependencies are identified
+- Required resources are available
+
+
+# 2.6 Definition of Done (DoD)
+
+A task is considered done when:
+
+- Implementation is completed
+- Code passes review
+- Tests are executed successfully
+- Documentation is updated
+- Evidence is committed to the repository
 
 # 3. Cost Analysis and Effort Estimation
 
