@@ -1,288 +1,272 @@
-/* LAYOUT GLOBAL */
+/* =========================================
+   UPLOAD PAGE
+   ========================================= */
 
-
-.app-layout {
-  display: flex;
+.upload-page {
   min-height: 100vh;
-  width: 100%;
+  background: linear-gradient(160deg, #f5f3ff 0%, #eef2ff 100%);
 }
 
-
-/* SIDEBAR */
-
-
-.sidebar {
-  width: 280px;            
-  min-height: 100vh;
-
-
-  background-color: #0b0a5e;
-
-
+/* Navbar */
+.navbar {
   display: flex;
-  flex-direction: column;
   align-items: center;
-
-
-  padding: 60px 30px;
-  gap: 60px;
-
-
-  flex-shrink: 0;
-}
-
-
-/* LOGO */
-
-
-.logo {
-  color: white;
-  font-weight: 900;
-  font-size: 28px;         
-  letter-spacing: 3px;
-}
-
-
-/* MENU */
-
-
-.menu {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  width: 100%;
-}
-
-
-/* BOTÕES */
-
-
-.menu-item {
-  height: 70px;            
-  width: 100%;
-
-  font-size: 20px;       
-  font-weight: bold;    
-  color: white;
-  
-  border-radius: 35px;
-  border: none;
-
-
-  cursor: pointer;
-
-
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0.15),
-    rgba(255,255,255,0.35)
-  );
-
-
-  transition: all 0.2s ease;
-}
-
-.active-style {
-  background: #ffffff !important; 
-  color: #0b0a5e;                
-  transform: scale(1.06);        
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); 
-}
-
-.menu-item:hover {
-  transform: scale(1.06);
-  background: #ffffff;
-  color: #0b0a5e;
-}
-
-/* CONTAINER PRINCIPAL */
-
-
-.main-container {
-  flex: 1;
-  display: flex;
-  gap: 60px;
-
-
-  padding: 40px;
-  box-sizing: border-box;
-
-
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
   background: white;
+  border-bottom: 1px solid #ede9fe;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  animation: fadeInDown 0.4s ease-out;
 }
 
-
-/* COLUNAS */
-
-
-.upload-area-container {
-  flex: 2;
+.nav-brand {
   display: flex;
-  flex-direction: column;
-}
-
-
-.history-area-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-
-/* BOXES */
-
-
-.upload-box,
-.history-box {
-  background-color: #f8f9fa;
-  border-radius: 16px;
-  padding: 30px;
-}
-
-
-.upload-box {
-  border: 5px dashed #ced4da;
-  min-height: 380px;
-
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e1b4b;
+}
 
+.nav-brand-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #8b5cf6;
+  background: #f5f3ff;
+}
+
+.btn-logout {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  background: none;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
   cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.btn-logout:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+/* =====================
+   CONTAINER
+   ===================== */
+.upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 40px;
+  min-height: calc(100vh - 64px);
+}
+
+.upload-card {
+  width: 100%;
+  max-width: 680px;
+  background: white;
+  border-radius: 24px;
+  padding: 36px;
+  box-shadow: 0 4px 40px rgba(139, 92, 246, 0.12);
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.upload-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.upload-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1e1b4b;
+}
+
+.status-ready {
+  font-size: 13px;
+  font-weight: 600;
+  color: #10b981;
+}
+
+/* =====================
+   DROP ZONE
+   ===================== */
+.dropzone {
+  border: 2px dashed #c4b5fd;
+  border-radius: 16px;
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  background: linear-gradient(135deg, #faf5ff, #f5f3ff);
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  margin-bottom: 24px;
+}
+
+.dropzone:hover,
+.dropzone.dragging {
+  border-color: #8b5cf6;
+  background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.08);
+}
+
+.dropzone-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+}
+
+.dropzone-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin-bottom: 6px;
+}
+
+.dropzone-link {
+  color: #8b5cf6;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.dropzone-hint {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* =====================
+   FILE LIST
+   ===================== */
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #fafafa;
+  border-radius: 12px;
+  border: 1px solid #f3f4f6;
   transition: background 0.2s;
 }
 
-
-.upload-box:hover {
-  background-color: #f1f3f9;
+.file-item:hover {
+  background: #f5f3ff;
 }
 
-
-/* ÍCONE */
-
-
-.upload-icon {
-  width: 120px;
-  color: #6b7cbf;
-  margin-bottom: 20px;
+.file-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+  letter-spacing: 0;
 }
 
+.file-icon-box.csv  { background: #d1fae5; color: #065f46; }
+.file-icon-box.xlsx { background: #dbeafe; color: #1e40af; }
+.file-icon-box.pdf  { background: #fee2e2; color: #991b1b; }
+.file-icon-box.other{ background: #f3f4f6; color: #6b7280; }
 
-.upload-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 8px;
+.file-details {
+  flex: 1;
+  min-width: 0;
 }
 
-
-.upload-subtitle {
-  color: #8a8d91;
+.file-name {
   font-size: 14px;
+  font-weight: 600;
+  color: #1e1b4b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-
-/* PROGRESSO */
-
-
-.progress-container {
-  width: 100%;
-  margin: 25px 0;
+.file-size {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 6px;
 }
 
-
-.progress-bar-fundo {
-  width: 100%;
-  height: 12px;
-  background: #eee;
-  border-radius: 6px;
+.file-progress-bar {
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 4px;
   overflow: hidden;
 }
 
-
-.progress-bar-preenchimento {
+.file-progress-fill {
   height: 100%;
-  background: #0b0a5e;
-  transition: width 0.3s;
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+  border-radius: 4px;
+  transition: width 0.3s ease;
 }
 
-
-/* BOTÃO */
-
-
-.btn-upload {
-  background: #0b0a5e;
-  color: white;
-  border: none;
-  padding: 16px 40px;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  text-transform: uppercase;
-  margin-bottom: 15px;
+.file-status {
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: right;
 }
 
+.status-check { color: #10b981; font-size: 20px; }
+.status-error  { color: #ef4444; font-size: 18px; }
+.status-pct    { color: #8b5cf6; font-size: 13px; }
 
-.disclaimer-text {
-  font-size: 17px;
-  color: #666;
+/* =====================
+   RESPONSIVE
+   ===================== */
+@media (max-width: 640px) {
+  .navbar { padding: 0 20px; }
+  .upload-container { padding: 24px 16px; }
+  .upload-card { padding: 24px; }
+  .dropzone { padding: 32px 16px; }
 }
-
-
-/* HISTÓRICO */
-
-
-.history-box {
-  min-height: 380px;
-}
-
-
-.history-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-
-.info-list {
-  margin-top: 25px;
-}
-
-
-.info-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  font-weight: 600;
-}
-
-
-.info-icon {
-  width: 22px;
-  height: 22px;
-  margin-right: 10px;
-  color: #0b0a5e;
-}
-
-
-/* RESPONSIVIDADE */
-
-
-@media (max-width: 1024px) {
-
-
-  .main-container {
-    flex-direction: column;
-  }
-
-
-  .upload-box,
-  .history-box {
-    min-height: auto;
-  }
-
-
-}
-
