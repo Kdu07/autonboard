@@ -148,6 +148,21 @@ The objective of Sprint 5 is to **consolidate the functional increment of the sy
 Planning respects this capacity to prevent scope overload.
 
 
+# 2.3 Prioritization Strategy
+Tasks are prioritized according to:
+
+1. Core functionality
+2. Technical infrastructure
+3. Testing and quality assurance
+4. Documentation and evidence
+
+This prioritization ensures delivery of a functional system increment.
+
+
+# 2.4 Sprint Task Planning
+Sprint 4 planning was defined to ensure a structured and incremental evolution of the project, incorporating the lessons learned from Sprint 1,2 and 3, and focusing on establishing solid technical and managerial foundations. Tasks were organized across architecture, data modeling, visual design, configuration management, and project governance, with effort estimated using T-shirt sizing and clear Definition of Ready (DoR) and Definition of Done (DoD) criteria to ensure readiness, clarity, and objective task completion:
+
+
 # 3. Cost Analysis and Effort Estimation
 
 This section presents an estimation of development effort and associated costs for the project, ensuring coherence between workload, technical complexity, and required resources.
