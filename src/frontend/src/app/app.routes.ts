@@ -4,11 +4,11 @@ import { Landingpage } from './landingpage/landingpage';
 
 export const routes: Routes = [
   {
-    path: 'Landingpage',
+    path: '',
     component: Landingpage
   },
   {
-    path: '',
+    path: 'upload',
     component: Upload
   }
 ];
