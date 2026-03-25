@@ -33,10 +33,12 @@ const pool: Pool = new Pool({
 const baseRunDB = path.join(process.cwd(), "src", "database", "runDB");
 const filePath1: string = path.join(baseRunDB, "01_create_database.sql");
 const filePath2: string = path.join(baseRunDB, "02_initial_data.sql");
+const filePath3: string = path.join(baseRunDB, "03_transaction_traceability.sql");
 
 // Load SQL file contents into memory
 const sql: string = fs.readFileSync(filePath1, "utf8");
 const seed: string = fs.readFileSync(filePath2, "utf8");
+const traceability: string = fs.readFileSync(filePath3, "utf8");
 
 // Check if specific bootstrap data already exists to avoid duplication
 async function wasCreated(): Promise<boolean> {
@@ -70,7 +72,11 @@ async function runSQLSeed(): Promise<void> {
 async function runSQLSchema(): Promise<void> {
   try {
     await pool.query(sql);
-    console.log("SQL injected, database has been created.");
+    console.log("SQL injected: schema created.");
+
+    // Enable transaction traceability (audit triggers)
+    await pool.query(traceability);
+    console.log("SQL injected: transaction traceability enabled.");
   } 
   catch (error) {
     console.error(
