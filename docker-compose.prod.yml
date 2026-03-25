@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: g01_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '128M'
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=database
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=g01_db
+      - DB_PORT=5432
+    depends_on:
+      - database
+    deploy:
+      resources:
+        limits:
+          # Limites de processamento para a avaliação!
+          cpus: '0.5'
+          memory: '128M'
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80" # Em produção, ele roda no Nginx pela porta 80 nativa!
+    depends_on:
+      - backend
+    deploy:
+      resources:
+        limits:
+          # Limites de processamento para a avaliação!
+          cpus: '0.5'
+          memory: '128M'
+
+volumes:
+  pgdata:

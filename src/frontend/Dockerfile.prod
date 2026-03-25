@@ -1,0 +1,15 @@
+# Estágio 1: Build (Compila o Angular para arquivos estáticos)
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build -- --configuration production
+
+# Estágio 2: Produção (Servir com Nginx super leve)
+FROM nginx:alpine
+# Copia os arquivos gerados no Estágio 1 para a pasta do Nginx
+# Obs: O Angular 17+ costuma gerar em dist/frontend/browser. Caso sua versão gere apenas em dist/frontend, ajuste este caminho no futuro.
+COPY --from=builder /app/dist/frontend/browser /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
