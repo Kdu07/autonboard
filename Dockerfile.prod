@@ -14,5 +14,8 @@ COPY package*.json ./
 RUN npm install --only=production
 # Copia a pasta compilada "dist" do Estágio 1
 COPY --from=builder /app/dist ./dist
+# Copia os arquivos .sql nativos (Eles não passam pelo TypeScript, então precisamos manual)
+COPY --from=builder /app/src/database/runDB/*.sql ./src/database/runDB/
+
 EXPOSE 3000
 CMD ["npm", "start"]
