@@ -1422,7 +1422,3 @@ To be developed after analyzing the model coefficients and derivatives.
 
 **Latency-sensitive systems:**  
 *(to be discussed)*  
-
-### Final Considerations
-
-The final conclusions will summarize the importance of analytical optimization over trial-and-error tuning.
