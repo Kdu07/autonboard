@@ -122,6 +122,16 @@ This structure ensures transparency, accountability, and traceability of decisio
 
 # 2. Sprint planning (Sprint 5)
 
+## 2.1 Sprint Objective
+
+The objective of Sprint 5 is to **consolidate the functional increment of the system**, focusing on:
+
+- Completing core features
+- Stabilizing database interactions
+- Improving testing coverage
+- Preparing the system for an complete demonstration
+
+
 # 3. Cost Analysis and Effort Estimation
 
 This section presents an estimation of development effort and associated costs for the project, ensuring coherence between workload, technical complexity, and required resources.
