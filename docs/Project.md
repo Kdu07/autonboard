@@ -1288,3 +1288,137 @@ At the current stage of the project (Sprint 3), the authentication mechanism has
 
 The implementation of Auth0 authentication is planned for a future sprint as the user access management features are introduced.
 
+
+# Appendix A: System Configuration and Optimization Report
+
+## Overview
+
+This appendix presents the analytical process used to determine the optimal configuration of the system. The goal is to identify the best combination of Batch Size (B) and Worker Count (W) in order to maximize throughput, based on benchmarking data, regression modeling, and multivariable calculus.
+
+### Benchmark Data Log
+
+During this phase, a benchmark was conducted to evaluate system performance by varying two key parameters: Batch Size (B) and Worker Count (W). A synthetic dataset containing 50,000 records was used to ensure consistency across all tests.
+
+A total of 12 distinct combinations of (B, W) were executed. Each experiment was repeated three times, and the average execution time and throughput (measured in records per second) were calculated in order to reduce variability and improve result reliability.
+
+The processing workflow was structured into batches and executed concurrently using multiple workers. Additionally, a simulated computational load was introduced to better approximate real-world conditions involving I/O and CPU usage.
+
+The results indicate that increasing both Batch Size and Worker Count leads to significant improvements in throughput. However, this improvement is not linear, suggesting the presence of system constraints such as resource contention, overhead, and diminishing returns from parallelism.
+
+This observed non-linearity justifies the use of a quadratic regression model in the next phase, where the collected data will be used to mathematically model system performance and identify the optimal configuration.
+
+### Benchmark Results
+
+| Batch Size (B) | Worker Count (W) | Throughput (records/sec) |
+|----------------|------------------|---------------------------|
+| 100            | 2                | 12807.93                  |
+| 100            | 8                | 51131.77                  |
+| 100            | 16               | 330330.56                 |
+| 500            | 2                | 65185.27                  |
+| 500            | 8                | 302685.99                 |
+| 500            | 16               | 475384.11                 |
+| 1000           | 2                | 140209.64                 |
+| 1000           | 8                | 483373.35                 |
+| 1000           | 16               | 847608.34                 |
+| 2000           | 2                | 510109.59                 |
+| 2000           | 8                | 934358.53                 |
+| 2000           | 16               | 2007323.83                |
+
+> A minimum of 12 combinations were tested to ensure a reliable regression model.
+
+
+### Performance Model
+
+A quadratic regression model was applied to represent system throughput as a function of Batch Size (B) and Worker Count (W).
+
+**Fitted model:**
+
+T(B, W) = -0.11766B² + 9770.24W² + 179.19BW - 258.32B - 197428.77W + 571856.77
+
+
+### Model Accuracy
+
+- R² (coefficient of determination): 0.9443
+
+This value indicates a high level of accuracy, meaning the model provides a strong fit to the observed data and reliably captures the system’s performance behavior.
+
+
+### Interpretation of the Model
+
+From the regression coefficients, the following insights can be derived:
+
+- The Worker Count (W) has a significant impact on throughput, indicating that parallel processing is a key performance driver.
+- The interaction term (BW) is positive, suggesting that Batch Size and Worker Count reinforce each other when increased together.
+- The negative quadratic coefficient for Batch Size (B²) indicates diminishing returns for very large batch sizes, meaning excessively large batches may reduce efficiency.
+
+
+### Visualization
+
+The 3D surface plot illustrates the relationship between Batch Size (B), Worker Count (W), and system throughput.
+
+The visualization shows that increasing the number of workers leads to substantial throughput gains, particularly when combined with larger batch sizes. This behavior highlights the strong influence of parallelism on system performance, while also revealing non-linear scaling effects.
+
+<div align="center">
+<sub>Figure</sub><br>
+  <img src="../assets/graph-phase2.png" width="80%" alt="Graph"><br>
+  <sup>Source: Material produced by the authors, 2026.</sup>
+</div>
+
+*Figure A.1 – 3D surface representing system throughput as a function of Batch Size (B) and Worker Count (W).*
+
+
+### Optimization Derivation
+
+This section will present the analytical optimization using multivariable calculus.
+
+**Partial derivatives:**
+
+∂T/∂B = *(to be calculated)*  
+∂T/∂W = *(to be calculated)*  
+
+
+**Critical point:**
+
+∂T/∂B = 0  
+∂T/∂W = 0  
+
+- Optimal Batch Size (Bopt) = *(to be calculated)*  
+- Optimal Worker Count (Wopt) = *(to be calculated)*  
+
+
+**Hessian matrix test:**
+
+T_BB = *(to be calculated)*  
+T_WW = *(to be calculated)*  
+T_BW = *(to be calculated)*  
+
+H = *(to be calculated)*  
+
+**Conclusion:**  
+To be determined after computation.
+
+
+### Strategic Recommendation
+
+This section will translate the mathematical findings into practical engineering decisions.
+
+**Recommended configuration:**
+
+- Batch Size (B): *(to be determined)*  
+- Worker Count (W): *(to be determined)*  
+
+
+### Sensitivity Analysis
+
+To be developed after analyzing the model coefficients and derivatives.
+
+### Practical Scenarios
+
+**Memory-constrained environments:**  
+*(to be discussed)*  
+
+**High-throughput scenarios:**  
+*(to be discussed)*  
+
+**Latency-sensitive systems:**  
+*(to be discussed)*  
