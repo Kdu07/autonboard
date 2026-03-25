@@ -145,7 +145,7 @@ This prioritization ensures delivery of a functional system increment.
 
 
 ## 2.4 Sprint Task Planning
-Sprint 4 planning was defined to ensure a structured and incremental evolution of the project, incorporating the lessons learned from Sprint 1,2 and 3, and focusing on establishing solid technical and managerial foundations. Tasks were organized across architecture, data modeling, visual design, configuration management, and project governance, with effort estimated using T-shirt sizing and clear Definition of Ready (DoR) and Definition of Done (DoD) criteria to ensure readiness, clarity, and objective task completion:
+Sprint 5 planning was defined to ensure a structured and incremental evolution of the project, incorporating the lessons learned from Sprint 1,2 and 3, and focusing on establishing solid technical and managerial foundations. Tasks were organized across architecture, data modeling, visual design, configuration management, and project governance, with effort estimated using T-shirt sizing and clear Definition of Ready (DoR) and Definition of Done (DoD) criteria to ensure readiness, clarity, and objective task completion:
 
 | ID       | Category            | Task Name                                      | Description                                                                 | Size | DoR (Ready)                                 | DoD (Done)                                                                 |
 |:---------|:--------------------|:-----------------------------------------------|:----------------------------------------------------------------------------|:-----|:---------------------------------------------|:---------------------------------------------------------------------------|
