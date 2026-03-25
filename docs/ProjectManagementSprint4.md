@@ -132,6 +132,22 @@ The objective of Sprint 5 is to **consolidate the functional increment of the sy
 - Preparing the system for an complete demonstration
 
 
+# 2.2 Team Capacity Planning
+
+| Team Members | Available Hours |
+|------|------|
+| Member 1 | 16h |
+| Member 2 | 16h |
+| Member 3 | 16h |
+| Member 4 | 16h |
+| Member 5 | 16h |
+| Member 6 | 16h |
+| Member 7 | 16h |
+
+**Total Sprint Capacity: 130 hours**
+Planning respects this capacity to prevent scope overload.
+
+
 # 3. Cost Analysis and Effort Estimation
 
 This section presents an estimation of development effort and associated costs for the project, ensuring coherence between workload, technical complexity, and required resources.
