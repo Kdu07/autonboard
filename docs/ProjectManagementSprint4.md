@@ -132,7 +132,7 @@ The objective of Sprint 5 is to **consolidate the functional increment of the sy
 - Preparing the system for an complete demonstration
 
 
-# 2.2 Team Capacity Planning
+## 2.2 Team Capacity Planning
 
 | Team Members | Available Hours |
 |------|------|
@@ -148,7 +148,7 @@ The objective of Sprint 5 is to **consolidate the functional increment of the sy
 Planning respects this capacity to prevent scope overload.
 
 
-# 2.3 Prioritization Strategy
+## 2.3 Prioritization Strategy
 Tasks are prioritized according to:
 
 1. Core functionality
@@ -159,8 +159,49 @@ Tasks are prioritized according to:
 This prioritization ensures delivery of a functional system increment.
 
 
-# 2.4 Sprint Task Planning
+## 2.4 Sprint Task Planning
 Sprint 4 planning was defined to ensure a structured and incremental evolution of the project, incorporating the lessons learned from Sprint 1,2 and 3, and focusing on establishing solid technical and managerial foundations. Tasks were organized across architecture, data modeling, visual design, configuration management, and project governance, with effort estimated using T-shirt sizing and clear Definition of Ready (DoR) and Definition of Done (DoD) criteria to ensure readiness, clarity, and objective task completion:
+
+| ID       | Category            | Task Name                                      | Description                                                                 | Size | DoR (Ready)                                 | DoD (Done)                                                                 |
+|:---------|:--------------------|:-----------------------------------------------|:----------------------------------------------------------------------------|:-----|:---------------------------------------------|:---------------------------------------------------------------------------|
+| A17-T1   | Architecture        | Define Coding Architecture                     | Define backend (Node.js + TS) and frontend (Angular) architecture.         | M    | Requirements and stack defined               | Architecture documented in Projeto.md                                      |
+| A17-T2   | Architecture        | Create Directory Structure                     | Create standardized folder structure (src, docs, tests, etc.).             | S    | Architecture defined                         | Structure implemented and documented in Projeto.md                         |
+| A17-T3   | Architecture        | Create Architecture Diagram                    | Create visual diagram of system structure.                                 | S    | Architecture defined                         | Diagram added to Projeto.md                                                |
+| A17-T4   | Standards           | Define Coding Standards                        | Define naming, formatting and conventions.                                | S    | Team agreement                              | Documented in GuiaPadroesDesenvolvimento.md                                |
+| A17-T5   | Standards           | Define Design Patterns                         | Identify patterns (Singleton, Observer, etc.) and usage.                  | S    | Architecture defined                         | Patterns documented with examples                                          |
+| A17-T6   | Standards           | Document Standards Guide                       | Consolidate standards + patterns document.                                | XS   | Standards defined                            | GuiaPadroesDesenvolvimento.md completed                                    |
+| A17-T7   | Development         | Implement Backend Features                     | Develop planned backend features using Node.js + TypeScript.              | M    | Architecture ready                           | Features implemented and aligned with standards                            |
+| A17-T8   | Development         | Implement Frontend Features                    | Develop Angular UI features.                                              | M    | Wireframes + API ready                       | Features integrated with backend                                           |
+| A17-T9   | Development         | Integrate Backend and Frontend                 | Ensure full communication between frontend and backend.                   | M    | APIs available                               | End-to-end flow working                                                    |
+| A17-T10  | Development         | Document Feature Progress                      | Document delivered features and deviations.                              | S    | Features implemented                         | Progress documented in Projeto.md                                          |
+| A17-T11  | Development         | Apply Sprint 4 Feedback                        | Implement improvements from previous tests.                              | M    | Feedback available                           | Changes implemented or justified                                           |
+| A17-T12  | Testing             | Define Unit Test Strategy                      | Define tools, structure and scope of unit tests.                          | S    | Framework selected                           | Strategy documented in Projeto.md                                          |
+| A17-T13  | Testing             | Implement Backend Unit Tests                   | Create unit tests for backend services.                                  | M    | Backend implemented                          | Tests executed successfully                                                |
+| A17-T14  | Testing             | Implement Frontend Unit Tests                  | Create Angular unit tests.                                                | M    | Frontend implemented                         | Tests executed successfully                                                |
+| A17-T15  | Testing             | Document Test Coverage                         | Analyze and document coverage results.                                   | S    | Tests executed                               | Coverage documented in Projeto.md                                          |
+| A17-T16  | Testing             | Execute Functional Tests                       | Execute FR tests based on requirements.                                  | M    | Test cases defined                           | Results and evidence documented                                            |
+| A17-T17  | Testing             | Execute NFR Tests                              | Perform performance, scalability, etc.                                   | M    | Metrics defined                              | Results documented                                                         |
+| A17-T18  | Testing             | Conduct Usability Tests                        | Run usability tests with external users.                                 | M    | Test protocol ready                          | Feedback documented                                                        |
+| A17-T19  | Testing             | Document Test Evidence                         | Document cases, results and proof of execution.                          | M    | Tests executed                               | Projeto.md updated with full evidence                                      |
+| A17-T20  | DevOps              | Ensure Local Environment Setup                 | Ensure system runs on all team machines.                                 | S    | Setup instructions defined                   | All members able to run system                                             |
+| A17-T21  | DevOps              | Deploy System to Cloud                         | Ensure application runs in cloud environment.                            | M    | Deployment strategy defined                  | System accessible in cloud                                                 |
+| A17-T22  | DevOps              | Validate Environment Consistency               | Validate consistency across environments.                               | S    | Deployment done                              | No environment issues                                                      |
+| A18-T1   | Management          | Sprint Analysis                                | Analyze strengths, weaknesses and improvements.                          | S    | Sprint completed                             | Documented in ProjectManagement.md                                         |
+| A18-T2   | Management          | Risk Tracking                                  | Identify and track project risks.                                       | S    | Risks identified                             | Risk log maintained                                                        |
+| A18-T3   | Management          | Metrics Analysis                               | Analyze metrics evolution across sprints.                               | M    | Metrics collected                            | Trends and insights documented                                             |
+| A18-T4   | Management          | Post-Mortem Analysis                           | Reflect on project outcomes and lessons learned.                        | M    | Project completed                            | Final analysis documented                                                  |
+| A19-T1   | Documentation       | Feedback Consolidation Report                  | Document all feedback and how it was addressed.                         | S    | Feedback available                           | Report created (Google Docs)                                               |
+| A19-T2   | Documentation       | Final Documentation Package                    | Ensure all project documents are complete and consistent.               | M    | All artifacts available                      | Documents reviewed and updated                                             |
+| A19-T3   | Documentation       | Update Projeto.md                              | Consolidate architecture, development and test evidence.                | M    | All deliverables ready                       | Projeto.md complete                                                        |
+| A19-T4   | Documentation       | Update GuiaPadroesDesenvolvimento.md           | Ensure standards and patterns are fully documented.                     | S    | Standards defined                            | Document finalized                                                         |
+| A19-T5   | Repository          | Organize GitHub Structure                      | Organize folders (src, docs, tests, etc.).                             | S    | Structure defined                            | Repository compliant with PMO                                              |
+| A19-T6   | Repository          | Update README.md                               | Add instructions, features and contribution guide.                     | S    | Project ready                                | README complete                                                            |
+| A19-T7   | Repository          | Apply Gitflow and Versioning                   | Use branches, commits and releases properly.                           | S    | Workflow defined                             | Gitflow followed and documented                                            |
+| A19-T8   | Impact              | Define SDGs and Impact                         | Identify relevant SDGs and justify.                                    | S    | Project context defined                      | SDGs documented                                                            |
+| A19-T9   | Impact              | Create Sustainability Section                  | Document People, Planet, Prosperity, Peace, Partnerships.             | M    | SDGs defined                                 | Section added to documentation                                             |
+| A19-T10  | Presentation        | Prepare Final Presentation                     | Build final presentation narrative.                                   | M    | All artifacts completed                      | Slides ready                                                               |
+| A19-T11  | Presentation        | Define Storytelling Structure                  | Organize problem, journey, solution and results.                      | S    | Content ready                                | Narrative structured                                                       |
+| A19-T12  | Presentation        | Rehearse Final Presentation                    | Practice presentation delivery.                                       | XS   | Slides ready                                 | Team prepared                                                              |
 
 
 # 3. Cost Analysis and Effort Estimation
