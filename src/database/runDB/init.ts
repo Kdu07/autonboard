@@ -24,32 +24,21 @@ const pool: Pool = new Pool({
   host: DB_HOST,
   database: DB_DATABASE,
   password: DB_PASSWORD,
-  port: Number(DB_PORT), // precisa converter para number
+  port: Number(DB_PORT), // Convert environment string to required numeric type
 });
 
-// Caminhos
-// When compiled the JS lives under dist/src/database/runDB, but the SQL
-// files remain in the original source directory.  To simplify the build we
-// always resolve back to the source folder so the scripts can be read from
-// either environment.
-// __dirname during execution will be either
-//  * <project>/src/database/runDB when running via ts-node, or
-//  * <project>/dist/src/database/runDB when running the built output.
-// In either case we want to point at the source folder containing the SQL
-// files, so start from the project root and then append the relative path.
-// climbing three levels from dist/src/database/runDB reaches the project
-// root.
-// prefer using the current working directory (project root) when available.
-// this guarantees we reference the src folder containing the SQL files.
+// Setup directory paths
+// process.cwd() to resolve the absolute path to the SQL scripts.
+// Ensures that the file system can locate the 'src'
 const baseRunDB = path.join(process.cwd(), "src", "database", "runDB");
 const filePath1: string = path.join(baseRunDB, "01_create_database.sql");
 const filePath2: string = path.join(baseRunDB, "02_initial_data.sql");
 
-// Leitura dos arquivos
+// Load SQL file contents into memory
 const sql: string = fs.readFileSync(filePath1, "utf8");
 const seed: string = fs.readFileSync(filePath2, "utf8");
 
-//  Verifica se já foi criado
+// Check if specific bootstrap data already exists to avoid duplication
 async function wasCreated(): Promise<boolean> {
   const result = await pool.query(
     "SELECT * FROM building WHERE name = $1",
@@ -59,7 +48,7 @@ async function wasCreated(): Promise<boolean> {
   return result.rows.length > 0;
 }
 
-// Executa seed
+// Execute the data seeding process
 async function runSQLSeed(): Promise<void> {
   const alreadyCreated: boolean = await wasCreated();
 
@@ -77,7 +66,7 @@ async function runSQLSeed(): Promise<void> {
   }
 }
 
-// Executa schema
+// Execute the schema creation script
 async function runSQLSchema(): Promise<void> {
   try {
     await pool.query(sql);
@@ -91,7 +80,7 @@ async function runSQLSchema(): Promise<void> {
   }
 }
 
-// Função principal
+// Orchestrate the database setup sequence
 async function main(): Promise<void> {
   try {
     await runSQLSchema();
@@ -101,6 +90,7 @@ async function main(): Promise<void> {
     console.error("Unexpected error:", error);
   } 
   finally {
+    // Gracefully close the pool connection after tasks complete
     await pool.end();
   }
 }
