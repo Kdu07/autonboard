@@ -4,8 +4,6 @@ This document describes the evolutionary project management practices used by th
 The objective is to ensure traceability, continuous improvement, and alignment with PMO practices across all sprints.  
 All project management documentation is stored in the `/docs` folder as required by the module.
 
----
-
 # 1. Current Sprint Analysis (Sprint 4)
 
 ## 1.1 Sprint Context
@@ -19,8 +17,6 @@ The sprint focused on:
 - Validation of deployment architecture  
 - Strengthening of project management practices  
 
----
-
 ## 1.2 Sprint Metrics
 
 | Metric | Value |
@@ -33,8 +29,6 @@ The sprint focused on:
 
 These metrics provide objective evidence to support the sprint retrospective and indicate improved process stability compared to previous sprints.
 
----
-
 ## 1.3 Strengths
 
 ### Improved estimation accuracy  
@@ -46,8 +40,6 @@ The team successfully stabilized key features, reducing rework and enabling more
 ### Better scope control  
 Scope adjustments applied after Sprint 3 resulted in fewer last-minute task additions and a more balanced workload, helping maintain delivery predictability within the planned sprint capacity.
 
----
-
 ## 1.4 Weaknesses
 
 ### Dependency bottlenecks  
@@ -56,16 +48,12 @@ Dependencies between backend and frontend tasks caused localized delays, particu
 ### Limited measurement of quality metrics  
 While delivery metrics were tracked, quality-related metrics (e.g., test coverage %, defect rate) were not consistently measured, reducing visibility into product quality evolution.
 
----
-
 ## 1.5 Improvement Actions (Traceable)
 
 | Issue | Action | Success Criteria | Tracking Mechanism | Responsible | Verification Sprint |
 |------|------|------|------|------|------|
 | Dependency bottlenecks | Improve task sequencing and dependency mapping | Reduce blocked tasks to < 1 per day | Issue tracking + daily logs | Scrum facilitator | Sprint 5 |
 | Limited quality metrics | Define and track test coverage | Achieve ≥ 70% test coverage | Test reports + CI pipeline | Team | Sprint 5 |
-
----
 
 ## 1.6 Traceability of Improvements Across Sprints  
 
@@ -78,8 +66,6 @@ Continuous improvement actions are tracked through Issues and supporting evidenc
 | WK03 | Improve QA validation process | Testing inconsistency | All features validated before merge | QA checklist + PR flow | In progress |
 
 These actions are reviewed at the start of each new sprint to ensure continuity, measurability, and validation of improvements.
-
----
 
 ## 1.7 Risk Management
 
@@ -106,7 +92,6 @@ Risk reviews occur during:
 
 Evidence of updates is stored in `/docs`.
 
----
 
 ## 1.8 PMO Alignment
 
@@ -203,7 +188,7 @@ Sprint 4 planning was defined to ensure a structured and incremental evolution o
 | A19-T11  | Presentation        | Define Storytelling Structure                  | Organize problem, journey, solution and results.                      | S    | Content ready                                | Narrative structured                                                       |
 | A19-T12  | Presentation        | Rehearse Final Presentation                    | Practice presentation delivery.                                       | XS   | Slides ready                                 | Team prepared                                                              |
 
-# 2.5 Definition of Ready (DoR)
+## 2.5 Definition of Ready (DoR)
 A task is considered ready when:
 
 - Clear description exists
@@ -212,7 +197,7 @@ A task is considered ready when:
 - Required resources are available
 
 
-# 2.6 Definition of Done (DoD)
+## 2.6 Definition of Done (DoD)
 
 A task is considered done when:
 
@@ -226,7 +211,6 @@ A task is considered done when:
 
 This section presents an estimation of development effort and associated costs for the project, ensuring coherence between workload, technical complexity, and required resources.
 
----
 
 ## 3.1 Effort Estimation
 
@@ -244,8 +228,6 @@ Effort estimation is based on Sprint 4 planning, considering the team’s total 
 **Total Estimated Effort: 112 hours**
 
 This estimation is consistent with the sprint capacity (~130h), leaving buffer time (~18h) for unexpected issues and rework.
-
----
 
 ## 3.2 Cost Estimation
 
@@ -266,8 +248,6 @@ A standardized hourly rate is adopted to ensure consistency and comparability in
 
 This distribution reflects the technical complexity of the system, with higher allocation to backend and frontend development due to integration requirements, and balanced effort in testing and data management to ensure system reliability.
 
----
-
 ## 3.3 Resource Identification
 
 The following tools and infrastructure are required for system development and operation:
@@ -283,7 +263,6 @@ The following tools and infrastructure are required for system development and o
 
 Most tools leverage free-tier plans, minimizing infrastructure costs while maintaining adequate performance and scalability to support the system’s functional requirements.
 
----
 
 ## 3.4 Consistency Analysis
 
@@ -294,7 +273,6 @@ The estimation demonstrates consistency across effort, cost, and technical scope
 - **Metrics Alignment:** Completion rate (~92%) supports the realism of planning and estimation  
 - **Cost Proportionality:** Financial estimation scales directly with effort distribution, ensuring coherence  
 
----
 
 ## 3.5 Final Cost Summary
 
@@ -314,7 +292,6 @@ The total project cost combines **human effort** and **infrastructure costs**, p
 
 **Total Monthly Infrastructure Cost: ~$16–24**
 
----
 
 ### Total Cost Perspective
 
@@ -323,13 +300,9 @@ The total project cost combines **human effort** and **infrastructure costs**, p
 | Development (one-time) | $2,800 |
 | Infrastructure (monthly) | ~$16–24 |
 
----
-
 ## 3.6 Key Considerations
 
 - The **primary cost driver** is human effort, representing over 95% of total project cost  
 - Infrastructure costs are minimized through **free-tier services and lightweight cloud instances**  
 - A **buffer (~14%)** is included in effort estimation to absorb risks and uncertainties  
 - The model is **scalable**, as infrastructure costs can grow proportionally with system usage  
-
----
