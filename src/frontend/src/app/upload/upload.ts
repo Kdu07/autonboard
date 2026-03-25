@@ -18,7 +18,7 @@ export class Upload {
   arquivoSelecionado: File | null = null;
   estaEnviando: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   onFileSelected(event: any) {
     const file = event.target.files?.[0] ?? null;
@@ -50,8 +50,10 @@ export class Upload {
     this.estaEnviando = true;
     this.progresso = 0;
 
+    const apiUrl = `http://${window.location.hostname}:3000/upload`;
+
     this.http
-      .post('http://localhost:3000/upload', formData, {
+      .post(apiUrl, formData, {
         reportProgress: true,
         observe: 'events'
       })
