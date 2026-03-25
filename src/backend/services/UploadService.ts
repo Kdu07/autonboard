@@ -12,33 +12,48 @@ export class UploadService {
     file: Express.Multer.File | undefined,
     customerId: number,
     status: string = 'pending'
-  ) {
-    // Ensure the file was actually received
-    if (!file) {
-      throw new Error('No file was uploaded.');
+  ){
+    try{
+      // Ensure the file was actually received
+      if (!file) {
+        throw new Error('No file was uploaded.');
+      }
+
+      // Define accepted formats
+      const allowedTypes = [
+        'text/csv',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // XLSX
+        'application/vnd.ms-excel' // Old XLS
+      ];
+
+      // Validate file format
+      if (!allowedTypes.includes(file.mimetype)) {
+        throw new Error('Invalid format. Please upload only CSV or Excel files.');
+      }
+
+      // Ensure the file is not empty (0 bytes)
+      if (file.size === 0) {
+        throw new Error('The uploaded file is empty.');
+      }
+
+      // Call the Model to save to the database including status
+      const savedUpload = await UploadModel.create(customerId, file.path, status);
+
+      // Return the result to the caller (the Controller)
+      return savedUpload;
+    }catch(error){
+      console.error(error);
     }
+    
+  }
 
-    // Define accepted formats
-    const allowedTypes = [
-      'text/csv',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // XLSX
-      'application/vnd.ms-excel' // Old XLS
-    ];
-
-    // Validate file format
-    if (!allowedTypes.includes(file.mimetype)) {
-      throw new Error('Invalid format. Please upload only CSV or Excel files.');
+  static async getAll(){
+    try{
+      const result = await UploadModel.getAll();
+      return result
     }
-
-    // Ensure the file is not empty (0 bytes)
-    if (file.size === 0) {
-      throw new Error('The uploaded file is empty.');
+    catch(error){
+      console.error(error);
     }
-
-    // Call the Model to save to the database including status
-    const savedUpload = await UploadModel.create(customerId, file.path, status);
-
-    // Return the result to the caller (the Controller)
-    return savedUpload;
   }
 }
