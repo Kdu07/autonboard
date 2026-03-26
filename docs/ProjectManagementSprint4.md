@@ -145,7 +145,7 @@ This prioritization ensures delivery of a functional system increment.
 
 
 ## 2.4 Sprint Task Planning
-Sprint 5 planning was defined to ensure a structured and incremental evolution of the project, incorporating the lessons learned from Sprint 1,2 and 3, and focusing on establishing solid technical and managerial foundations. Tasks were organized across architecture, data modeling, visual design, configuration management, and project governance, with effort estimated using T-shirt sizing and clear Definition of Ready (DoR) and Definition of Done (DoD) criteria to ensure readiness, clarity, and objective task completion:
+Sprint  planning was defined to ensure a structured and incremental evolution of the project, incorporating the lessons learned from Sprint 1,2 and 3, and focusing on establishing solid technical and managerial foundations. Tasks were organized across architecture, data modeling, visual design, configuration management, and project governance, with effort estimated using T-shirt sizing and clear Definition of Ready (DoR) and Definition of Done (DoD) criteria to ensure readiness, clarity, and objective task completion:
 
 | ID       | Category            | Task Name                                      | Description                                                                 | Size | DoR (Ready)                                 | DoD (Done)                                                                 |
 |:---------|:--------------------|:-----------------------------------------------|:----------------------------------------------------------------------------|:-----|:---------------------------------------------|:---------------------------------------------------------------------------|
@@ -209,100 +209,26 @@ A task is considered done when:
 
 # 3. Cost Analysis and Effort Estimation
 
-This section presents an estimation of development effort and associated costs for the project, ensuring coherence between workload, technical complexity, and required resources.
+This section presents an updated estimation of development effort and associated costs for the project, considering the team size, workload distribution, and project duration. The analysis ensures coherence between available capacity, technical complexity, and required resources.
 
 
 ## 3.1 Effort Estimation
 
-Effort estimation is based on Sprint 4 planning, considering the team’s total capacity and the complexity of implemented features.
+Effort estimation is based on a team of 7 members, each contributing 8 hours per week over 10 weeks, resulting in a total development capacity of:
+
+- **Total Capacity:** 560 hours
+
+The effort is distributed across key development areas as follows:
 
 | Category | Estimated Hours |
 |------|------|
-| Backend Development | 32h |
-| Frontend Development | 32h |
-| Database Management | 16h |
-| Testing & QA | 16h |
-| DevOps / Deployment | 8h |
-| Documentation | 8h |
+| Backend Development | 160h |
+| Frontend Development | 160h |
+| Database Management | 80h |
+| Testing & QA | 80h |
+| DevOps / Deployment | 40h |
+| Documentation | 40h |
 
-**Total Estimated Effort: 112 hours**
+**Total Estimated Effort: 560 hours**
 
-This estimation is consistent with the sprint capacity (~130h), leaving buffer time (~18h) for unexpected issues and rework.
-
-## 3.2 Cost Estimation
-
-A standardized hourly rate is adopted to ensure consistency and comparability in financial estimation.
-
-- **Hourly Rate:** $25/hour (reference value for academic and small-scale software projects)
-
-| Category | Hours | Cost |
-|------|------|------|
-| Backend Development | 32h | $800 |
-| Frontend Development | 32h | $800 |
-| Database Management | 16h | $400 |
-| Testing & QA | 16h | $400 |
-| DevOps / Deployment | 8h | $200 |
-| Documentation | 8h | $200 |
-
-**Total Estimated Effort Cost: $2,800**
-
-This distribution reflects the technical complexity of the system, with higher allocation to backend and frontend development due to integration requirements, and balanced effort in testing and data management to ensure system reliability.
-
-## 3.3 Resource Identification
-
-The following tools and infrastructure are required for system development and operation:
-
-| Resource Type | Tool / Service | Purpose | Cost |
-|------|------|------|------|
-| Version Control | GitLab | Code repository and CI/CD | Free |
-| Backend Hosting | Amazon EC2 (t3.micro) | API hosting | ~$8–12/month |
-| Database | Supabase / PostgreSQL | Data storage | Free tier |
-| Frontend Hosting | Amazon EC2 (t3.micro) | Frontend deployment | ~$8–12/month |
-| Development Tools | VS Code | Code development | Free |
-| Testing Tools | Jest | Unit testing | Free |
-
-Most tools leverage free-tier plans, minimizing infrastructure costs while maintaining adequate performance and scalability to support the system’s functional requirements.
-
-
-## 3.4 Consistency Analysis
-
-The estimation demonstrates consistency across effort, cost, and technical scope:
-
-- **Effort vs Capacity:** Total estimated effort (112h) remains within sprint capacity (~130h), preserving a ~14% buffer for uncertainties  
-- **Effort vs Complexity:** Higher effort allocation to backend and frontend reflects integration complexity and system core functionality  
-- **Metrics Alignment:** Completion rate (~92%) supports the realism of planning and estimation  
-- **Cost Proportionality:** Financial estimation scales directly with effort distribution, ensuring coherence  
-
-
-## 3.5 Final Cost Summary
-
-The total project cost combines **human effort** and **infrastructure costs**, providing a complete financial view.
-
-### Effort Cost
-- **Total Development Cost:** $2,800  
-
-### Infrastructure Cost (Monthly)
-
-| Resource | Estimated Cost |
-|------|------|
-| Backend (EC2 t3.micro) | ~$8–12 |
-| Frontend (EC2 t3.micro) | ~$8–12 |
-| Database (Supabase) | Free tier |
-| Other tools | Free |
-
-**Total Monthly Infrastructure Cost: ~$16–24**
-
-
-### Total Cost Perspective
-
-| Cost Type | Value |
-|------|------|
-| Development (one-time) | $2,800 |
-| Infrastructure (monthly) | ~$16–24 |
-
-## 3.6 Key Considerations
-
-- The **primary cost driver** is human effort, representing over 95% of total project cost  
-- Infrastructure costs are minimized through **free-tier services and lightweight cloud instances**  
-- A **buffer (~14%)** is included in effort estimation to absorb risks and uncertainties  
-- The model is **scalable**, as infrastructure costs can grow proportionally with system usage  
+This distribution reflects the increased team capacity, allowing deeper focus on system robustness, testing, and documentation while maintaining balance across all development areas.
