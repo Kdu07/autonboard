@@ -1288,6 +1288,7 @@ At the current stage of the project (Sprint 3), the authentication mechanism has
 
 The implementation of Auth0 authentication is planned for a future sprint as the user access management features are introduced.
 
+# ANALYTIC OPTIMIZATION OF SYSTEM THROUGHPUT
 
 # Appendix A: System Configuration and Optimization Report
 
