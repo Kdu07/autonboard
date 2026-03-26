@@ -36,7 +36,6 @@ The tests were defined considering the business requirements, the constraints of
 
 This document was updated after Sprint 3 to incorporate execution records, evidence descriptions, usability test results, and identified improvements based on real test sessions conducted with external users.
 
----
 
 # Feature Development
 
@@ -48,7 +47,6 @@ The upload interface is implemented in the **presentation layer (frontend)** of 
 
 This feature supports the system's onboarding workflow by enabling clients to provide large datasets in bulk instead of manually configuring each entity within the platform.
 
----
 
 ## Feature Objectives
 
@@ -58,7 +56,6 @@ This feature supports the system's onboarding workflow by enabling clients to pr
 - Ensure secure and reliable communication with the backend API.
 - Support the platform's data onboarding process through file-based submissions.
 
----
 
 ## Functional Description
 
@@ -68,7 +65,6 @@ From the user's perspective, the process consists of selecting a valid file, con
 
 On the technical side, the frontend captures the selected file through a file input component and sends it to the backend API using an HTTP request. The backend then handles storage and further processing of the file.
 
----
 
 ## Feature Workflow
 
@@ -80,7 +76,6 @@ On the technical side, the frontend captures the selected file through a file in
 6. The system registers the submission and prepares the file for further processing.
 7. The frontend receives a response from the API and informs the user about the upload result.
 
----
 
 ## Validation and Business Rules
 
@@ -90,7 +85,6 @@ On the technical side, the frontend captures the selected file through a file in
 - The file must follow the expected data structure required by the system.
 - The backend performs final validation to ensure data integrity and security.
 
----
 
 # Testing Tools and Technologies
 
@@ -103,7 +97,6 @@ On the technical side, the frontend captures the selected file through a file in
 | **Google Sheets** | Recording results and feedback from usability tests | Collaborative, accessible, and allows structured data entry during live test sessions |
 | **Markdown (.md)** | Versioned and structured documentation | Git-compatible, plain-text, and portable format for maintaining test documentation alongside source code |
 
----
 
 # Functional Test Planning & Execution
 
@@ -115,11 +108,9 @@ The planning includes both main flows and exception scenarios, ensuring that the
 
 All functional tests were executed manually using **Google Chrome** for UI interactions and **Postman** for direct API calls.
 
----
 
 ## Functional Test Cases
 
----
 
 ### FR01 – Structured Onboarding Data Upload
 
@@ -151,7 +142,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 **Evidence:** API responses captured in Postman; UI screenshots recorded showing success and error states.
 
----
 
 ### FR02 – Data Standardization
 
@@ -177,7 +167,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 **Post-condition:** Compatible data is ready for the validation stage; incompatible data is held with a detailed error report.
 
----
 
 ### FR03 – Intermediate Data Persistence
 
@@ -200,7 +189,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 **Post-condition:** Both versions accessible independently; no data loss on re-submission.
 
----
 
 ### FR04 – Data Validation and Conflict Detection
 
@@ -224,7 +212,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 **Post-condition:** Valid data proceeds to the next stage; invalid data is held with a structured error report.
 
----
 
 ### FR05 – Safe Data Correction via Re-Submission
 
@@ -245,7 +232,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 |----------|-------|----------------|---------------|--------|
 | Positive — corrected re-submission | Fixed file replacing previous version | New version stored; previous version preserved | Both versions stored correctly |  Pass |
 
----
 
 ### FR06 – Change Comparison Visualization
 
@@ -259,7 +245,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 |----------|-------|----------------|---------------|--------|
 | Positive — two versions available | v1 and v2 of the same dataset | Differences highlighted in the UI | Changed fields visually indicated |  Pass |
 
----
 
 ### FR07 – Automatic Progress Persistence
 
@@ -280,7 +265,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 |----------|-------|----------------|---------------|--------|
 | Positive — session close and reopen | Partial onboarding progress | Progress restored on re-login | Previously completed steps retained |  Pass |
 
----
 
 ### FR08 – Dynamic Onboarding Interface
 
@@ -295,7 +279,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 | Positive — limited module set | Account with 2 of 5 modules active | Only 2 relevant sections displayed | Interface showed correct sections |  Pass |
 | Negative — deactivated module | Module deactivated mid-session | Section hidden dynamically | Section removed without page reload |  Pass |
 
----
 
 ### FR09 – Section Dependency Enforcement
 
@@ -310,7 +293,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 | Positive — prerequisite met | Section A completed before accessing B | Section B unlocked and accessible | B unlocked as expected |  Pass |
 | Negative — prerequisite not met | Attempt to access B without completing A | Section B blocked; informative message shown | B locked with tooltip explaining requirement |  Pass |
 
----
 
 ### FR10 – Collaborative Section Assignment
 
@@ -324,7 +306,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 |----------|-------|----------------|---------------|--------|
 | Positive — two users, different sections | User A on Section 1; User B on Section 2 | Both work in parallel without conflict | No data conflicts; both sessions progressed |  Pass |
 
----
 
 ### FR11 – Onboarding Status and Feedback
 
@@ -338,7 +319,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 |----------|-------|----------------|---------------|--------|
 | Positive — progress through stages | Complete each onboarding step in sequence | Status updates at each stage | Status badge updated at each step |  Pass |
 
----
 
 ### FR12 – Data Consolidation and Secure Integration
 
@@ -361,7 +341,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 | Positive — full completion | All sections completed; valid data | Consolidated package sent; integration confirmed | External system acknowledged receipt |  Pass |
 | Negative — incomplete sections | Missing mandatory section | Consolidation blocked; error message shown | System prevented export with clear message |  Pass |
 
----
 
 ## Functional Test Coverage
 
@@ -382,7 +361,6 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 > **Coverage Discussion:** All 12 FRs are covered with detailed positive and negative scenarios. Each test case maps directly to a functional requirement and reflects real-world usage patterns. The inclusion of negative scenarios for FR01, FR02, FR04, and FR12 significantly increases confidence in the system's robustness. No coverage gaps were identified for functional requirements in this sprint.
 
----
 
 # Non-Functional Test Planning & Execution (NFRs)
 
@@ -392,11 +370,9 @@ Non-functional requirement (NFR) tests evaluate essential quality attributes for
 
 Unlike functional tests, NFR tests validate **how the system behaves** under conditions such as high load, failures, and future scalability scenarios. All NFR tests were executed according to the plan defined in Sprint 2 and updated based on Sprint 3 feedback.
 
----
 
 ## NFR Test Cases
 
----
 
 ### CT-NF01 – Data Integrity and Compliance
 
@@ -429,7 +405,6 @@ Negative test:
 
 **Evidence:** Postman test collection showing request/response pairs for all three scenarios; validation report payloads captured.
 
----
 
 ### CT-NF02 – Large File Handling and Responsiveness
 
@@ -461,7 +436,6 @@ Negative test:
 
 **Evidence:** Chrome DevTools network tab screenshots; response time logs; error message screenshot.
 
----
 
 ### CT-NF03 – Processing Reliability
 
@@ -492,7 +466,6 @@ Negative test:
 
 **Evidence:** Database state inspection before and after interruption; server restart logs; Postman status check responses.
 
----
 
 ### CT-NF04 – File Format Extensibility
 
@@ -522,7 +495,6 @@ Negative test:
 
 **Evidence:** Code diff showing new format module without changes to core processor; Postman response for `.txt` rejection.
 
----
 
 ### CT-NF05 – Concurrent Submission Support
 
@@ -572,7 +544,6 @@ export default function () {
 
 > **Note on stress scenario:** Two request timeouts were observed at 25 concurrent users under the academic environment infrastructure. No data corruption or loss occurred. This is flagged as an area for infrastructure optimization in future sprints.
 
----
 
 ## NFR Test Coverage
 
@@ -586,7 +557,6 @@ export default function () {
 
 > **Coverage Discussion:** All five NFRs are addressed with appropriate tooling and both positive and negative scenarios. The stress portion of CT-NF05 revealed a scalability concern at high load, which is expected in the current academic environment and is documented as a future improvement item. No data integrity issues were observed in any NFR test.
 
----
 
 # Usability Testing
 
@@ -604,7 +574,6 @@ Usability tests were conducted with **5 external participants** (not members of 
 
 Each participant completed **8 scenarios** covering key user journeys. Participants were given task descriptions without step-by-step guidance to simulate real independent usage.
 
----
 
 ## Participants
 
@@ -637,7 +606,6 @@ https://docs.google.com/spreadsheets/d/113eVbpO0P5tNSJRTp9aqTVawQ3a5EJPJo0fEP4-T
 **Overall average perceived difficulty: ~1.2 / 10**  
 **Overall average perceived performance: ~4.6 / 5**
 
----
 
 ## Identified Improvements
 
@@ -661,7 +629,6 @@ Based on the usability test sessions, the following improvements were identified
 | 2 | Office Manager persona consistently underperforms vs. Onboarding Specialist | Consider a persona-specific onboarding walkthrough or contextual tooltips targeted at non-specialist users | S1, S3, S4 |
 | 3 | Dashboard density makes locating specific widgets difficult | Evaluate a customizable or role-based dashboard layout to reduce visual noise | S4, S8 |
 
----
 
 # Feedback and Improvements from Sprint 3
 
@@ -675,7 +642,6 @@ Based on the feedback received during Sprint 3 review, the following updates wer
 | Stress testing (CT-NF05) results were not discussed | Stress test results now explicitly documented; latency spike at 25 VUs is flagged as a future infrastructure improvement |
 | Functional tests lacked negative scenario detail | Negative scenarios for FR01, FR02, FR04, FR09, and FR12 expanded with specific inputs and expected/actual results |
 
----
 
 # Test Coverage Discussion & Gaps
 
@@ -700,7 +666,6 @@ Based on the feedback received during Sprint 3 review, the following updates wer
 5. **Mobile responsiveness**: The current test plan covers only desktop usage. The onboarding interface has not been tested on mobile or tablet viewports.
 
 > **Conclusion:** The test suite covers all defined functional and non-functional requirements with clear evidence of execution. Usability testing with external users validated the core workflows and surfaced actionable improvements. The identified gaps represent known, scoped limitations of the Sprint 3 testing phase and are candidates for the next iteration.
-
 
 
 # Unit tests
