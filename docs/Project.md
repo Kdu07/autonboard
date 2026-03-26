@@ -383,7 +383,84 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 ---
 
+# Non-Functional Test Planning & Execution (NFRs)
 
+## Non-Functional Tests Overview
+
+Non-functional requirement (NFR) tests evaluate essential quality attributes for the Equiem system, ensuring that the onboarding process operates with robustness, stability, adequate performance, and architectural evolution capability.
+
+Unlike functional tests, NFR tests validate **how the system behaves** under conditions such as high load, failures, and future scalability scenarios. All NFR tests were executed according to the plan defined in Sprint 2 and updated based on Sprint 3 feedback.
+
+---
+
+## NFR Test Cases
+
+---
+
+### CT-NF01 – Data Integrity and Compliance
+
+**NFR:** NFR01 – Data Integrity Compliance  
+**Test Tool:** Postman
+
+#### Objective
+Ensure that only data fully compliant with the internal schema can be validated, consolidated, and exported.
+
+#### Execution Steps
+
+1. Access the onboarding interface.
+2. Upload a dataset that fully follows the required schema.
+3. Run the validation process.
+4. Verify that the system accepts the dataset and allows export.
+
+Negative test:
+
+5. Upload a dataset with missing mandatory fields and incorrect data types.
+6. Run the validation process.
+7. Verify that export is blocked and a detailed error report is generated.
+
+#### Results
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — schema-compliant dataset | All required fields present, correct types | Dataset accepted; export allowed | Export succeeded; no errors reported | ✅ Pass |
+| Negative — missing mandatory fields | Required columns absent | Export blocked; field-level errors reported | Validation blocked export; error list returned | ✅ Pass |
+| Negative — invalid data types | Wrong types in key columns | Errors reported per field; export blocked | Field-level type errors returned | ✅ Pass |
+
+**Evidence:** Postman test collection showing request/response pairs for all three scenarios; validation report payloads captured.
+
+---
+
+### CT-NF02 – Large File Handling and Responsiveness
+
+**NFR:** NFR02 – Large File Handling and Responsiveness  
+**Test Tool:** Google Chrome + browser DevTools (network tab)
+
+#### Objective
+Validate that the system supports uploads of files up to **100MB** while maintaining interface responsiveness and system stability.
+
+#### Execution Steps
+
+1. Prepare a test dataset of approximately 95–100MB.
+2. Upload the dataset via the onboarding interface.
+3. Monitor interface responsiveness using Chrome DevTools.
+4. Verify that processing completes successfully.
+
+Negative test:
+
+5. Attempt to upload a file larger than 100MB.
+6. Verify that the system rejects the file with an appropriate message.
+
+#### Results
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — 95MB file | Valid `.csv` at 95MB | Upload completes; interface remains responsive | Upload completed in ~12 seconds; no freeze | ✅ Pass |
+| Positive — 100MB file | Valid `.xlsx` at 100MB | Upload completes; processing stable | Upload completed; file registered in staging | ✅ Pass |
+| Negative — 110MB file | File exceeding 100MB limit | File rejected; clear error message | "File exceeds maximum size of 100MB" displayed | ✅ Pass |
+
+**Evidence:** Chrome DevTools network tab screenshots; response time logs; error message screenshot.
+
+---
 
 
 
