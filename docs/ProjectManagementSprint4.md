@@ -251,3 +251,63 @@ A standardized hourly rate is adopted to ensure consistency and comparability in
 **Total Estimated Effort Cost: $14,000**
 
 This distribution reflects the technical complexity of the system, with higher allocation to backend and frontend development due to integration requirements, and balanced effort in testing and data management to ensure system reliability.
+
+## 3.3 Resource Identification
+
+The following tools and infrastructure are required for system development and operation:
+
+| Resource Type | Tool / Service | Purpose | Cost |
+|------|------|------|------|
+| Version Control | GitLab | Code repository and CI/CD | Free |
+| Backend Hosting | Amazon EC2 (t3.micro) | API hosting | ~$8–12/month |
+| Database | Supabase / PostgreSQL | Data storage | Free tier |
+| Frontend Hosting | Amazon EC2 (t3.micro) | Frontend deployment | ~$8–12/month |
+| Development Tools | VS Code | Code development | Free |
+| Testing Tools | Jest | Unit testing | Free |
+
+Most tools leverage free-tier plans, minimizing infrastructure costs while maintaining adequate performance and scalability to support the system’s functional requirements.
+
+
+## 3.4 Consistency Analysis
+
+The estimation demonstrates consistency across effort, cost, and technical scope:
+
+- **Effort vs Capacity:** Total estimated effort (560h) fully utilizes the team’s available capacity over 10 weeks  
+- **Effort vs Complexity:** Higher effort allocation to backend and frontend reflects integration complexity and system core functionality  
+- **Team Utilization:** Workload is evenly distributed across 7 team members, ensuring efficient collaboration  
+- **Cost Proportionality:** Financial estimation scales directly with effort distribution, ensuring coherence  
+
+
+## 3.5 Final Cost Summary
+
+The total project cost combines **human effort** and **infrastructure costs**, providing a complete financial view.
+
+### Effort Cost
+- **Total Development Cost:** $14,000  
+
+### Infrastructure Cost (Monthly)
+
+| Resource | Estimated Cost |
+|------|------|
+| Backend (EC2 t3.micro) | ~$8–12 |
+| Frontend (EC2 t3.micro) | ~$8–12 |
+| Database (Supabase) | Free tier |
+| Other tools | Free |
+
+**Total Monthly Infrastructure Cost: ~$16–24**
+
+
+### Total Cost Perspective
+
+| Cost Type | Value |
+|------|------|
+| Development (one-time) | $14,000 |
+| Infrastructure (monthly) | ~$16–24 |
+
+## 3.6 Key Considerations
+
+- The **primary cost driver** is human effort, representing the majority of total project cost  
+- Increased team capacity enables improved **code quality, testing coverage, and documentation**  
+- Infrastructure costs are minimized through **free-tier services and lightweight cloud instances**  
+- The model is **scalable**, as infrastructure costs can grow proportionally with system usage  
+- Full utilization of team capacity improves overall project efficiency
