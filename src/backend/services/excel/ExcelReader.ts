@@ -1,20 +1,36 @@
-
-import * as Excel from 'exceljs'
-import { ExcelParser } from './ExcelParser';
+import fs from 'fs';
+import path from 'path';
+import * as Excel from 'exceljs';
+import { BadRequestError, UnprocessableEntityError } from '../../errors/HttpError';
 
 export class ExcelReader {
-
-    async read(path: string): Promise<Excel.Worksheet> {
-        const workbook = new Excel.Workbook()
-        await workbook.xlsx.readFile(path);
-
-        const worksheet: Excel.Worksheet | undefined = workbook.getWorksheet(1);
-
-        if (!worksheet) {
-            throw new Error('Worksheet não encontrada');
-        }
-
-        return worksheet
+  async read(filePath: string): Promise<Excel.Worksheet> {
+    if (!filePath) {
+      throw new BadRequestError('A file path is required to read the Excel file');
     }
 
+    const extension = path.extname(filePath).toLowerCase();
+    if (extension !== '.xlsx') {
+      throw new BadRequestError('Only .xlsx files are supported in this endpoint');
+    }
+
+    if (!fs.existsSync(filePath)) {
+      throw new BadRequestError('Uploaded file was not found on disk', { filePath });
+    }
+
+    const workbook = new Excel.Workbook();
+
+    try {
+      await workbook.xlsx.readFile(filePath);
+    } catch (error) {
+      throw new UnprocessableEntityError('Unable to read the Excel workbook', error);
+    }
+
+    const worksheet = workbook.getWorksheet(1);
+    if (!worksheet) {
+      throw new UnprocessableEntityError('Workbook does not contain a worksheet');
+    }
+
+    return worksheet;
+  }
 }
