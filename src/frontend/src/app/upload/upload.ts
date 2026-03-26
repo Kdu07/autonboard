@@ -1,100 +1,118 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
+import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '@auth0/auth0-angular';
 import Swal from 'sweetalert2';
+
+interface UploadedFile {
+  file: File;
+  progress: number;
+  status: 'uploading' | 'done' | 'error';
+}
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './upload.html',
   styleUrl: './upload.css',
   encapsulation: ViewEncapsulation.None
 })
 export class Upload {
+  isDragging = false;
+  uploadedFiles: UploadedFile[] = [];
 
-  progresso: number = 0;
-  arquivoSelecionado: File | null = null;
-  estaEnviando: boolean = false;
+  constructor(private http: HttpClient, public auth: AuthService) {}
 
-  constructor(private http: HttpClient) {}
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragging = true;
+  }
 
-  onFileSelected(event: any) {
-    const file = event.target.files?.[0] ?? null;
+  onDragLeave(): void {
+    this.isDragging = false;
+  }
 
-    if (file) {
-      this.arquivoSelecionado = file;
-      this.progresso = 0;
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragging = false;
+    const files = event.dataTransfer?.files;
+    if (files) this.processFiles(Array.from(files));
+  }
+
+  onFileSelected(event: any): void {
+    const files: File[] = Array.from(event.target.files ?? []);
+    this.processFiles(files);
+  }
+
+  private processFiles(files: File[]): void {
+    for (const file of files) {
+      const entry: UploadedFile = { file, progress: 0, status: 'uploading' };
+      this.uploadedFiles.push(entry);
+      this.uploadFile(entry);
     }
   }
 
-  fazerUpload() {
+  private uploadFile(entry: UploadedFile): void {
+    this.auth.getAccessTokenSilently().subscribe({
+      next: (token) => this.doUpload(entry, token),
+      error: () => this.doUpload(entry, null)
+    });
+  }
 
-    if (!this.arquivoSelecionado || this.estaEnviando) {
-
-      Swal.fire({
-        icon: 'warning',
-        title: 'Arquivo não selecionado',
-        text: 'Selecione um arquivo antes de fazer upload.'
-      });
-
-      return;
-    }
-
+  private doUpload(entry: UploadedFile, token: string | null): void {
     const formData = new FormData();
-    formData.append('file', this.arquivoSelecionado);
-    formData.append('customer_id', '1');
+    formData.append('file', entry.file);
     formData.append('status', 'pending');
 
-    this.estaEnviando = true;
-    this.progresso = 0;
+    const headers: Record<string, string> = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    this.http
-      .post('http://localhost:3000/upload', formData, {
-        reportProgress: true,
-        observe: 'events'
-      })
-      .subscribe({
-        next: (event) => {
-
-          if (event.type === HttpEventType.UploadProgress && event.total) {
-            this.progresso = Math.round((event.loaded / event.total) * 100);
-          }
-
-          else if (event.type === HttpEventType.Response) {
-
-            this.estaEnviando = false;
-
-            Swal.fire({
-              icon: 'success',
-              title: 'Upload concluído',
-              text: 'O arquivo foi enviado com sucesso!',
-              confirmButtonText: 'OK'
-            });
-
-          }
-        },
-
-        error: (err) => {
-
-          this.estaEnviando = false;
-
-          const mensagemErro =
-            err?.error?.message ||
-            err?.error?.erro ||
-            err?.message ||
-            'Erro desconhecido ao enviar o arquivo.';
-
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro no upload',
-            text: mensagemErro,
-            footer: 'Verifique o servidor ou tente novamente.'
-          });
-
+    this.http.post('http://localhost:3000/upload', formData, {
+      headers: new HttpHeaders(headers),
+      reportProgress: true,
+      observe: 'events'
+    }).subscribe({
+      next: (event) => {
+        if (event.type === HttpEventType.UploadProgress && event.total) {
+          entry.progress = Math.round((event.loaded / event.total) * 100);
+        } else if (event.type === HttpEventType.Response) {
+          entry.status = 'done';
+          entry.progress = 100;
         }
-      });
+      },
+      error: (err) => {
+        entry.status = 'error';
+        const msg = err?.error?.message || err?.error?.erro || 'Upload failed.';
+        Swal.fire({ icon: 'error', title: 'Upload Error', text: msg });
+      }
+    });
   }
 
+  formatSize(bytes: number): string {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  getFileIcon(filename: string): string {
+    const ext = filename.split('.').pop()?.toLowerCase();
+    if (ext === 'csv') return 'CSV';
+    if (['xlsx', 'xls'].includes(ext || '')) return 'XLS';
+    if (ext === 'pdf') return 'PDF';
+    return 'FILE';
+  }
+
+  getFileIconClass(filename: string): string {
+    const ext = filename.split('.').pop()?.toLowerCase();
+    if (ext === 'csv') return 'csv';
+    if (['xlsx', 'xls'].includes(ext || '')) return 'xlsx';
+    if (ext === 'pdf') return 'pdf';
+    return 'other';
+  }
+
+  logout(): void {
+    this.auth.logout({ logoutParams: { returnTo: window.location.origin } });
+  }
 }
