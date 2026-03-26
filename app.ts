@@ -6,6 +6,7 @@ import {routes} from "./src/backend/routes"
 dotenv.config();
 const app = express();
 
+// Standard CORS and JSON parsing
 app.use(cors());
 app.use(express.json())
 
