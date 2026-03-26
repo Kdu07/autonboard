@@ -232,3 +232,22 @@ The effort is distributed across key development areas as follows:
 **Total Estimated Effort: 560 hours**
 
 This distribution reflects the increased team capacity, allowing deeper focus on system robustness, testing, and documentation while maintaining balance across all development areas.
+
+## 3.2 Cost Estimation
+
+A standardized hourly rate is adopted to ensure consistency and comparability in financial estimation.
+
+- **Hourly Rate:** $25/hour
+
+| Category | Hours | Cost |
+|------|------|------|
+| Backend Development | 160h | $4,000 |
+| Frontend Development | 160h | $4,000 |
+| Database Management | 80h | $2,000 |
+| Testing & QA | 80h | $2,000 |
+| DevOps / Deployment | 40h | $1,000 |
+| Documentation | 40h | $1,000 |
+
+**Total Estimated Effort Cost: $14,000**
+
+This distribution reflects the technical complexity of the system, with higher allocation to backend and frontend development due to integration requirements, and balanced effort in testing and data management to ensure system reliability.
