@@ -24,12 +24,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DB_HOST=aws-0-us-west-2.pooler.supabase.com
-      - DB_USER=postgres.ziodksrmplptecxuaprg
-      - DB_PASSWORD=,8UVA3£35<geij?.g|hbr23,
-      - DB_DATABASE=postgres
-      - DB_PORT=5432
-      - DB_SSL=true
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_SSL=${DB_SSL}
     depends_on:
       - database
     deploy:
