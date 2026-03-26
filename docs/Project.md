@@ -1,22 +1,31 @@
-# Test Plan
+# Projeto.md — Test Plan & Execution Documentation
 
 ## Table of Contents
-1. [General Planning](#general-planning)  
-2. [Feature development](#feature-development)
+1. [General Planning](#general-planning)
+2. [Feature Development](#feature-development)
    1. [Overview of the Feature](#overview-of-the-feature)
    2. [Feature Objectives](#feature-objectives)
    3. [Functional Description](#functional-description)
    4. [Feature Workflow](#feature-workflow)
    5. [Validation and Business Rules](#validation-and-business-rules)
-3. [Testing Tools and Technologies](#testing-tools-and-technologies)  
-4. [Functional Test Planning](#functional-test-planning)  
-   1. [Overview](#functional-tests-overview)  
-   2. [Functional Test Cases](#functional-test-cases)  
-   3. [Functional Test Coverage](#functional-test-coverage)  
-5. [Non-Functional Test Planning (NFRs)](#non-functional-test-planning-nfrs)  
-   1. [Overview](#non-functional-tests-overview)  
-   2. [NFR Test Cases](#nfr-test-cases)  
-   3. [NFR Test Coverage](#nfr-test-coverage)    
+3. [Testing Tools and Technologies](#testing-tools-and-technologies)
+4. [Functional Test Planning & Execution](#functional-test-planning--execution)
+   1. [Overview](#functional-tests-overview)
+   2. [Functional Test Cases](#functional-test-cases)
+   3. [Functional Test Coverage](#functional-test-coverage)
+5. [Non-Functional Test Planning & Execution (NFRs)](#non-functional-test-planning--execution-nfrs)
+   1. [Overview](#non-functional-tests-overview)
+   2. [NFR Test Cases](#nfr-test-cases)
+   3. [NFR Test Coverage](#nfr-test-coverage)
+6. [Usability Testing](#usability-testing)
+   1. [Test Methodology](#test-methodology)
+   2. [Participants](#participants)
+   3. [Results by Scenario](#results-by-scenario)
+   4. [Consolidated Metrics](#consolidated-metrics)
+   5. [Identified Improvements](#identified-improvements)
+7. [Feedback and Improvements from Sprint 3](#feedback-and-improvements-from-sprint-3)
+8. [Test Coverage Discussion & Gaps](#test-coverage-discussion--gaps)
+   
 
 # General Planning
 
