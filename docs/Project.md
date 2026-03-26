@@ -462,6 +462,158 @@ Negative test:
 
 ---
 
+### CT-NF03 – Processing Reliability
+
+**NFR:** NFR03 – Processing Reliability  
+**Test Tool:** Postman + manual service interruption
+
+#### Objective
+Ensure that failures during data processing do not cause data corruption or partial persistence.
+
+#### Execution Steps
+
+1. Upload a valid dataset and start the processing pipeline.
+2. Confirm that normal processing completes with consistent stored data.
+
+Negative test:
+
+3. Start processing a dataset.
+4. Simulate a system interruption (stop the service mid-process).
+5. Restart the system.
+6. Verify that no partial or corrupted data was persisted.
+
+#### Results
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — uninterrupted processing | Valid dataset, no interruption | Data processed and stored consistently | Data correctly stored; validation passed | ✅ Pass |
+| Negative — mid-process interruption | Service stopped during processing | No partial/corrupted data persisted | Storage contained no partial records; rollback confirmed | ✅ Pass |
+
+**Evidence:** Database state inspection before and after interruption; server restart logs; Postman status check responses.
+
+---
+
+### CT-NF04 – File Format Extensibility
+
+**NFR:** NFR04 – Extensible File Format Support  
+**Test Tool:** Postman + code review
+
+#### Objective
+Validate that new file formats can be added without requiring changes to the core system logic.
+
+#### Execution Steps
+
+1. Implement support for an additional test format (JSON) using the extensible module structure.
+2. Upload a file using the new format.
+3. Execute the validation process.
+
+Negative test:
+
+4. Upload a file with an unsupported format (e.g., `.txt`).
+5. Attempt to process it and verify rejection.
+
+#### Results
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — new JSON format added | `.json` file after format module registered | Processed successfully without core logic changes | Processing succeeded; no core changes required | ✅ Pass |
+| Negative — unsupported format | `.txt` file | Rejected with informative error message | "Unsupported file format" error returned | ✅ Pass |
+
+**Evidence:** Code diff showing new format module without changes to core processor; Postman response for `.txt` rejection.
+
+---
+
+### CT-NF05 – Concurrent Submission Support
+
+**NFR:** NFR05 – Concurrent Submission Handling  
+**Test Tool:** k6
+
+#### Objective
+Ensure the system safely handles multiple simultaneous data submissions without data loss or corruption.
+
+#### Execution Steps
+
+1. Configure a k6 script to simulate 5–10 virtual users uploading datasets simultaneously.
+2. Monitor system behavior during concurrent processing.
+3. Verify that each dataset is processed independently.
+
+Negative test (stress scenario):
+
+4. Increase concurrent users to 20–30 to stress the system.
+5. Observe failures, delays, or data integrity issues.
+
+#### k6 Script Summary
+```javascript
+import http from 'k6/http';
+import { check } from 'k6';
+
+export let options = {
+  vus: 10,
+  duration: '30s',
+};
+
+export default function () {
+  let res = http.post('https://api.equiem.internal/upload', open('./test_file.csv', 'b'), {
+    headers: { 'Content-Type': 'text/csv', 'Authorization': 'Bearer ' },
+  });
+  check(res, { 'status is 200': (r) => r.status === 200 });
+}
+```
+
+#### Results
+
+| Scenario | Virtual Users | Expected Result | Actual Result | Status |
+|----------|--------------|----------------|---------------|--------|
+| Positive — 10 concurrent users | 10 VUs over 30s | All submissions processed independently; no conflicts | All 10 uploads processed; no data conflicts detected | ✅ Pass |
+| Negative — 25 concurrent users (stress) | 25 VUs over 30s | Potential delays; no data loss | Increased latency observed; 2 timeouts; no data corruption | ⚠️ Partial Pass |
+
+**Evidence:** k6 summary report (p95 latency, error rate); server logs during stress test.
+
+> **Note on stress scenario:** Two request timeouts were observed at 25 concurrent users under the academic environment infrastructure. No data corruption or loss occurred. This is flagged as an area for infrastructure optimization in future sprints.
+
+---
+
+## NFR Test Coverage
+
+| NFR | Test Case | Tools Used | Coverage | Notes |
+|-----|-----------|-----------|----------|-------|
+| NFR01 – Data Integrity | CT-NF01 | Postman | ✅ Full | Positive and negative schema compliance validated |
+| NFR02 – Large File Handling | CT-NF02 | Chrome DevTools | ✅ Full | Files at 95MB, 100MB, and >100MB tested |
+| NFR03 – Processing Reliability | CT-NF03 | Postman + manual interruption | ✅ Full | Rollback and consistency confirmed after interruption |
+| NFR04 – Format Extensibility | CT-NF04 | Postman + code review | ✅ Full | New format added without core changes |
+| NFR05 – Concurrent Submissions | CT-NF05 | k6 | ✅ Full (⚠️ stress partial) | Normal load passed; stress revealed latency spike at 25 VUs |
+
+> **Coverage Discussion:** All five NFRs are addressed with appropriate tooling and both positive and negative scenarios. The stress portion of CT-NF05 revealed a scalability concern at high load, which is expected in the current academic environment and is documented as a future improvement item. No data integrity issues were observed in any NFR test.
+
+---
+
+# Usability Testing
+
+## Test Methodology
+
+Usability tests were conducted with **5 external participants** (not members of the development group) to evaluate the real-world usability of the Equiem onboarding interface. Tests were moderated and conducted remotely via screen share.
+
+**Format:** Task-based moderated sessions  
+**Recording:** Google Sheets used to log task outcomes in real time  
+**Metrics collected:**
+- Task Success Rate (%)
+- Task Error Rate (%)
+- Perceived Difficulty (0–10, where 0 = very easy)
+- Perceived Performance (0–5, where 5 = excellent)
+
+Each participant completed **8 scenarios** covering key user journeys. Participants were given task descriptions without step-by-step guidance to simulate real independent usage.
+
+---
+
+## Participants
+
+| # | Name | Persona / Profile |
+|---|------|------------------|
+| 1 | Livia | Customer Onboarding Specialist |
+| 2 | Leonardo | Office Manager |
+| 3 | Gabriel | Customer Onboarding Specialist |
+| 4 | Lucas | Office Manager |
+| 5 | Nicole | Office Manager |
 
 
 
