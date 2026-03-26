@@ -170,9 +170,9 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 | Scenario | Input | Expected Result | Actual Result | Status |
 |----------|-------|----------------|---------------|--------|
-| Positive — compatible data | File with all required fields and correct types | Data standardized without errors; ready for validation | Data correctly mapped to internal model | ✅ Pass |
-| Negative — missing mandatory fields | File with absent required columns | Standardization blocked; error report generated | Error report listing missing fields returned | ✅ Pass |
-| Negative — incompatible data types | File with wrong column types | Error reported per field; data not promoted | Field-level errors returned in response | ✅ Pass |
+| Positive — compatible data | File with all required fields and correct types | Data standardized without errors; ready for validation | Data correctly mapped to internal model |  Pass |
+| Negative — missing mandatory fields | File with absent required columns | Standardization blocked; error report generated | Error report listing missing fields returned |  Pass |
+| Negative — incompatible data types | File with wrong column types | Error reported per field; data not promoted | Field-level errors returned in response |  Pass |
 
 **Post-condition:** Compatible data is ready for the validation stage; incompatible data is held with a detailed error report.
 
@@ -194,8 +194,8 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 | Scenario | Input | Expected Result | Actual Result | Status |
 |----------|-------|----------------|---------------|--------|
-| Positive — first submission | Valid dataset v1 | Data persisted in staging layer | v1 record found in storage | ✅ Pass |
-| Positive — second submission | Valid dataset v2 (same project) | v2 stored; v1 preserved | Both versions present and distinct | ✅ Pass |
+| Positive — first submission | Valid dataset v1 | Data persisted in staging layer | v1 record found in storage |  Pass |
+| Positive — second submission | Valid dataset v2 (same project) | v2 stored; v1 preserved | Both versions present and distinct |  Pass |
 
 **Post-condition:** Both versions accessible independently; no data loss on re-submission.
 
@@ -217,9 +217,9 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 | Scenario | Input | Expected Result | Actual Result | Status |
 |----------|-------|----------------|---------------|--------|
-| Positive — valid data | Clean dataset, no duplicates | Data approved; validation report shows 0 errors | Report returned with 0 issues | ✅ Pass |
-| Negative — duplicate records | Dataset with repeated entity IDs | Duplicates flagged; detailed report generated | Duplicate entries listed in report | ✅ Pass |
-| Negative — conflicting values | Dataset with contradictory fields | Conflicts flagged; export blocked | Conflict errors listed; export prevented | ✅ Pass |
+| Positive — valid data | Clean dataset, no duplicates | Data approved; validation report shows 0 errors | Report returned with 0 issues |  Pass |
+| Negative — duplicate records | Dataset with repeated entity IDs | Duplicates flagged; detailed report generated | Duplicate entries listed in report |  Pass |
+| Negative — conflicting values | Dataset with contradictory fields | Conflicts flagged; export blocked | Conflict errors listed; export prevented |  Pass |
 
 **Post-condition:** Valid data proceeds to the next stage; invalid data is held with a structured error report.
 
@@ -242,7 +242,7 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 | Scenario | Input | Expected Result | Actual Result | Status |
 |----------|-------|----------------|---------------|--------|
-| Positive — corrected re-submission | Fixed file replacing previous version | New version stored; previous version preserved | Both versions stored correctly | ✅ Pass |
+| Positive — corrected re-submission | Fixed file replacing previous version | New version stored; previous version preserved | Both versions stored correctly |  Pass |
 
 ---
 
@@ -256,7 +256,7 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 | Scenario | Input | Expected Result | Actual Result | Status |
 |----------|-------|----------------|---------------|--------|
-| Positive — two versions available | v1 and v2 of the same dataset | Differences highlighted in the UI | Changed fields visually indicated | ✅ Pass |
+| Positive — two versions available | v1 and v2 of the same dataset | Differences highlighted in the UI | Changed fields visually indicated |  Pass |
 
 ---
 
@@ -272,6 +272,59 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 2. Close the browser without manually saving.
 3. Reopen the system and log in again.
 4. Verify that progress from the previous session is restored.
+
+#### Test Scenarios
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — session close and reopen | Partial onboarding progress | Progress restored on re-login | Previously completed steps retained |  Pass |
+
+---
+
+### FR08 – Dynamic Onboarding Interface
+
+**Objective:** Validate that only sections relevant to the active modules are displayed.
+
+**Test Tool:** Google Chrome
+
+#### Test Scenarios
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — limited module set | Account with 2 of 5 modules active | Only 2 relevant sections displayed | Interface showed correct sections |  Pass |
+| Negative — deactivated module | Module deactivated mid-session | Section hidden dynamically | Section removed without page reload |  Pass |
+
+---
+
+### FR09 – Section Dependency Enforcement
+
+**Objective:** Ensure dependent sections are blocked until prerequisites are completed.
+
+**Test Tool:** Google Chrome
+
+#### Test Scenarios
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — prerequisite met | Section A completed before accessing B | Section B unlocked and accessible | B unlocked as expected |  Pass |
+| Negative — prerequisite not met | Attempt to access B without completing A | Section B blocked; informative message shown | B locked with tooltip explaining requirement |  Pass |
+
+---
+
+### FR10 – Collaborative Section Assignment
+
+**Objective:** Validate that sections can be assigned to multiple collaborators for parallel work.
+
+**Test Tool:** Google Chrome (two simultaneous sessions)
+
+#### Test Scenarios
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — two users, different sections | User A on Section 1; User B on Section 2 | Both work in parallel without conflict | No data conflicts; both sessions progressed |  Pass |
+
+---
+
 
 
 
