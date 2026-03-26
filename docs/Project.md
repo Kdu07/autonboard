@@ -10,22 +10,23 @@
    5. [Validation and Business Rules](#validation-and-business-rules)
 3. [Testing Tools and Technologies](#testing-tools-and-technologies)
 4. [Functional Test Planning & Execution](#functional-test-planning--execution)
-   1. [Overview](#functional-tests-overview)
+   1. [Functional Tests Overview](#functional-tests-overview)
    2. [Functional Test Cases](#functional-test-cases)
    3. [Functional Test Coverage](#functional-test-coverage)
 5. [Non-Functional Test Planning & Execution (NFRs)](#non-functional-test-planning--execution-nfrs)
-   1. [Overview](#non-functional-tests-overview)
+   1. [Non-Functional Tests Overview](#non-functional-tests-overview)
    2. [NFR Test Cases](#nfr-test-cases)
    3. [NFR Test Coverage](#nfr-test-coverage)
 6. [Usability Testing](#usability-testing)
    1. [Test Methodology](#test-methodology)
    2. [Participants](#participants)
-   3. [Results by Scenario](#results-by-scenario)
+   3. [Usability Tests Link](#usability-tests-link)
    4. [Consolidated Metrics](#consolidated-metrics)
    5. [Identified Improvements](#identified-improvements)
 7. [Feedback and Improvements from Sprint 3](#feedback-and-improvements-from-sprint-3)
 8. [Test Coverage Discussion & Gaps](#test-coverage-discussion--gaps)
-
+   1. [Overall Coverage Assessment](#overall-coverage-assessment)
+   2. [Identified Gaps and Future Opportunities](#identified-gaps-and-future-opportunities)
 
 # General Planning
 
@@ -422,9 +423,9 @@ Negative test:
 
 | Scenario | Input | Expected Result | Actual Result | Status |
 |----------|-------|----------------|---------------|--------|
-| Positive — schema-compliant dataset | All required fields present, correct types | Dataset accepted; export allowed | Export succeeded; no errors reported | ✅ Pass |
-| Negative — missing mandatory fields | Required columns absent | Export blocked; field-level errors reported | Validation blocked export; error list returned | ✅ Pass |
-| Negative — invalid data types | Wrong types in key columns | Errors reported per field; export blocked | Field-level type errors returned | ✅ Pass |
+| Positive — schema-compliant dataset | All required fields present, correct types | Dataset accepted; export allowed | Export succeeded; no errors reported |  Pass |
+| Negative — missing mandatory fields | Required columns absent | Export blocked; field-level errors reported | Validation blocked export; error list returned |  Pass |
+| Negative — invalid data types | Wrong types in key columns | Errors reported per field; export blocked | Field-level type errors returned |  Pass |
 
 **Evidence:** Postman test collection showing request/response pairs for all three scenarios; validation report payloads captured.
 
@@ -454,9 +455,9 @@ Negative test:
 
 | Scenario | Input | Expected Result | Actual Result | Status |
 |----------|-------|----------------|---------------|--------|
-| Positive — 95MB file | Valid `.csv` at 95MB | Upload completes; interface remains responsive | Upload completed in ~12 seconds; no freeze | ✅ Pass |
-| Positive — 100MB file | Valid `.xlsx` at 100MB | Upload completes; processing stable | Upload completed; file registered in staging | ✅ Pass |
-| Negative — 110MB file | File exceeding 100MB limit | File rejected; clear error message | "File exceeds maximum size of 100MB" displayed | ✅ Pass |
+| Positive — 95MB file | Valid `.csv` at 95MB | Upload completes; interface remains responsive | Upload completed in ~12 seconds; no freeze |  Pass |
+| Positive — 100MB file | Valid `.xlsx` at 100MB | Upload completes; processing stable | Upload completed; file registered in staging |  Pass |
+| Negative — 110MB file | File exceeding 100MB limit | File rejected; clear error message | "File exceeds maximum size of 100MB" displayed |  Pass |
 
 **Evidence:** Chrome DevTools network tab screenshots; response time logs; error message screenshot.
 
@@ -486,8 +487,8 @@ Negative test:
 
 | Scenario | Input | Expected Result | Actual Result | Status |
 |----------|-------|----------------|---------------|--------|
-| Positive — uninterrupted processing | Valid dataset, no interruption | Data processed and stored consistently | Data correctly stored; validation passed | ✅ Pass |
-| Negative — mid-process interruption | Service stopped during processing | No partial/corrupted data persisted | Storage contained no partial records; rollback confirmed | ✅ Pass |
+| Positive — uninterrupted processing | Valid dataset, no interruption | Data processed and stored consistently | Data correctly stored; validation passed |  Pass |
+| Negative — mid-process interruption | Service stopped during processing | No partial/corrupted data persisted | Storage contained no partial records; rollback confirmed |  Pass |
 
 **Evidence:** Database state inspection before and after interruption; server restart logs; Postman status check responses.
 
@@ -516,8 +517,8 @@ Negative test:
 
 | Scenario | Input | Expected Result | Actual Result | Status |
 |----------|-------|----------------|---------------|--------|
-| Positive — new JSON format added | `.json` file after format module registered | Processed successfully without core logic changes | Processing succeeded; no core changes required | ✅ Pass |
-| Negative — unsupported format | `.txt` file | Rejected with informative error message | "Unsupported file format" error returned | ✅ Pass |
+| Positive — new JSON format added | `.json` file after format module registered | Processed successfully without core logic changes | Processing succeeded; no core changes required |  Pass |
+| Negative — unsupported format | `.txt` file | Rejected with informative error message | "Unsupported file format" error returned |  Pass |
 
 **Evidence:** Code diff showing new format module without changes to core processor; Postman response for `.txt` rejection.
 
@@ -564,8 +565,8 @@ export default function () {
 
 | Scenario | Virtual Users | Expected Result | Actual Result | Status |
 |----------|--------------|----------------|---------------|--------|
-| Positive — 10 concurrent users | 10 VUs over 30s | All submissions processed independently; no conflicts | All 10 uploads processed; no data conflicts detected | ✅ Pass |
-| Negative — 25 concurrent users (stress) | 25 VUs over 30s | Potential delays; no data loss | Increased latency observed; 2 timeouts; no data corruption | ⚠️ Partial Pass |
+| Positive — 10 concurrent users | 10 VUs over 30s | All submissions processed independently; no conflicts | All 10 uploads processed; no data conflicts detected |  Pass |
+| Negative — 25 concurrent users (stress) | 25 VUs over 30s | Potential delays; no data loss | Increased latency observed; 2 timeouts; no data corruption |  Partial Pass |
 
 **Evidence:** k6 summary report (p95 latency, error rate); server logs during stress test.
 
@@ -577,11 +578,11 @@ export default function () {
 
 | NFR | Test Case | Tools Used | Coverage | Notes |
 |-----|-----------|-----------|----------|-------|
-| NFR01 – Data Integrity | CT-NF01 | Postman | ✅ Full | Positive and negative schema compliance validated |
-| NFR02 – Large File Handling | CT-NF02 | Chrome DevTools | ✅ Full | Files at 95MB, 100MB, and >100MB tested |
-| NFR03 – Processing Reliability | CT-NF03 | Postman + manual interruption | ✅ Full | Rollback and consistency confirmed after interruption |
-| NFR04 – Format Extensibility | CT-NF04 | Postman + code review | ✅ Full | New format added without core changes |
-| NFR05 – Concurrent Submissions | CT-NF05 | k6 | ✅ Full (⚠️ stress partial) | Normal load passed; stress revealed latency spike at 25 VUs |
+| NFR01 – Data Integrity | CT-NF01 | Postman |  Full | Positive and negative schema compliance validated |
+| NFR02 – Large File Handling | CT-NF02 | Chrome DevTools |  Full | Files at 95MB, 100MB, and >100MB tested |
+| NFR03 – Processing Reliability | CT-NF03 | Postman + manual interruption |  Full | Rollback and consistency confirmed after interruption |
+| NFR04 – Format Extensibility | CT-NF04 | Postman + code review |  Full | New format added without core changes |
+| NFR05 – Concurrent Submissions | CT-NF05 | k6 |  Full ( stress partial) | Normal load passed; stress revealed latency spike at 25 VUs |
 
 > **Coverage Discussion:** All five NFRs are addressed with appropriate tooling and both positive and negative scenarios. The stress portion of CT-NF05 revealed a scalability concern at high load, which is expected in the current academic environment and is documented as a future improvement item. No data integrity issues were observed in any NFR test.
 
@@ -616,453 +617,91 @@ Each participant completed **8 scenarios** covering key user journeys. Participa
 | 5 | Nicole | Office Manager |
 
 
+## Usability tests link:
+https://docs.google.com/spreadsheets/d/113eVbpO0P5tNSJRTp9aqTVawQ3a5EJPJo0fEP4-TkVQ/edit?gid=0#gid=0
+
+## Consolidated Metrics
+
+| Scenario | Avg. Success Rate | Avg. Error Rate | Avg. Difficulty (0–10) | Avg. Performance (0–5) |
+|----------|------------------|----------------|----------------------|----------------------|
+| S1 – File Upload | 90% | 10% | 1.0 | 4.5 |
+| S2 – System Feedback | 94% | 6% | 1.2 | 4.6 |
+| S3 – Resume Onboarding | 82% | 18% | 2.0 | 3.6 |
+| S4 – Tracking Status | 84% | 16% | 2.0 | 3.8 |
+| S5 – Navigation | 97% | 3% | 0.8 | 4.8 |
+| S6 – View Profile | 97% | 3% | 0.8 | 4.8 |
+| S7 – Edit Profile | 97% | 3% | 0.8 | 4.8 |
+| S8 – Dashboard | 97% | 3% | 0.8 | 4.8 |
+
+**Overall average task success rate: ~92%**  
+**Overall average perceived difficulty: ~1.2 / 10**  
+**Overall average perceived performance: ~4.6 / 5**
 
-
-
-
-
-
-
-
-henticated users are allowed to upload files.
-- Supported file formats include `.csv` and `.xlsx`.
-- The maximum allowed file size is **100 MB**.
-- The file must follow the expected data structure required by the system.
-- The backend performs final validation to ensure data integrity and security.
-
-These rules ensure that only valid and properly structured files are submitted to the system for processing.
-
-# Testing Tools and Technologies
-
-The following tools were selected to support the testing process:
-
-- **Postman**: manual and automated testing of REST APIs  
-- **Jest**: automated testing of business logic  
-- **Google Chrome**: manual functional tests and usability testing  
-- **k6 / Apache JMeter**: load and concurrency simulation  
-- **Google Sheets**: recording results and feedback from usability tests  
-- **Markdown (.md)**: versioned and structured documentation of the test plan  
-
-These tools were chosen due to their wide adoption in the industry, ease of use, and suitability for the academic context of the project.
-
-# Functional Test Planning
-
-## Functional Tests Overview
-
-Functional tests aim to validate whether all functionalities of the Equiem system correctly meet the defined **Functional Requirements (FRs)**. The focus is on the complete onboarding workflow, from the initial upload to the final consolidation and external integration.
-
-The planning includes both main flows and exception scenarios, ensuring that the system responds correctly to invalid inputs, operational errors, and unexpected interruptions.
-
-## Functional Test Cases
-
-### FR01 – Structured Onboarding Data Upload
-
-**Objective:** Validate that authenticated users can upload CSV/XLSX files.
-
-**Precondition:** User is authenticated in the system.
-
-**Procedure**
-
-1. Access the system with valid credentials  
-2. Navigate to the onboarding screen  
-3. Select the upload option  
-4. Upload a CSV or XLSX file  
-5. Confirm submission and wait for the system response  
-
-**Positive Scenario**
-
-- Upload of a valid file  
-
-**Negative Scenario**
-
-- Upload attempt without authentication or with an invalid format  
-
-**Expected Result**
-
-- Upload accepted or error handled correctly  
-
-**Post-condition**
-
-- File stored in the staging layer  
-
-### FR02 – Data Standardization
-
-**Objective:** Ensure that uploaded data is converted to the internal standardized model.
-
-**Precondition:** File successfully uploaded.
-
-**Procedure**
-
-1. Trigger the standardization process  
-2. Monitor logs and interface feedback  
-
-**Positive Scenario**
-
-- Data compatible with the schema  
-
-**Negative Scenario**
-
-- Missing or incompatible fields  
-
-**Expected Result**
-
-- Data standardized or error reported  
-
-**Post-condition**
-
-- Data ready for validation  
-
-### FR03 – Intermediate Data Persistence
-
-**Objective:** Verify the secure persistence of standardized data.
-
-**Procedure**
-
-- Save data in the intermediate storage layer  
-
-**Expected Result**
-
-- Data persisted without overwriting previous versions  
-
-### FR04 – Data Validation and Conflict Detection
-
-**Objective:** Identify errors, duplicates, and conflicts in the data.
-
-**Procedure**
-
-1. Execute the validation routine  
-2. Analyze the generated report  
-
-**Positive Scenario**
-
-- Valid data approved  
-
-**Negative Scenario**
-
-- Invalid data generates alerts  
-
-**Expected Result**
-
-- Detailed error report generated  
-
-### FR05 – Safe Data Correction via Re-Submission
-
-**Objective:** Validate safe replacement of corrected data.
-
-**Procedure**
-
-1. Fix errors in the original file  
-2. Resubmit a new version  
-3. Confirm safe replacement  
-
-**Expected Result**
-
-- Previous data replaced correctly  
-
-### FR06 – Change Comparison Visualization
-
-**Objective:** Verify comparison between submitted versions.
-
-**Expected Result**
-
-- Differences highlighted correctly  
-
-### FR07 – Automatic Progress Persistence
-
-**Objective:** Ensure automatic progress saving.
-
-**Procedure**
-
-1. Close the system  
-2. Reopen it later  
-
-**Expected Result**
-
-- Progress restored  
-
-### FR08 – Dynamic Onboarding Interface
-
-**Objective:** Validate dynamic display of sections according to active modules.
-
-**Expected Result**
-
-- Only relevant sections displayed  
-
-### FR09 – Section Dependency Enforcement
-
-**Objective:** Ensure dependent sections are properly blocked.
-
-**Expected Result**
-
-- Access blocked when prerequisites are not completed  
-
-### FR10 – Collaborative Section Assignment
-
-**Objective:** Validate assignment of sections to multiple collaborators.
-
-**Expected Result**
-
-- Parallel work enabled  
-
-### FR11 – Onboarding Status and Feedback
-
-**Objective:** Verify onboarding status tracking.
-
-**Expected Result**
-
-- Status correctly updated  
-
-### FR12 – Data Consolidation and Secure Integration
-
-**Objective:** Validate final data consolidation and external system integration.
-
-**Procedure**
-
-1. Complete all mandatory sections  
-2. Generate consolidated data package  
-3. Send it to the external system  
-4. Confirm successful integration  
-
-# Functional Test Coverage
-
-The following analysis demonstrates **how the planned functional tests cover the system requirements**:
-
-| FR | Coverage | How Coverage Ensures Requirement is Met |
-|----|----------|----------------------------------------|
-| FR01 | ✅ Full | Tests both positive (valid upload) and negative (invalid file or no authentication), ensuring only authorized users can upload files. |
-| FR02 | ✅ Full | Validates standardization process, handling compatible and incompatible data to maintain schema integrity. |
-| FR03 | ✅ Full | Confirms persistence layer saves standardized data securely without overwriting existing records. |
-| FR04 | ✅ Full | Verifies detection of errors, duplicates, and conflicts; ensures only valid data progresses. |
-| FR05 | ✅ Full | Tests safe replacement of corrected data, preventing loss of previous versions. |
-| FR06 | ✅ Full | Validates visual comparison, highlighting differences to support user review. |
-| FR07 | ✅ Full | Ensures automatic progress saving works, maintaining session continuity. |
-| FR08 | ✅ Full | Checks dynamic interface adapts to active modules, preventing irrelevant section display. |
-| FR09 | ✅ Full | Confirms section dependencies are enforced, guaranteeing process correctness. |
-| FR10 | ✅ Full | Validates multi-user collaboration on sections, supporting parallel work. |
-| FR11 | ✅ Full | Ensures onboarding status is updated correctly, providing accurate feedback to users. |
-| FR12 | ✅ Full | Confirms final data consolidation and integration with external systems succeed, guaranteeing end-to-end process reliability. |
-
-> **Discussion:** All FRs are covered with clear positive and negative scenarios. The coverage ensures that every critical system function is tested, confirming both correctness and robustness. Each test scenario directly maps to its corresponding FR and reflects real-world usage, providing confidence that the system meets business and project requirements.
-
-# Non-Functional Test Planning
-
-## Non-Functional Tests Overview
-
-Non-functional requirement (NFR) tests evaluate essential quality attributes for the success of the **Equiem** system, ensuring that the onboarding process operates with robustness, stability, adequate performance, and architectural evolution capability.
-
-Unlike functional tests, NFR tests validate **how the system behaves** under conditions such as high load, failures, and future scalability scenarios.
-
-The objective of these tests is to ensure that the system maintains **data integrity, performance, reliability, and extensibility**, even in adverse or high-demand situations.
-
-The tests defined below ensure compliance with **NFR01 to NFR05**.
-
-## NFR Test Cases
-
-### CT-NF01 – Data Integrity and Compliance
-
-**Non-Functional Requirement:** NFR01 – Data Integrity Compliance  
-
-#### Objective
-
-Ensure that only data fully compliant with the internal schema can be validated, consolidated, and exported by the system.
-
-#### Test Scenarios
-
-**Positive Scenario**
-- Upload a dataset that fully follows the required schema and contains valid values.
-
-**Negative Scenario**
-- Upload a dataset containing missing mandatory fields, invalid data types, or inconsistent values.
-
-#### Execution Steps
-
-1. Access the onboarding interface.
-2. Upload a dataset that follows the correct schema.
-3. Run the validation process.
-4. Verify that the system accepts the dataset and allows export.
-
-Negative test:
-
-5. Upload a dataset with missing or incorrect fields.
-6. Run the validation process.
-7. Verify that the system blocks the export and reports validation errors.
-
-#### Expected Result
-
-- Valid datasets are accepted and exported successfully.
-- Invalid records are blocked.
-- Export is prevented when inconsistencies exist.
-- A detailed error report is generated for incorrect records.
-
-### CT-NF02 – Large File Handling and Responsiveness
-
-**Non-Functional Requirement:** NFR02 – Large File Handling and Responsiveness  
-
-#### Objective
-
-Validate that the system supports uploads of files up to **100MB** while maintaining interface responsiveness and system stability.
-
-#### Test Scenarios
-
-**Positive Scenario**
-
-- Upload a file close to the maximum allowed size (e.g., 95–100MB).
-
-**Negative Scenario**
-
-- Attempt to upload a file larger than the maximum limit.
-
-#### Execution Steps
-
-1. Prepare a test dataset with approximately 100MB.
-2. Upload the dataset using the onboarding interface.
-3. Monitor system responsiveness during upload and processing.
-4. Verify that processing completes successfully.
-
-Negative test:
-
-5. Attempt to upload a dataset larger than the allowed limit.
-6. Verify that the system rejects the file and displays an appropriate message.
-
-#### Expected Result
-
-- Files within the allowed limit are processed successfully.
-- The interface remains responsive during upload and processing.
-- The application does not crash or freeze.
-- Files exceeding the limit are rejected with a clear error message.
-
-### CT-NF03 – Processing Reliability
-
-**Non-Functional Requirement:** NFR03 – Processing Reliability  
-
-#### Objective
-
-Ensure that failures during data processing do not cause data corruption or partial persistence.
-
-#### Test Scenarios
-
-**Positive Scenario**
-
-- Execute the normal validation and processing flow without interruptions.
-
-**Negative Scenario**
-
-- Simulate an interruption during processing (e.g., network failure or server restart).
-
-#### Execution Steps
-
-1. Upload a valid dataset.
-2. Start the processing pipeline.
-3. Confirm that the data is processed successfully.
-
-Negative test:
-
-4. Start processing a dataset.
-5. Simulate a system interruption (e.g., stop the service or disconnect the network).
-6. Restart the system.
-7. Verify that no partial or corrupted data was stored.
-
-#### Expected Result
-
-- Successful processing results in consistent stored data.
-- Interrupted processes do not corrupt stored data.
-- The system maintains data consistency after recovery.
-
-### CT-NF04 – File Format Extensibility
-
-**Non-Functional Requirement:** NFR04 – Extensible File Format Support  
-
-#### Objective
-
-Validate that new file formats can be added without requiring changes to the core system logic.
-
-#### Test Scenarios
-
-**Positive Scenario**
-
-- Add support for a new format using the system's extensible structure.
-
-**Negative Scenario**
-
-- Attempt to process an unsupported format.
-
-#### Execution Steps
-
-1. Implement support for an additional test format (e.g., JSON or XML).
-2. Upload a file using the new format.
-3. Execute the validation process.
-
-Negative test:
-
-4. Upload a file with an unsupported format.
-5. Attempt to process it.
-
-#### Expected Result
-
-- Newly supported formats are processed successfully without modifying the core logic.
-- Unsupported formats are rejected with an informative error message.
-
-### CT-NF05 – Concurrent Submission Support
-
-**Non-Functional Requirement:** NFR05 – Concurrent Submission Handling  
-
-#### Objective
-
-Ensure the system safely handles multiple simultaneous data submissions.
-
-#### Test Scenarios
-
-**Positive Scenario**
-
-- Multiple users upload datasets simultaneously.
-
-**Negative Scenario**
-
-- Simultaneous submissions under high load conditions.
-
-#### Execution Steps
-
-1. Simulate multiple users (e.g., 5–10) uploading datasets at the same time.
-2. Monitor system behavior during concurrent processing.
-3. Verify that each dataset is processed independently.
-
-Negative test:
-
-4. Increase the number of concurrent submissions to stress the system.
-5. Observe potential failures or delays.
-
-#### Expected Result
-
-- The system processes submissions without data conflicts.
-- Each upload is handled independently.
-- No data loss or corruption occurs under concurrent load.
-
-## NFR Test Coverage
-
-The defined tests ensure coverage of the most critical non-functional aspects of the system:
-
-**Data Integrity**
-
-CT-NF01 guarantees that only valid and consistent data can be processed and exported.
-
-**Performance and Responsiveness**
-
-CT-NF02 verifies that the system maintains stability and responsiveness even when handling large files.
-
-**Reliability**
-
-CT-NF03 ensures that the system maintains data consistency even in the presence of failures or interruptions.
-
-**Extensibility**
-
-CT-NF04 validates that the system architecture supports future file formats without requiring structural modifications.
-
-**Scalability and Concurrency**
-
-CT-NF05 ensures that the system can support multiple users and concurrent submissions safely.
-
-> **Discussion:** All NFRs cover critical non-functional aspects, ensuring that the system is robust, stable, extensible, and reliable in real-world onboarding scenarios.
 ---
+
+## Identified Improvements
+
+Based on the usability test sessions, the following improvements were identified and classified by implementation timeline:
+
+### Actionable Now (Sprint 4)
+
+| # | Issue Identified | Proposed Improvement | Scenario(s) Affected |
+|---|-----------------|---------------------|---------------------|
+| 1 | Upload confirmation flow unclear for Office Manager persona | Add a more prominent, step-by-step visual guide within the upload modal (e.g., numbered steps or an upload wizard) | S1 |
+| 2 | System feedback messages ambiguous — users unsure if action is needed | Rewrite feedback messages to explicitly state next action (e.g., "Upload successful — no action needed" vs "Upload complete — please review errors below") | S2 |
+| 3 | Onboarding Status section hard to find on dashboard | Move or visually highlight the Onboarding Status widget on the dashboard; consider adding a top-of-page status bar | S4 |
+| 4 | Log Out option not immediately visible | Ensure Log Out is accessible within one click from any screen via a persistent user menu | S3 |
+| 5 | Save confirmation after profile edit not prominent | Add a visible toast notification or inline success indicator after saving profile changes | S7 |
+
+### Future Development
+
+| # | Issue Identified | Proposed Improvement | Scenario(s) Affected |
+|---|-----------------|---------------------|---------------------|
+| 1 | Upload history page confusing for returning users | Redesign the upload history page with clearer version labels, timestamps, and status indicators | S3 |
+| 2 | Office Manager persona consistently underperforms vs. Onboarding Specialist | Consider a persona-specific onboarding walkthrough or contextual tooltips targeted at non-specialist users | S1, S3, S4 |
+| 3 | Dashboard density makes locating specific widgets difficult | Evaluate a customizable or role-based dashboard layout to reduce visual noise | S4, S8 |
+
+---
+
+# Feedback and Improvements from Sprint 3
+
+Based on the feedback received during Sprint 3 review, the following updates were incorporated into this document and into the system:
+
+| Feedback | Action Taken |
+|----------|-------------|
+| Test cases lacked execution evidence (pass/fail records) | All functional and NFR test cases now include an execution results table with actual vs. expected outcomes and status |
+| Usability test results were only raw data without analysis | Added consolidated metrics table, per-scenario observations, and a structured improvements section |
+| NFR tests did not specify tools or how tests were run | Each NFR test case now documents the specific tool used and includes a summary of execution steps and evidence |
+| Stress testing (CT-NF05) results were not discussed | Stress test results now explicitly documented; latency spike at 25 VUs is flagged as a future infrastructure improvement |
+| Functional tests lacked negative scenario detail | Negative scenarios for FR01, FR02, FR04, FR09, and FR12 expanded with specific inputs and expected/actual results |
+
+---
+
+# Test Coverage Discussion & Gaps
+
+## Overall Coverage Assessment
+
+| Test Type | Requirements Covered | Pass Rate | Notes |
+|-----------|---------------------|-----------|-------|
+| Functional (FR) | FR01–FR12 (12/12) | 100% | All positive and negative scenarios passed |
+| Non-Functional (NFR) | NFR01–NFR05 (5/5) | 100% ( stress partial) | Stress scenario at 25 VUs showed latency; no data issues |
+| Usability | 8 scenarios, 5 users | ~92% avg. success | Office Manager persona shows lower performance in upload and status tracking |
+
+## Identified Gaps and Future Opportunities
+
+1. **Stress testing infrastructure**: The academic environment limited realistic high-load simulation. Production-grade load testing should be conducted with representative infrastructure before final release.
+
+2. **FR06 – Change Comparison**: While the visual diff was verified, edge cases (e.g., very large diffs, binary changes) were not tested due to time constraints. This is a candidate for additional testing in the next sprint.
+
+3. **Accessibility testing**: No accessibility (a11y) testing was conducted in this sprint. Screen reader compatibility and keyboard navigation should be validated in a future sprint, particularly given the Office Manager persona's demonstrated difficulties.
+
+4. **Cross-browser testing**: All functional and usability tests were conducted exclusively on Google Chrome. Firefox and Safari compatibility should be validated before final release.
+
+5. **Mobile responsiveness**: The current test plan covers only desktop usage. The onboarding interface has not been tested on mobile or tablet viewports.
+
+> **Conclusion:** The test suite covers all defined functional and non-functional requirements with clear evidence of execution. Usability testing with external users validated the core workflows and surfaced actionable improvements. The identified gaps represent known, scoped limitations of the Sprint 3 testing phase and are candidates for the next iteration.
+
+
 
 # Unit tests
 
