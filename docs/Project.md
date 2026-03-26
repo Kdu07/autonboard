@@ -25,7 +25,7 @@
    5. [Identified Improvements](#identified-improvements)
 7. [Feedback and Improvements from Sprint 3](#feedback-and-improvements-from-sprint-3)
 8. [Test Coverage Discussion & Gaps](#test-coverage-discussion--gaps)
-   
+
 
 # General Planning
 
@@ -33,34 +33,33 @@ The tests described in this document aim to ensure the **quality, reliability, p
 
 The tests were defined considering the business requirements, the constraints of the academic project, and the feasibility of execution in a controlled environment.
 
-# FEATURE DEVELOPMENT  
-File Upload Feature — Frontend Implementation
+This document was updated after Sprint 3 to incorporate execution records, evidence descriptions, usability test results, and identified improvements based on real test sessions conducted with external users.
 
 ---
 
-# Overview of the Feature
+# Feature Development
 
-The File Upload feature allows users to submit structured project files through the platform’s web interface. These files typically contain information related to buildings, floors, amenities, or other entities managed by the system.
+## Overview of the Feature
+
+The File Upload feature allows users to submit structured project files through the platform's web interface. These files typically contain information related to buildings, floors, amenities, or other entities managed by the system.
 
 The upload interface is implemented in the **presentation layer (frontend)** of the application and provides a user-friendly mechanism for selecting and submitting files. Once a file is uploaded, it is transmitted to the backend API, where it is stored and prepared for further processing.
 
-This feature supports the system’s onboarding workflow by enabling clients to provide large datasets in bulk instead of manually configuring each entity within the platform.
+This feature supports the system's onboarding workflow by enabling clients to provide large datasets in bulk instead of manually configuring each entity within the platform.
 
 ---
 
-# Feature Objectives
-
-The main objectives of this feature are:
+## Feature Objectives
 
 - Allow users to upload project files directly through the web interface.
 - Provide an intuitive and accessible file submission interface.
 - Validate file format and size before transmission.
 - Ensure secure and reliable communication with the backend API.
-- Support the platform’s data onboarding process through file-based submissions.
+- Support the platform's data onboarding process through file-based submissions.
 
 ---
 
-# Functional Description
+## Functional Description
 
 The File Upload feature enables users to select a file from their local device and submit it to the system using a dedicated upload interface.
 
@@ -68,13 +67,9 @@ From the user's perspective, the process consists of selecting a valid file, con
 
 On the technical side, the frontend captures the selected file through a file input component and sends it to the backend API using an HTTP request. The backend then handles storage and further processing of the file.
 
-The frontend is responsible for managing the interaction with the user, validating the file before upload, and communicating with the backend API to initiate the submission process.
-
 ---
 
-# Feature Workflow
-
-The feature operates through the following interaction flow:
+## Feature Workflow
 
 1. The user accesses the file upload interface in the web application.
 2. The user selects a file from their local device.
@@ -86,11 +81,92 @@ The feature operates through the following interaction flow:
 
 ---
 
-# Validation and Business Rules
-
-The following validation rules apply to file uploads:
+## Validation and Business Rules
 
 - Only authenticated users are allowed to upload files.
+- Supported file formats include `.csv` and `.xlsx`.
+- The maximum allowed file size is **100 MB**.
+- The file must follow the expected data structure required by the system.
+- The backend performs final validation to ensure data integrity and security.
+
+---
+
+# Testing Tools and Technologies
+
+| Tool | Purpose | Justification |
+|------|---------|---------------|
+| **Postman** | Manual and automated REST API testing | Industry-standard tool for HTTP request validation; allows environment variables, test scripts, and collection runners |
+| **Jest** | Automated unit testing of business logic | Native TypeScript/JavaScript support; widely adopted in Node.js projects; fast execution with clear reporting |
+| **Google Chrome** | Manual functional tests and usability testing | Most widely used browser; built-in DevTools for network inspection, console errors, and DOM analysis |
+| **k6 / Apache JMeter** | Load and concurrency simulation | Both tools allow scripted concurrent user simulation; k6 is code-based and CI-friendly; JMeter provides GUI-based configuration |
+| **Google Sheets** | Recording results and feedback from usability tests | Collaborative, accessible, and allows structured data entry during live test sessions |
+| **Markdown (.md)** | Versioned and structured documentation | Git-compatible, plain-text, and portable format for maintaining test documentation alongside source code |
+
+---
+
+# Functional Test Planning & Execution
+
+## Functional Tests Overview
+
+Functional tests validate whether all functionalities of the Equiem system correctly meet the defined **Functional Requirements (FRs)**. The focus is on the complete onboarding workflow, from the initial upload to the final consolidation and external integration.
+
+The planning includes both main flows and exception scenarios, ensuring that the system responds correctly to invalid inputs, operational errors, and unexpected interruptions.
+
+All functional tests were executed manually using **Google Chrome** for UI interactions and **Postman** for direct API calls.
+
+---
+
+## Functional Test Cases
+
+---
+
+### FR01 – Structured Onboarding Data Upload
+
+**Objective:** Validate that authenticated users can upload CSV/XLSX files through the onboarding interface.
+
+**Precondition:** User is authenticated in the system.
+
+**Test Tool:** Google Chrome (UI) + Postman (API)
+
+#### Execution Steps
+
+1. Access the system with valid credentials.
+2. Navigate to the onboarding screen.
+3. Select the upload option.
+4. Upload a `.csv` or `.xlsx` file within the 100MB limit.
+5. Confirm submission and wait for the system response.
+
+#### Test Scenarios
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — valid CSV upload | `.csv` file, authenticated user | File accepted; success message displayed; file stored in staging layer | File accepted and confirmation message shown |  Pass |
+| Positive — valid XLSX upload | `.xlsx` file, authenticated user | File accepted; success message displayed | File accepted and confirmation message shown |  Pass |
+| Negative — unauthenticated upload | No valid session token | System rejects upload; authentication error displayed | 401 Unauthorized returned; user redirected to login |  Pass |
+| Negative — invalid file format | `.pdf` file | System rejects file; format error message displayed | Error message shown: "Unsupported file format" |  Pass |
+| Negative — oversized file | File > 100MB | System rejects file; size error message displayed | Error message shown: "File exceeds maximum size" |  Pass |
+
+**Post-condition:** Valid files are stored in the staging layer; invalid submissions are rejected with descriptive error messages.
+
+**Evidence:** API responses captured in Postman; UI screenshots recorded showing success and error states.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+henticated users are allowed to upload files.
 - Supported file formats include `.csv` and `.xlsx`.
 - The maximum allowed file size is **100 MB**.
 - The file must follow the expected data structure required by the system.
