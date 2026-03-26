@@ -325,6 +325,63 @@ All functional tests were executed manually using **Google Chrome** for UI inter
 
 ---
 
+### FR11 – Onboarding Status and Feedback
+
+**Objective:** Verify that onboarding status is tracked and correctly updated across stages.
+
+**Test Tool:** Google Chrome + Postman
+
+#### Test Scenarios
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — progress through stages | Complete each onboarding step in sequence | Status updates at each stage | Status badge updated at each step |  Pass |
+
+---
+
+### FR12 – Data Consolidation and Secure Integration
+
+**Objective:** Validate final data consolidation and successful integration with the external system.
+
+**Test Tool:** Postman (API) + integration logs
+
+#### Execution Steps
+
+1. Complete all mandatory onboarding sections.
+2. Trigger the consolidation process.
+3. Generate the consolidated data package.
+4. Send the package to the external system.
+5. Confirm successful integration via response and logs.
+
+#### Test Scenarios
+
+| Scenario | Input | Expected Result | Actual Result | Status |
+|----------|-------|----------------|---------------|--------|
+| Positive — full completion | All sections completed; valid data | Consolidated package sent; integration confirmed | External system acknowledged receipt |  Pass |
+| Negative — incomplete sections | Missing mandatory section | Consolidation blocked; error message shown | System prevented export with clear message |  Pass |
+
+---
+
+## Functional Test Coverage
+
+| FR | Coverage | How Coverage Ensures Requirement is Met |
+|----|----------|----------------------------------------|
+| FR01 |  Full | Tests both positive (valid upload) and negative (invalid file, no authentication, oversized file) scenarios, ensuring only authorized users can upload valid files. |
+| FR02 |  Full | Validates standardization with compatible and incompatible data, confirming schema integrity and proper error reporting. |
+| FR03 |  Full | Confirms that the persistence layer stores multiple versions independently without overwriting records. |
+| FR04 |  Full | Verifies detection of errors, duplicates, and conflicts; ensures only valid data advances and detailed reports are generated. |
+| FR05 |  Full | Tests safe replacement of corrected data while preserving previous versions. |
+| FR06 |  Full | Validates that the UI highlights differences between versions to support user review. |
+| FR07 |  Full | Ensures automatic progress saving works correctly across session interruptions. |
+| FR08 |  Full | Verifies that the interface adapts dynamically to active modules, preventing irrelevant sections from being displayed. |
+| FR09 |  Full | Confirms dependency enforcement prevents access to sections before prerequisites are met. |
+| FR10 |  Full | Validates multi-user parallel work on separate sections without data conflicts. |
+| FR11 |  Full | Ensures the onboarding status is correctly updated at each stage, providing accurate user feedback. |
+| FR12 |  Full | Confirms end-to-end data consolidation and integration with external systems succeeds, including blocking of incomplete submissions. |
+
+> **Coverage Discussion:** All 12 FRs are covered with detailed positive and negative scenarios. Each test case maps directly to a functional requirement and reflects real-world usage patterns. The inclusion of negative scenarios for FR01, FR02, FR04, and FR12 significantly increases confidence in the system's robustness. No coverage gaps were identified for functional requirements in this sprint.
+
+---
 
 
 
