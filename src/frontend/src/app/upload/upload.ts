@@ -69,7 +69,7 @@ export class Upload {
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    this.http.post('http://localhost:3000/upload', formData, {
+    this.http.post(`http://${window.location.hostname}:3000/upload`, formData, {
       headers: new HttpHeaders(headers),
       reportProgress: true,
       observe: 'events'
