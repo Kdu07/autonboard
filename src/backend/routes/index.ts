@@ -1,7 +1,4 @@
 import express from "express";
-
-const router = express.Router();
-
 import { getAll, create } from "../controllers/UploadController";
 import { UploadMiddleware } from "../middleware/UploadMiddleware";
 import { UploadExcelController } from "../controllers/UploadExcelController";

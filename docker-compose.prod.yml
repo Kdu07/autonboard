@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_SSL=${DB_SSL}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '256M'
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"   # Redireciona HTTP → HTTPS
+      - "443:443" # Porta HTTPS para o Auth0 funcionar
+    depends_on:
+      - backend
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '256M'
