@@ -65,6 +65,7 @@ export class Upload {
     const formData = new FormData();
     formData.append('file', entry.file);
     formData.append('status', 'pending');
+    formData.append('customer_id', '1'); // Temporário para evitar erro 400
 
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;

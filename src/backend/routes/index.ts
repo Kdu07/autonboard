@@ -23,5 +23,10 @@ export const routes: any[] = [
     UploadMiddleware.multerSingle,
     UploadMiddleware.process,
     create
-  )
+  ),
+
+  // Basic routes for Dashboard and Profile (can be expanded later)
+  router.get("/dashboard", getAll), // Temporário: retornando todos os uploads como dados do dashboard
+  router.get("/dashboard-debug", getAll),
+  router.post("/profile", (req, res) => res.json({ message: "Profile saved (mock)" }))
 ];
