@@ -28,7 +28,7 @@
    1. [Overall Coverage Assessment](#overall-coverage-assessment)
    2. [Identified Gaps and Future Opportunities](#identified-gaps-and-future-opportunities)
 9. [Analytic Optimization of System Throughput](#appendix-a-system-configuration-and-optimization-report)
-    1. [Benchmark Data Log (Phase 1: Data Collection)](#1-benchmark-data-log1.)
+    1. [Benchmark Data Log (Phase 1: Data Collection)](#1-benchmark-data-log)
     2. [The Performance Model (Phase 2: Mathematical Modeling)](#2-the-performance-model)
     3. [Optimization Derivation (Phase 3: Analytic Optimization)](#3-optimization-derivation)
 1. [Frontend Screens Documentation](#frontend-screens-documentation)
