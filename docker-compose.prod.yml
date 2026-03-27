@@ -1,22 +1,6 @@
 version: '3.8'
 
 services:
-  database:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: g01_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: '128M'
-
   backend:
     build:
       context: .
@@ -30,14 +14,11 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${DB_DATABASE}
       - DB_SSL=${DB_SSL}
-    depends_on:
-      - database
     deploy:
       resources:
         limits:
-          # Limites de processamento para a avaliação!
           cpus: '0.5'
-          memory: '128M'
+          memory: '256M'
 
   frontend:
     build:
@@ -51,9 +32,5 @@ services:
     deploy:
       resources:
         limits:
-          # Limites de processamento para a avaliação!
           cpus: '0.5'
-          memory: '128M'
-
-volumes:
-  pgdata:
+          memory: '256M'

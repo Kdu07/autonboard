@@ -27,6 +27,12 @@
 8. [Test Coverage Discussion & Gaps](#test-coverage-discussion--gaps)
    1. [Overall Coverage Assessment](#overall-coverage-assessment)
    2. [Identified Gaps and Future Opportunities](#identified-gaps-and-future-opportunities)
+9. [Frontend Screens Documentation](#frontend-screens-documentation)
+   1. [Landing Page](#1-landing-page)
+   2. [Authentication Screens](#2-authentication-screens)
+   3. [Upload Screen](#3-upload-screen)
+   4. [Navigation Flow](#navigation-flow)
+   5. [Design System](#design-system)
 
 # General Planning
 
@@ -1569,3 +1575,303 @@ To be developed after analyzing the model coefficients and derivatives.
 
 **Latency-sensitive systems:**  
 *(to be discussed)*  
+
+
+---
+
+# Frontend Screens Documentation
+
+## Overview
+
+This section provides a comprehensive reference for the **Autonboard** frontend interface, documenting each screen's purpose, layout structure, interactive components, validation behavior, and traceability to the system's Functional and Non-Functional Requirements.
+
+The frontend is composed of three primary screens that collectively support the complete data onboarding workflow: a public-facing **Landing Page**, an **Authentication Screen** (encompassing both sign-in and account creation flows), and the authenticated **File Upload Screen**. All screens adhere to a unified design language characterized by a light indigo/purple color palette, card-based layouts, and a clean typographic hierarchy.
+
+| Screen | Expected Route | Access Level | Primary Requirement |
+|---|---|---|---|
+| Landing Page | `/` | Public | FR08 |
+| Sign In | `/login` | Public | FR01 (precondition) |
+| Create Account | `/register` | Public | FR01 (precondition) |
+| File Upload | `/upload` | Authenticated | FR01 |
+
+---
+
+## 1. Landing Page
+
+![Landing Page](../assets/leandingpage.png)
+
+### 1.1 Purpose
+
+The Landing Page serves as the primary entry point for unauthenticated users. Its objective is to communicate the platform's value proposition clearly and efficiently, guiding visitors toward account creation or sign-in. This screen does not expose any protected functionality and is fully accessible without authentication.
+
+### 1.2 Layout Structure
+
+The page is organized into two main sections: a **Hero Section** positioned above the fold and a **Problem Statement Section** below.
+
+#### Navigation Bar
+
+The top navigation bar persists across the full width of the page and provides access to authentication actions.
+
+| Element | Type | Description |
+|---|---|---|
+| **Logo** | Text | "Autonboard" brand identifier — anchored to the top-left |
+| **Sign In** | Text Link | Routes the user to the Sign In screen (`/login`) |
+| **Get Started** | Primary Button | Routes the user to the account creation screen (`/register`); rendered in indigo |
+
+#### Hero Section
+
+The hero section is presented in a two-column layout. The left column contains the primary messaging and call-to-action; the right column displays a decorative preview card that illustrates the upload functionality in context.
+
+| Element | Type | Description |
+|---|---|---|
+| **Headline** | `h1` | "Automate Your Data Onboarding" — extra-large, bold, dark |
+| **Subheadline** | Paragraph | Concise value statement describing the upload, validation, and standardization capabilities |
+| **Start Uploading Data →** | Primary Button | Main conversion CTA — routes to sign-in or registration |
+| **Upload Preview Card** | Decorative Component | Illustrates the upload interface in action, showing `customer_data.csv` (completed ✓) and `inventory.xlsx` (in progress at 75%) |
+
+#### Problem Statement Section
+
+This section contextualizes the platform's purpose by presenting four pain points that Autonboard addresses. It reinforces the relevance of the product for target users.
+
+| Element | Type | Description |
+|---|---|---|
+| **Section Title** | `h2` | "Data Onboarding Should Not Be This Hard" |
+| **Subtitle** | Paragraph | Frames the problem space: manual processing is slow, error-prone, and unscalable |
+| **Pain Point Cards (×4)** | Card Components | Each card includes an icon, a title, and a brief description covering: *Messy Spreadsheets*, *Manual Validation*, *Data Inconsistencies*, and *Slow Processes* |
+
+### 1.3 Requirement Traceability
+
+| Requirement | Relationship |
+|---|---|
+| **FR01** | The hero section directly surfaces the file upload capability as the platform's core feature, priming users for the upload workflow |
+| **FR08** | The upload preview card demonstrates the dynamic, module-aware interface that the system provides |
+
+---
+
+## 2. Authentication Screens
+
+![Sign In and Create Account](../assets/login.png)
+
+### 2.1 Purpose
+
+The authentication screens enforce access control before allowing any interaction with protected resources. This is a mandatory precondition for FR01 and is aligned with NFR01 (Data Integrity Compliance), which requires that all upload actions be performed by verified, authenticated users only. A failed or absent authentication session results in a `401 Unauthorized` response and a redirect to the sign-in screen.
+
+The authentication module presents two distinct forms within the same screen area: the **Sign In** form (left panel) and the **Create Account** form (right panel).
+
+---
+
+### 2.2 Sign In
+
+The Sign In form allows returning users to resume their session and access the upload interface.
+
+#### Layout
+
+| Element | Type | Description |
+|---|---|---|
+| **Logo** | Text | "Autonboard" displayed above the card |
+| **Card Title** | `h2` | "Welcome Back" |
+| **Card Subtitle** | Paragraph | "Sign in to continue your data journey" |
+| **Email** | Text Input (envelope icon) | Accepts the user's registered email address |
+| **Password** | Password Input (lock icon) | Masked input for the user's credentials |
+| **Remember Me** | Checkbox | Optional session persistence — left-aligned |
+| **Forgot Password?** | Text Link (purple) | Initiates the password recovery flow — right-aligned |
+| **Sign In** | Primary Button (full width) | Submits credentials and authenticates the session |
+| **Divider** | Visual Separator | "or" label separating primary and OAuth options |
+| **Continue with Google** | Secondary Button | Initiates OAuth 2.0 sign-in via Google — full width |
+
+#### Behavior and Validation
+
+| Condition | System Response |
+|---|---|
+| Empty required fields | Inline validation error displayed before form submission |
+| Invalid credentials | Authentication error message rendered within the card |
+| Unauthenticated API request (401) | System rejects the request; user is redirected to Sign In (FR01 negative scenario) |
+| Successful authentication | User is redirected to the File Upload screen (`/upload`) |
+
+---
+
+### 2.3 Create Account
+
+The Create Account form allows new users to register on the platform and immediately access the onboarding workflow.
+
+#### Layout
+
+| Element | Type | Description |
+|---|---|---|
+| **Card Title** | `h2` | "Create Account" |
+| **Card Subtitle** | Paragraph | "Start your automated onboarding journey" |
+| **Full Name** | Text Input (person icon) | Accepts the user's full name |
+| **Email** | Text Input (envelope icon) | Accepts a valid email address for account identification |
+| **Password** | Password Input (lock icon) | Accepts the desired account password |
+| **Confirm Password** | Password Input (lock icon) | Must match the value entered in the Password field |
+| **Terms Checkbox** | Checkbox | User consent to Terms of Service and Privacy Policy — mandatory |
+| **Create Account** | Primary Button (full width) | Submits the registration form |
+| **Sign In Link** | Text Link | "Already have an account? Sign in" — anchored below the primary button |
+| **Trust Indicators** | Bulleted List (green checkmarks) | Platform guarantees: *Automated data processing*, *Real-time insights & analytics*, *Enterprise-grade security* |
+
+#### Behavior and Validation
+
+| Condition | System Response |
+|---|---|
+| Any required field left empty | Inline validation error displayed; submission blocked |
+| Password / Confirm Password mismatch | Field-level error message; submission blocked |
+| Terms checkbox unchecked | Submission blocked until consent is given |
+| Successful registration | User session is created; user is redirected to the File Upload screen |
+
+---
+
+## 3. File Upload Screen
+
+![File Upload Screen](../assets/upload.png)
+
+### 3.1 Purpose
+
+The File Upload Screen is the core functional interface of the Autonboard platform. It allows authenticated users to submit structured data files (`.csv` or `.xlsx`) for processing through the onboarding pipeline. This screen directly implements **FR01** (Structured Onboarding Data Upload) and provides real-time upload progress feedback to the user.
+
+Access to this screen without a valid authentication session results in an automatic redirect to the Sign In page, enforcing the authentication precondition defined in FR01 and NFR01.
+
+### 3.2 Layout Structure
+
+#### Navigation Bar
+
+| Element | Type | Description |
+|---|---|---|
+| **Logo** | Text | "Autonboard" — anchored to the top-left |
+| **Profile** | Text Link | Provides access to user profile management (usability scenarios S6 and S7) |
+
+#### Upload Panel
+
+The central upload panel is the primary interactive component of this screen. It is rendered as a prominent card with a clear visual status indicator.
+
+| Element | Type | Description |
+|---|---|---|
+| **Panel Title** | `h1` | "Upload Files" — left-aligned, extra-large |
+| **Status Badge** | Pill Component | Displays the current system state; default value is "● Ready" (green indicator) |
+| **Drop Zone** | Interactive Area | Large drag-and-drop target with a dashed border and a cloud-upload icon. Instruction text: *"Drop your files here / or click to browse / CSV, XLSX, PDF up to 100MB"* |
+| **Click-to-Browse Link** | Inline Link (purple) | Triggers the native file picker dialog as an alternative to drag-and-drop |
+
+#### File List
+
+Files added to the upload queue are displayed as individual rows beneath the drop zone. Each row reflects the current upload state of its corresponding file.
+
+| State | Visual Indicator | Example |
+|---|---|---|
+| **Upload Complete** | Green checkmark icon (✓) | `customer_data.csv — 2.4 MB` ✓ |
+| **In Progress** | Blue progress bar with percentage label | `inventory.xlsx — 75% — Uploading...` |
+| **Error** | Inline error message | Descriptive message per applicable business rule |
+
+### 3.3 Accepted Formats and File Constraints
+
+| Attribute | Value |
+|---|---|
+| Accepted file formats | `.csv`, `.xlsx` |
+| Maximum file size | 100 MB |
+| Authentication required | Yes — unauthenticated requests are rejected with HTTP 401 |
+
+### 3.4 Validation Rules and System Responses
+
+The frontend enforces pre-submission validation. The backend performs a secondary, authoritative validation layer for data integrity (NFR01).
+
+| Validation Rule | Trigger | System Response |
+|---|---|---|
+| Unauthenticated access | User accesses `/upload` without a valid session | Redirected to the Sign In screen |
+| Unsupported file format | User selects or drops a file with an unsupported extension (e.g., `.pdf`, `.txt`) | Error message: *"Unsupported file format"* |
+| File exceeds size limit | Selected file is larger than 100 MB | Error message: *"File exceeds maximum size of 100MB"* |
+| Valid file submitted | File meets all format and size requirements | Upload initiated; progress bar displayed; success state shown on completion |
+
+### 3.5 User Feedback States
+
+The interface provides clear, real-time feedback throughout the upload lifecycle, directly addressing the feedback clarity improvement identified in Sprint 3 (usability).
+
+| State | Description |
+|---|---|
+| **Ready** | Default state. Drop zone is active and accepts user input. No files are queued. |
+| **Uploading** | One or more files are being transmitted. A per-file progress bar and percentage label are displayed. |
+| **Success** | Upload completed successfully. The file row displays a green checkmark and persists in the file list. |
+| **Error** | Upload failed or was rejected by validation. An inline error message describes the specific issue. |
+
+### 3.6 Requirement Traceability
+
+| Requirement | How This Screen Addresses It |
+|---|---|
+| **FR01** | Core implementation of the authenticated file upload capability |
+| **NFR01** | Frontend format and size validation supplements the backend's authoritative schema validation |
+| **NFR02** | Upload responsiveness verified for files up to 100 MB (~12 s); interface remains interactive throughout |
+| **NFR03** | Progress state and error feedback support reliability; failed uploads do not result in partial data persistence |
+| **NFR04** | The accepted format list (`.csv`, `.xlsx`) is extensible without requiring changes to the upload UI component |
+
+---
+
+## 4. Navigation Flow
+
+The diagram below illustrates the complete user journey across all frontend screens, from the initial entry point to the authenticated upload interface.
+
+```
+                    ┌─────────────────────┐
+                    │     Landing Page     │  (Public — /)
+                    └────────┬────────────┘
+                             │
+               ┌─────────────┴─────────────┐
+               ▼                           ▼
+    ┌─────────────────────┐     ┌─────────────────────┐
+    │       Sign In        │     │    Create Account    │
+    │      /login          │     │     /register        │
+    └──────────┬──────────┘     └──────────┬──────────┘
+               └─────────────┬─────────────┘
+                             ▼
+                    ┌──────────────────────┐
+                    │  File Upload Screen   │  (Authenticated — /upload)
+                    └──────────────────────┘
+```
+
+**Navigation steps:**
+
+1. An unauthenticated user lands on the **Landing Page** (`/`).
+2. Clicking **Get Started** or **Sign In** navigates to the **Authentication Screen**.
+3. A new user selects **Create Account**, completes the registration form, and is redirected to the **File Upload Screen**.
+4. A returning user signs in with existing credentials and is redirected to the **File Upload Screen**.
+5. From the **File Upload Screen**, the **Profile** link in the navigation bar provides access to profile management (not covered in the current screen set).
+
+---
+
+## 5. Design System Reference
+
+This section documents the visual and component standards applied consistently across all frontend screens.
+
+### 5.1 Color Palette
+
+| Token | Application | Approximate Value |
+|---|---|---|
+| Indigo / Purple | Primary buttons, CTAs, active links | `#5B4CDB` – `#7C6EF5` |
+| Light Purple | Page backgrounds, panel backgrounds | `#EEE9FF` – `#F5F2FF` |
+| White | Cards, drop zones, input fields | `#FFFFFF` |
+| Light Gray | General page background | `#F3F4F6` |
+| Dark | Headline text | `#111827` |
+| Medium Gray | Body text, subtitles | `#6B7280` |
+| Green | Success indicators, checkmarks, trust bullets | `#22C55E` |
+| Blue | Upload progress bars | `#3B82F6` |
+
+### 5.2 Typography
+
+| Level | Style |
+|---|---|
+| Page Headline (`h1`) | Extra-large, bold — primary titles (e.g., "Upload Files", "Automate Your Data Onboarding") |
+| Section Title (`h2`) | Large, bold — card titles and section headers |
+| Body / Subtitle | Regular weight, medium gray — supporting descriptions and form subtitles |
+| Links | Purple, no underline by default; underline on hover |
+| Button Labels | Medium weight, white — centered within button boundaries |
+
+### 5.3 Component Inventory
+
+| Component | Description | Screens Used |
+|---|---|---|
+| **Primary Button** | Indigo gradient background, white label | Landing Page, Sign In, Create Account |
+| **Secondary Button** | White background, gray border, dark label | Sign In (Google OAuth) |
+| **Text Input with Icon** | Left-aligned icon (envelope, lock, person) with placeholder | Sign In, Create Account |
+| **File Drop Zone** | Dashed-border area with cloud icon; supports drag-and-drop and click-to-browse | Landing Page (preview), File Upload |
+| **File List Row** | Per-file row with icon, filename, size, and status indicator | Landing Page (preview), File Upload |
+| **Status Badge (Pill)** | Small pill with colored dot and status label | File Upload |
+| **Progress Bar** | Horizontal bar indicating upload completion percentage | File Upload |
+| **Pain Point Card** | Icon, title, and description card for feature communication | Landing Page |
+| **Navigation Bar** | Persistent top bar with logo and navigation actions | All screens |
+| **Checkbox** | Standard form checkbox for session persistence and consent inputs | Sign In, Create Account |

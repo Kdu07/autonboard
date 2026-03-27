@@ -1,3 +1,6 @@
+
+
+<div class="dashboard-page">
 <div class="dashboard-page">
 
   <!-- Navbar -->
@@ -21,20 +24,7 @@
   <!-- Content -->
   <div class="dashboard-container">
 
-    <!-- Loading State -->
-    <div class="loading-state" *ngIf="isLoading">
-      <div class="spinner"></div>
-      <p>Loading your dashboard...</p>
-    </div>
-
-    <!-- Error State -->
-    <div class="error-state" *ngIf="!isLoading && error">
-      <div class="error-icon">⚠</div>
-      <h3>Something went wrong</h3>
-      <p>{{ error }}</p>
-      <button class="btn-retry" (click)="loadDashboard()">Try Again</button>
-    </div>
-
+   
     <!-- Dashboard Content -->
     <div class="dashboard-content" *ngIf="!isLoading && !error && dashboardData">
 

@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from '@auth0/auth0-angular';
-import { Upload } from './upload/upload';
 import { Landingpage } from './landingpage/landingpage';
 import { Dashboard } from './dashboard/dashboard';
+import { Upload } from './upload/upload';
 import { Profile } from './profile/profile';
 
 export const routes: Routes = [
@@ -16,22 +15,20 @@ export const routes: Routes = [
     component: Upload
 =======
     path: 'dashboard',
-    component: Dashboard,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'profile',
-    component: Profile,
-    canActivate: [AuthGuard]
+    component: Dashboard
   },
   {
     path: 'upload',
-    component: Upload,
-    canActivate: [AuthGuard]
+    component: Upload
   },
   {
+<<<<<<< HEAD
     path: '**',
     redirectTo: ''
 >>>>>>> develop
+=======
+    path: 'profile',
+    component: Profile
+>>>>>>> f59500ed9fff2ab96028d9e5e7a5fe691f32324f
   }
 ];

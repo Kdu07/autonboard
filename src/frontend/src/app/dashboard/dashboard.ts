@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
@@ -47,7 +47,7 @@ export class Dashboard implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  constructor(public auth: AuthService, private http: HttpClient) {}
+  constructor(public auth: AuthService, private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.auth.isAuthenticated$.subscribe(isAuth => {
@@ -60,14 +60,16 @@ export class Dashboard implements OnInit {
   loadDashboard(): void {
     this.isLoading = true;
     this.error = null;
+    this.cdr.detectChanges();
 
     this.auth.getAccessTokenSilently().subscribe({
       next: (token) => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-        this.http.get<DashboardData>('http://localhost:3000/dashboard', { headers }).subscribe({
+        this.http.get<DashboardData>('/api/dashboard', { headers }).subscribe({
           next: (data) => {
             this.dashboardData = data;
             this.isLoading = false;
+            this.cdr.detectChanges();
           },
           error: (err) => {
             console.error('Dashboard API error:', err);
@@ -84,20 +86,23 @@ export class Dashboard implements OnInit {
   tryDebugEndpoint(): void {
     this.auth.user$.subscribe(user => {
       if (user?.sub) {
-        this.http.get<DashboardData>(`http://localhost:3000/dashboard-debug?auth0_id=${user.sub}`).subscribe({
+        this.http.get<DashboardData>(`/api/dashboard-debug?auth0_id=${user.sub}`).subscribe({
           next: (data) => {
             this.dashboardData = data;
             this.isLoading = false;
+            this.cdr.detectChanges();
           },
           error: (err) => {
             this.error = 'Unable to load dashboard data. Please try again.';
             this.isLoading = false;
             console.error('Debug endpoint error:', err);
+            this.cdr.detectChanges();
           }
         });
       } else {
         this.error = 'User not found. Please log in again.';
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
