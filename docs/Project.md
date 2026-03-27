@@ -27,7 +27,11 @@
 8. [Test Coverage Discussion & Gaps](#test-coverage-discussion--gaps)
    1. [Overall Coverage Assessment](#overall-coverage-assessment)
    2. [Identified Gaps and Future Opportunities](#identified-gaps-and-future-opportunities)
-9. [Frontend Screens Documentation](#frontend-screens-documentation)
+9. [Analytic Optimization of System Throughput](#appendix-a-system-configuration-and-optimization-report)
+    1. [Benchmark Data Log (Phase 1: Data Collection)](#1-benchmark-data-log)
+    2. [The Performance Model (Phase 2: Mathematical Modeling)](#2-the-performance-model)
+    3. [Optimization Derivation (Phase 3: Analytic Optimization)](#3-optimization-derivation)
+1. [Frontend Screens Documentation](#frontend-screens-documentation)
    1. [Landing Page](#1-landing-page)
    2. [Authentication Screens](#2-authentication-screens)
    3. [Upload Screen](#3-upload-screen)
@@ -1441,24 +1445,22 @@ At the current stage of the project (Sprint 3), the authentication mechanism has
 
 The implementation of Auth0 authentication is planned for a future sprint as the user access management features are introduced.
 
-
 # Appendix A: System Configuration and Optimization Report
 
-## Overview
+## 1. Benchmark Data Log
 
-This appendix presents the analytical process used to determine the optimal configuration of the system. The goal is to identify the best combination of Batch Size (B) and Worker Count (W) in order to maximize throughput, based on benchmarking data, regression modeling, and multivariable calculus.
-
-### Benchmark Data Log
+### Overview
 
 During this phase, a benchmark was conducted to evaluate system performance by varying two key parameters: Batch Size (B) and Worker Count (W). A synthetic dataset containing 50,000 records was used to ensure consistency across all tests.
 
-A total of 12 distinct combinations of (B, W) were executed. Each experiment was repeated three times, and the average execution time and throughput (measured in records per second) were calculated in order to reduce variability and improve result reliability.
+A total of 12 distinct combinations of (B, W) were executed. Each experiment was repeated three times, and the average execution time and throughput (measured in records per second) were calculated to reduce variability and improve result reliability.
 
 The processing workflow was structured into batches and executed concurrently using multiple workers. Additionally, a simulated computational load was introduced to better approximate real-world conditions involving I/O and CPU usage.
 
 The results indicate that increasing both Batch Size and Worker Count leads to significant improvements in throughput. However, this improvement is not linear, suggesting the presence of system constraints such as resource contention, overhead, and diminishing returns from parallelism.
 
-This observed non-linearity justifies the use of a quadratic regression model in the next phase, where the collected data will be used to mathematically model system performance and identify the optimal configuration.
+This observed non-linearity justifies the use of a quadratic regression model.
+
 
 ### Benchmark Results
 
@@ -1477,14 +1479,12 @@ This observed non-linearity justifies the use of a quadratic regression model in
 | 2000           | 8                | 934358.53                 |
 | 2000           | 16               | 2007323.83                |
 
-> A minimum of 12 combinations were tested to ensure a reliable regression model.
 
+## 2. The Performance Model
 
-### Performance Model
+### Model Definition
 
-A quadratic regression model was applied to represent system throughput as a function of Batch Size (B) and Worker Count (W).
-
-**Fitted model:**
+A quadratic regression model was applied to represent system throughput as a function of Batch Size (B) and Worker Count (W):
 
 T(B, W) = -0.11766B² + 9770.24W² + 179.19BW - 258.32B - 197428.77W + 571856.77
 
@@ -1496,88 +1496,186 @@ T(B, W) = -0.11766B² + 9770.24W² + 179.19BW - 258.32B - 197428.77W + 571856.77
 This value indicates a high level of accuracy, meaning the model provides a strong fit to the observed data and reliably captures the system’s performance behavior.
 
 
-### Interpretation of the Model
+### Model Interpretation
 
 From the regression coefficients, the following insights can be derived:
 
-- The Worker Count (W) has a significant impact on throughput, indicating that parallel processing is a key performance driver.
+- Worker Count (W) has a significant impact on throughput, indicating that parallel processing is a key performance driver.
 - The interaction term (BW) is positive, suggesting that Batch Size and Worker Count reinforce each other when increased together.
-- The negative quadratic coefficient for Batch Size (B²) indicates diminishing returns for very large batch sizes, meaning excessively large batches may reduce efficiency.
+- The negative quadratic coefficient for Batch Size (B²) indicates diminishing returns for very large batch sizes.
 
 
 ### Visualization
 
 The 3D surface plot illustrates the relationship between Batch Size (B), Worker Count (W), and system throughput.
 
-The visualization shows that increasing the number of workers leads to substantial throughput gains, particularly when combined with larger batch sizes. This behavior highlights the strong influence of parallelism on system performance, while also revealing non-linear scaling effects.
+The visualization shows that increasing the number of workers leads to substantial throughput gains, particularly when combined with larger batch sizes. This behavior highlights the strong influence of parallelism on system performance while also revealing non-linear scaling effects.
 
 <div align="center">
-<sub>Figure</sub><br>
-  <img src="../assets/graph-phase2.png" width="80%" alt="Graph"><br>
-  <sup>Source: Material produced by the authors, 2026.</sup>
+  <img src="../assets/graph-phase2.png" width="80%" alt="3D Surface Plot"><br>
+  <sub>Figure A.1 – 3D surface representing system throughput as a function of Batch Size (B) and Worker Count (W). Source: Authors, 2026.</sub>
 </div>
+<br>
 
-*Figure A.1 – 3D surface representing system throughput as a function of Batch Size (B) and Worker Count (W).*
+```
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+# Dados
+B = [100, 100, 100,
+     500, 500, 500,
+     1000, 1000, 1000,
+     2000, 2000, 2000]
+
+W = [2, 8, 16,
+     2, 8, 16,
+     2, 8, 16,
+     2, 8, 16]
+
+T = [12807.93, 51131.77, 330330.56,
+     65185.27, 302685.99, 475384.11,
+     140209.64, 483373.35, 847608.34,
+     510109.59, 934358.53, 2007323.83]
+
+# Criar figura
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+# Scatter plot
+ax.scatter(B, W, T)
+
+# Labels
+ax.set_xlabel('Batch Size (B)')
+ax.set_ylabel('Workers (W)')
+ax.set_zlabel('Throughput (T)')
+
+# Mostrar gráfico
+plt.show()
+```
+
+## 3. Optimization Derivation
+
+### 3.1 Partial Derivatives
+
+∂T/∂B = -0.23532B + 179.19W - 258.32  
+
+∂T/∂W = 19540.48W + 179.19B - 197428.77  
 
 
-### Optimization Derivation
+### 3.2 Gradient Vector
 
-This section will present the analytical optimization using multivariable calculus.
-
-**Partial derivatives:**
-
-∂T/∂B = *(to be calculated)*  
-∂T/∂W = *(to be calculated)*  
+∇T(B,W) = (
+  -0.23532B + 179.19W - 258.32,
+  19540.48W + 179.19B - 197428.77
+)
 
 
-**Critical point:**
+### 3.3 Critical Point
 
-∂T/∂B = 0  
-∂T/∂W = 0  
+Setting both partial derivatives equal to zero:
 
-- Optimal Batch Size (Bopt) = *(to be calculated)*  
-- Optimal Worker Count (Wopt) = *(to be calculated)*  
+-0.23532B + 179.19W - 258.32 = 0  
+179.19B + 19540.48W - 197428.77 = 0  
+
+Solving the system:
+
+B = (179.19W - 258.32) / 0.23532  
+
+B ≈ 761.51W - 1097.77  
+
+Substituting:
+
+W ≈ 8.52  
+
+B ≈ 5373.6  
+
+**Critical Point:**
+
+(B, W) ≈ (5373.6, 8.52)
 
 
-**Hessian matrix test:**
+### 3.4 Hessian Matrix
 
-T_BB = *(to be calculated)*  
-T_WW = *(to be calculated)*  
-T_BW = *(to be calculated)*  
-
-H = *(to be calculated)*  
-
-**Conclusion:**  
-To be determined after computation.
+| -0.23532 | 179.19  |
+|----------|---------|
+| 179.19   | 19540.48 |
 
 
-### Strategic Recommendation
+### 3.5 Hessian Determinant
 
-This section will translate the mathematical findings into practical engineering decisions.
+D = (-0.23532 × 19540.48) - (179.19²)  
 
-**Recommended configuration:**
+D ≈ -36703.6  
 
-- Batch Size (B): *(to be determined)*  
-- Worker Count (W): *(to be determined)*  
+
+### 3.6 Classification
+
+Since D < 0, the critical point is classified as a **saddle point**.
+
+
+### 3.7 Interpretation
+
+The model does not present a local maximum at the stationary point.
+
+This occurs because:
+- The function is concave downward with respect to B  
+- The function is concave upward with respect to W  
+
+Therefore, the optimal configuration is not located at the stationary point, but rather along the boundaries of the feasible experimental region, where system constraints and scaling effects dominate.
+
+
+## 4. Strategic Recommendation
+
+### Recommended Configuration
+
+Based on empirical results:
+
+- Batch Size (B): 2000 (or higher, depending on memory constraints)  
+- Worker Count (W): 16 (maximum tested)  
+
+This configuration maximizes parallel processing and overall throughput.
 
 
 ### Sensitivity Analysis
 
-To be developed after analyzing the model coefficients and derivatives.
+The variable with the greatest impact on throughput is:
 
-### Practical Scenarios
+-> Worker Count (W)
 
-**Memory-constrained environments:**  
-*(to be discussed)*  
+Reasons:
+- Large coefficient associated with W²  
+- Strong nonlinear growth with increased parallelism  
 
-**High-throughput scenarios:**  
-*(to be discussed)*  
+Batch Size (B):
+- Moderate impact  
+- Subject to diminishing returns  
 
-**Latency-sensitive systems:**  
-*(to be discussed)*  
+### Usage Scenarios
+
+**High-Performance Scenario**
+- B: High  
+- W: High  
+→ Maximizes throughput  
+
+**Memory-Constrained Environment**
+- B: Moderate  
+- W: High  
+→ Balances memory and performance  
+
+**Latency-Sensitive System**
+- B: Low  
+- W: Moderate  
+→ Reduces response time per batch  
 
 
----
+## Conclusion
+
+- The mathematical model demonstrated strong accuracy (R² ≈ 0.94)  
+- The analytical critical point corresponds to a saddle point, not a maximum  
+- Optimal performance occurs at the boundary of the tested region  
+- Worker Count is the primary driver of scalability  
+
+This highlights an important limitation of purely analytical optimization in real-world systems, where empirical validation remains essential.
 
 # Frontend Screens Documentation
 
