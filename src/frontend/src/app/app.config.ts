@@ -4,13 +4,11 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { provideAuth0 } from '@auth0/auth0-angular';
 
 import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
     provideRouter(routes),
-    provideClientHydration(withEventReplay()),
     provideAuth0({
       domain: 'dev-uqyy6ol8lbuu2abc.us.auth0.com',
       clientId: '3x9UYRHHosHBHPMqjjBdEWhfyLbKJ72G',

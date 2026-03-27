@@ -1,32 +1,63 @@
 import express from "express";
-
-const router = express.Router();
-
 import { getAll, create } from "../controllers/UploadController";
 import { UploadMiddleware } from "../middleware/UploadMiddleware";
 
+const router = express.Router();
+
 /**
- * Route definitions for spreadsheet management
+ * Dashboard route (Mariana's feature from develop)
  */
-export const routes: any[] = [
-  // Fetch a list of all previously processed uploads
-  router.get("/", getAll),
+router.get("/dashboard", (req, res) => {
+  res.json({
+    user: {
+      name: "Mariana",
+      email: "mariana@email.com",
+      auth0_id: "google-oauth2|123",
+      email_verified: true,
+      picture: ""
+    },
+    customer: {
+      name: "Empresa Teste",
+      cnpj: "00.000.000/0001-00",
+      modules: ["Onboarding", "Analytics"],
+      plan: "Premium",
+      status: "active"
+    },
+    stats: {
+      total: 10,
+      pending: 2,
+      completed: 7,
+      failed: 1
+    },
+    submissions: [
+      {
+        id: 1,
+        filename: "arquivo.csv",
+        status: "completed",
+        created_at: new Date().toISOString(),
+        file_size: 204800,
+        file_type: "csv"
+      }
+    ]
+  });
+});
 
-  /**
-   * File Upload Pipeline:
-   * 1. multerSingle: Intercepts 'multipart/form-data' and saves the file to disk.
-   * 2. process: Validates required body fields and parses spreadsheet contents.
-   * 3. create: Final controller to persist data to the database.
-   */
-  router.post(
-    "/upload",
-    UploadMiddleware.multerSingle,
-    UploadMiddleware.process,
-    create
-  ),
+/**
+ * Debug and auxiliary routes (from feat/docker)
+ */
+router.get("/dashboard-debug", getAll);
+router.post("/profile", (req, res) => res.json({ message: "Profile saved (mock)" }));
 
-  // Basic routes for Dashboard and Profile (can be expanded later)
-  router.get("/dashboard", getAll), // Temporário: retornando todos os uploads como dados do dashboard
-  router.get("/dashboard-debug", getAll),
-  router.post("/profile", (req, res) => res.json({ message: "Profile saved (mock)" }))
-];
+/**
+ * Upload and List routes
+ */
+router.get("/", getAll);
+
+router.post(
+  "/upload",
+  UploadMiddleware.multerSingle,
+  UploadMiddleware.process,
+  create
+);
+
+export { router as routes };

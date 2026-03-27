@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
@@ -47,7 +47,7 @@ export class Dashboard implements OnInit {
   isLoading = true;
   error: string | null = null;
 
-  constructor(public auth: AuthService, private http: HttpClient) {}
+  constructor(public auth: AuthService, private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.auth.isAuthenticated$.subscribe(isAuth => {
@@ -60,6 +60,7 @@ export class Dashboard implements OnInit {
   loadDashboard(): void {
     this.isLoading = true;
     this.error = null;
+    this.cdr.detectChanges();
 
     this.auth.getAccessTokenSilently().subscribe({
       next: (token) => {
@@ -68,6 +69,7 @@ export class Dashboard implements OnInit {
           next: (data) => {
             this.dashboardData = data;
             this.isLoading = false;
+            this.cdr.detectChanges();
           },
           error: (err) => {
             console.error('Dashboard API error:', err);
@@ -88,16 +90,19 @@ export class Dashboard implements OnInit {
           next: (data) => {
             this.dashboardData = data;
             this.isLoading = false;
+            this.cdr.detectChanges();
           },
           error: (err) => {
             this.error = 'Unable to load dashboard data. Please try again.';
             this.isLoading = false;
             console.error('Debug endpoint error:', err);
+            this.cdr.detectChanges();
           }
         });
       } else {
         this.error = 'User not found. Please log in again.';
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
