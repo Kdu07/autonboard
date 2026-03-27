@@ -101,3 +101,45 @@ npm install
 
 ---
 
+# Running the Project
+
+## Backend
+
+Run the development server:
+
+```
+npm run dev
+```
+
+The backend will start using **ts-node** or **nodemon**.
+
+---
+
+## Frontend
+
+Navigate to the frontend folder:
+
+```
+cd src/frontend
+```
+
+Install dependencies:
+
+```
+npm install
+```
+
+Run the frontend:
+
+```
+npm start
+```
+
+The Angular application will be available at:
+
+```
+http://localhost:4200
+```
+
+---
+
