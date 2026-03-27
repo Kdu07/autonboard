@@ -43,7 +43,7 @@ export class Profile implements OnInit {
     this.auth.getAccessTokenSilently().subscribe({
       next: (token) => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-        this.http.post('http://localhost:3000/profile', this.companyForm, { headers })
+        this.http.post('/api/profile', this.companyForm, { headers })
           .subscribe({
             next: () => {
               this.isSaving = false;

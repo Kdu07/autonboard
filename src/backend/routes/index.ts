@@ -5,7 +5,7 @@ import { UploadMiddleware } from "../middleware/UploadMiddleware";
 const router = express.Router();
 
 /**
- * Dashboard route
+ * Dashboard route (Mariana's feature from develop)
  */
 router.get("/dashboard", (req, res) => {
   res.json({
@@ -43,7 +43,13 @@ router.get("/dashboard", (req, res) => {
 });
 
 /**
- * Existing routes
+ * Debug and auxiliary routes (from feat/docker)
+ */
+router.get("/dashboard-debug", getAll);
+router.post("/profile", (req, res) => res.json({ message: "Profile saved (mock)" }));
+
+/**
+ * Upload and List routes
  */
 router.get("/", getAll);
 

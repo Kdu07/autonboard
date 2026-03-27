@@ -65,11 +65,12 @@ export class Upload {
     const formData = new FormData();
     formData.append('file', entry.file);
     formData.append('status', 'pending');
+    formData.append('customer_id', '1'); // Temporário para evitar erro 400
 
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    this.http.post(`http://${window.location.hostname}:3000/upload`, formData, {
+    this.http.post('/api/upload', formData, {
       headers: new HttpHeaders(headers),
       reportProgress: true,
       observe: 'events'

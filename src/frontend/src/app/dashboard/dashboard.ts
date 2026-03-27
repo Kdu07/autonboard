@@ -65,7 +65,7 @@ export class Dashboard implements OnInit {
     this.auth.getAccessTokenSilently().subscribe({
       next: (token) => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-        this.http.get<DashboardData>('http://localhost:3000/dashboard', { headers }).subscribe({
+        this.http.get<DashboardData>('/api/dashboard', { headers }).subscribe({
           next: (data) => {
             this.dashboardData = data;
             this.isLoading = false;
@@ -86,7 +86,7 @@ export class Dashboard implements OnInit {
   tryDebugEndpoint(): void {
     this.auth.user$.subscribe(user => {
       if (user?.sub) {
-        this.http.get<DashboardData>(`http://localhost:3000/dashboard-debug?auth0_id=${user.sub}`).subscribe({
+        this.http.get<DashboardData>(`/api/dashboard-debug?auth0_id=${user.sub}`).subscribe({
           next: (data) => {
             this.dashboardData = data;
             this.isLoading = false;
