@@ -10,10 +10,6 @@ export const routes: Routes = [
     component: Landingpage
   },
   {
-<<<<<<< HEAD
-    path: 'upload',
-    component: Upload
-=======
     path: 'dashboard',
     component: Dashboard
   },
@@ -22,13 +18,11 @@ export const routes: Routes = [
     component: Upload
   },
   {
-<<<<<<< HEAD
-    path: '**',
-    redirectTo: ''
->>>>>>> develop
-=======
     path: 'profile',
     component: Profile
->>>>>>> f59500ed9fff2ab96028d9e5e7a5fe691f32324f
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
