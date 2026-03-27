@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: g01_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '128M'
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_SSL=${DB_SSL}
+    depends_on:
+      - database
+    deploy:
+      resources:
+        limits:
+          # Limites de processamento para a avaliação!
+          cpus: '0.5'
+          memory: '128M'
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"   # Redireciona HTTP → HTTPS
+      - "443:443" # Porta HTTPS para o Auth0 funcionar
+    depends_on:
+      - backend
+    deploy:
+      resources:
+        limits:
+          # Limites de processamento para a avaliação!
+          cpus: '0.5'
+          memory: '128M'
+
+volumes:
+  pgdata:

@@ -1,12 +1,7 @@
 import fs from "fs";
 import path from "path";
-import  {Pool}  from "pg";
+import { Pool } from "pg";
 import dotenv from "dotenv";
-
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -17,7 +12,6 @@ const {
   DB_PASSWORD,
   DB_PORT
 } = process.env;
-
 
 const pool: Pool = new Pool({
   user: DB_USER,
@@ -60,7 +54,7 @@ async function runSQLSeed(): Promise<void> {
   try {
     await pool.query(seed);
     console.log("Seed executed successfully.");
-  } 
+  }
   catch (error) {
     console.error("Error while running the seed:", error);
   }
@@ -71,7 +65,7 @@ async function runSQLSchema(): Promise<void> {
   try {
     await pool.query(sql);
     console.log("SQL injected, database has been created.");
-  } 
+  }
   catch (error) {
     console.error(
       "Error while injecting SQL, or the Database has already been created.",
@@ -85,10 +79,10 @@ async function main(): Promise<void> {
   try {
     await runSQLSchema();
     await runSQLSeed();
-  } 
+  }
   catch (error) {
     console.error("Unexpected error:", error);
-  } 
+  }
   finally {
     // Gracefully close the pool connection after tasks complete
     await pool.end();
