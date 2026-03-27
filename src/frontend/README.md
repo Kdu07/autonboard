@@ -73,3 +73,31 @@ g01/
 └── README.md
 ```
 
+---
+
+# Requirements
+
+* Node.js 18 or higher
+* npm
+* Docker (optional)
+* Angular CLI (optional)
+
+---
+
+# Installation
+
+Clone the repository:
+
+```
+git clone <repository-url>
+cd g01-novo
+```
+
+Install dependencies:
+
+```
+npm install
+```
+
+---
+
