@@ -1,5 +1,5 @@
 import db from '../../database/config/db'
-import { IUpload } from '../interfaces/global.interfaces';
+import { IUpload } from '../interfaces/db.interfaces';
 
 class UploadModel {
   /**
