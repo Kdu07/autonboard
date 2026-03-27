@@ -181,3 +181,50 @@ npm run test:frontend
 
 ---
 
+# Database
+
+Database scripts are located in:
+
+```
+src/database/runDB
+```
+
+Includes:
+
+* database creation
+* initial data
+* transaction traceability
+* rollback scripts
+* automatic initialization
+
+To initialize:
+
+```
+npm run db:init
+```
+
+---
+
+# Documentation
+
+All documentation is available in:
+
+```
+docs/
+```
+
+Includes:
+
+* backend documentation
+* frontend documentation
+* project management
+* requirements coverage
+* AWS deployment
+* data modeling
+* service blueprint
+
+---
+
+# Authors
+
+Project developed by the team.
