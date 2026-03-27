@@ -1,0 +1,184 @@
+<div class="profile-page">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+      </div>
+      Autonboard
+    </div>
+    <div class="nav-links">
+      <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+      <a class="nav-link" routerLink="/upload">Upload</a>
+      <a class="nav-link active" routerLink="/profile">Profile</a>
+      <button class="btn-logout" (click)="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <div class="profile-container">
+
+    <div class="page-header">
+      <h1 class="page-title">Your <span class="highlight">Profile</span></h1>
+      <p class="page-subtitle">Manage your account and company information</p>
+    </div>
+
+    <div class="profile-grid">
+
+      <!-- Auth0 User Card -->
+      <div class="user-card card" *ngIf="user">
+        <div class="user-avatar-section">
+          <img
+            class="user-avatar"
+            [src]="user.picture || 'https://ui-avatars.com/api/?name=' + (user.name || 'U') + '&background=8b5cf6&color=fff&size=120'"
+            [alt]="user.name"
+          >
+          <div class="user-info">
+            <h2 class="user-name">{{ user.name }}</h2>
+            <p class="user-email">{{ user.email }}</p>
+            <span class="verified-badge" *ngIf="user.email_verified">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Email Verified
+            </span>
+            <span class="unverified-badge" *ngIf="!user.email_verified">
+              ⚠ Email not verified
+            </span>
+          </div>
+        </div>
+
+        <div class="user-details">
+          <div class="detail-row">
+            <span class="detail-label">Auth0 ID</span>
+            <span class="detail-value sub-id">{{ user.sub }}</span>
+          </div>
+          <div class="detail-row" *ngIf="user.updated_at">
+            <span class="detail-label">Last Updated</span>
+            <span class="detail-value">{{ user.updated_at | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="detail-row" *ngIf="user.locale">
+            <span class="detail-label">Locale</span>
+            <span class="detail-value">{{ user.locale }}</span>
+          </div>
+        </div>
+
+        <div class="raw-data-section">
+          <details>
+            <summary class="raw-toggle">View raw Auth0 data</summary>
+            <div class="raw-data-grid">
+              <ng-container *ngFor="let item of user | keyvalue">
+                <span class="raw-key">{{ item.key }}</span>
+                <span class="raw-val">{{ item.value }}</span>
+              </ng-container>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- Company Form -->
+      <div class="company-card card">
+        <div class="card-header">
+          <h2 class="card-title">Company Information</h2>
+          <span class="card-subtitle">Link your organization to your account</span>
+        </div>
+
+        <!-- Success Message -->
+        <div class="alert alert-success" *ngIf="saveSuccess">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Company information saved successfully!
+        </div>
+
+        <!-- Error Message -->
+        <div class="alert alert-error" *ngIf="saveError">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+          </svg>
+          {{ saveError }}
+        </div>
+
+        <form class="company-form" (ngSubmit)="saveCompany()">
+
+          <div class="form-group">
+            <label class="form-label" for="companyName">Company Name *</label>
+            <input
+              id="companyName"
+              type="text"
+              class="form-input"
+              placeholder="Acme Corp"
+              [(ngModel)]="companyForm.name"
+              name="companyName"
+              required
+            >
+          </div>
+
+          <div class="form-row-two">
+            <div class="form-group">
+              <label class="form-label" for="cnpj">CNPJ</label>
+              <input
+                id="cnpj"
+                type="text"
+                class="form-input"
+                placeholder="00.000.000/0001-00"
+                [(ngModel)]="companyForm.cnpj"
+                name="cnpj"
+              >
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone</label>
+              <input
+                id="phone"
+                type="text"
+                class="form-input"
+                placeholder="+55 11 9 0000-0000"
+                [(ngModel)]="companyForm.phone"
+                name="phone"
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="address">Address</label>
+            <input
+              id="address"
+              type="text"
+              class="form-input"
+              placeholder="Rua Example, 123 – São Paulo, SP"
+              [(ngModel)]="companyForm.address"
+              name="address"
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="plan">Plan</label>
+            <select id="plan" class="form-input" [(ngModel)]="companyForm.plan" name="plan">
+              <option value="basic">Basic</option>
+              <option value="professional">Professional</option>
+              <option value="enterprise">Enterprise</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn-save"
+              [disabled]="isSaving || !companyForm.name"
+            >
+              <span *ngIf="!isSaving">Save Company Info</span>
+              <span *ngIf="isSaving" class="saving-row">
+                <span class="btn-spinner"></span> Saving...
+              </span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</div>

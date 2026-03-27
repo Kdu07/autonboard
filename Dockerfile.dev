@@ -1,20 +1,7 @@
-# Development Dockerfile for Backend
-
 FROM node:20-alpine
-
 WORKDIR /app
-
-
 COPY package*.json ./
 RUN npm install
-
-
-COPY app.ts ./
-COPY tsconfig.json ./
-COPY src ./src
-
-
+COPY . .
 EXPOSE 3000
-
-
 CMD ["npm", "run", "dev"]

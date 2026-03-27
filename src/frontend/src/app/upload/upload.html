@@ -1,107 +1,83 @@
-<div class="app-layout">
+<div class="upload-page">
 
-  <aside class="sidebar">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+      </div>
+      Autonboard
+    </div>
+    <div class="nav-links">
+      <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+      <a class="nav-link active" routerLink="/upload">Upload</a>
+      <a class="nav-link" routerLink="/profile">Profile</a>
+      <button class="btn-logout" (click)="logout()">Sign Out</button>
+    </div>
+  </nav>
 
-    <div class="logo">AUTONBOARD</div>
+  <div class="upload-container">
 
-    <nav class="menu">
-      <button class="menu-item" routerLink="/" routerLinkActive="active-style">Upload</button>
-      <button class="menu-item" routerLink="/Landingpage" routerLinkActive="active-style">Test</button>
-    </nav>
+    <div class="upload-card">
+      <div class="upload-card-header">
+        <h1 class="upload-title">Upload Files</h1>
+        <span class="status-ready">● Ready</span>
+      </div>
 
-  </aside>
-
-  <main class="main-container">
-
-      <div class="upload-area-container">
-
-        <div class="upload-box" (click)="fileInput.click()">
-
-          <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-              d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5 0 10-9.78 2.096A4.001 4.001 0 003 15z">
-            </path>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-              d="M12 11v6m0-6l-3 3m3-3l3 3">
-            </path>
+      <!-- Drop Zone -->
+      <div
+        class="dropzone"
+        [class.dragging]="isDragging"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave()"
+        (drop)="onDrop($event)"
+        (click)="fileInput.click()"
+      >
+        <div class="dropzone-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <polyline points="16 16 12 12 8 16"/>
+            <line x1="12" y1="12" x2="12" y2="21"/>
+            <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
           </svg>
-
-          <div class="upload-title">
-            {{ arquivoSelecionado ? arquivoSelecionado.name : 'Drag and drop file here' }}
-          </div>
-
-          <div class="upload-subtitle">
-            Maximum 100MB per file
-          </div>
-
         </div>
-
-        <div class="progress-container">
-          <div class="progress-bar-fundo">
-            <div class="progress-bar-preenchimento" [style.width.%]="progresso"></div>
-          </div>
-        </div>
+        <p class="dropzone-title">Drop your files here</p>
+        <p class="dropzone-link">or click to browse</p>
+        <p class="dropzone-hint">CSV, XLSX, PDF up to 100MB</p>
 
         <input
-          type="file"
           #fileInput
-          style="display: none"
+          type="file"
+          multiple
+          accept=".csv,.xlsx,.xls,.pdf"
+          style="display:none"
           (change)="onFileSelected($event)"
         >
-
-        <button
-          class="btn-upload"
-          (click)="fazerUpload()"
-          [disabled]="estaEnviando"
-        >
-          {{ estaEnviando ? 'UPLOADING...' : 'UPLOAD' }}
-        </button>
-
-        <p class="disclaimer-text">
-          Files will be sent to the database.
-        </p>
-
       </div>
 
-      <div class="history-area-container">
-
-        <div class="history-box">
-          <div class="history-title">Upload History</div>
+      <!-- File List -->
+      <div class="file-list" *ngIf="uploadedFiles.length > 0">
+        <div class="file-item" *ngFor="let item of uploadedFiles">
+          <div class="file-icon-box" [class]="getFileIconClass(item.file.name)">
+            {{ getFileIcon(item.file.name) }}
+          </div>
+          <div class="file-details">
+            <div class="file-name">{{ item.file.name }}</div>
+            <div class="file-size">{{ formatSize(item.file.size) }}</div>
+            <div class="file-progress-bar" *ngIf="item.status === 'uploading'">
+              <div class="file-progress-fill" [style.width.%]="item.progress"></div>
+            </div>
+          </div>
+          <div class="file-status">
+            <span class="status-check" *ngIf="item.status === 'done'">✓</span>
+            <span class="status-error" *ngIf="item.status === 'error'">✗</span>
+            <span class="status-pct" *ngIf="item.status === 'uploading'">{{ item.progress }}%</span>
+          </div>
         </div>
-        
-        <ul class="info-list">
-
-          <li class="info-item">
-            <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
-              </path>
-            </svg>
-            Allowed formats: .pdf .xlsx .csv
-          </li>
-
-          <li class="info-item">
-            <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
-              </path>
-            </svg>
-            Maximum size: 100MB
-          </li>
-
-          <li class="info-item">
-            <svg class="info-icon" fill="none" stroke="#0B0A5E" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
-              </path>
-            </svg>
-            Multiple files supported
-          </li>
-
-        </ul>
-
       </div>
 
-  </main>
+    </div>
+  </div>
 
 </div>
