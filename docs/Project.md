@@ -1368,58 +1368,173 @@ The visualization shows that increasing the number of workers leads to substanti
 *Figure A.1 – 3D surface representing system throughput as a function of Batch Size (B) and Worker Count (W).*
 
 
-### Optimization Derivation
+# PHASE 3: Analytic Optimization (Calculus)
 
-This section will present the analytical optimization using multivariable calculus.
+The performance function obtained in Phase 2 is:
 
-**Partial derivatives:**
+T(B,W) = -0.11766B² + 9770.24W² + 179.19BW - 258.32B - 197428.77W + 571856.77
 
-∂T/∂B = *(to be calculated)*  
-∂T/∂W = *(to be calculated)*  
+Where:
+- B = Batch Size  
+- W = Number of workers  
+- T(B,W) = System throughput  
 
+---
 
-**Critical point:**
+## 1. Partial Derivatives
 
-∂T/∂B = 0  
-∂T/∂W = 0  
+### Derivative with respect to B
 
-- Optimal Batch Size (Bopt) = *(to be calculated)*  
-- Optimal Worker Count (Wopt) = *(to be calculated)*  
+∂T/∂B = -0.23532B + 179.19W - 258.32
 
+---
 
-**Hessian matrix test:**
+### Derivative with respect to W
 
-T_BB = *(to be calculated)*  
-T_WW = *(to be calculated)*  
-T_BW = *(to be calculated)*  
+∂T/∂W = 19540.48W + 179.19B - 197428.77
 
-H = *(to be calculated)*  
+---
 
-**Conclusion:**  
-To be determined after computation.
+## 2. Gradient Vector
 
+∇T(B,W) = (
+  -0.23532B + 179.19W - 258.32,
+  19540.48W + 179.19B - 197428.77
+)
 
-### Strategic Recommendation
+---
 
-This section will translate the mathematical findings into practical engineering decisions.
+## 3. Critical Point
 
-**Recommended configuration:**
+To find the stationary point, we set both partial derivatives equal to zero:
 
-- Batch Size (B): *(to be determined)*  
-- Worker Count (W): *(to be determined)*  
+-0.23532B + 179.19W - 258.32 = 0  
+179.19B + 19540.48W - 197428.77 = 0  
 
+Solving the system:
 
-### Sensitivity Analysis
+B = (179.19W - 258.32) / 0.23532  
 
-To be developed after analyzing the model coefficients and derivatives.
+B ≈ 761.51W - 1097.77  
 
-### Practical Scenarios
+Substituting into the second equation:
 
-**Memory-constrained environments:**  
-*(to be discussed)*  
+W ≈ 8.52  
 
-**High-throughput scenarios:**  
-*(to be discussed)*  
+Then:
 
-**Latency-sensitive systems:**  
-*(to be discussed)*  
+B ≈ 5373.6  
+
+### Critical Point:
+
+(B, W) ≈ (5373.6, 8.52)
+
+---
+
+## 4. Hessian Matrix
+
+H =
+
+| -0.23532 | 179.19  |
+|----------|---------|
+| 179.19   | 19540.48 |
+
+---
+
+## 5. Determinant of the Hessian
+
+D = (-0.23532 × 19540.48) - (179.19²)
+
+D ≈ -36703.6
+
+---
+
+## 6. Classification
+
+Since:
+
+D < 0
+
+The critical point is classified as a *saddle point*.
+
+---
+
+## 7. Interpretation
+
+The model does not present a local maximum at the stationary point.
+
+This occurs because:
+- The function is concave downward in relation to B  
+- The function is concave upward in relation to W  
+
+Therefore, the optimal configuration is not located at the stationary point, but rather along the boundaries of the feasible experimental region, where system constraints and scaling effects dominate.
+
+---
+
+## 8. Experimental Best Result
+
+The best observed configuration from benchmarking was:
+
+B = 2000  
+W = 16  
+
+Throughput ≈ 2,007,323.83 records/second  
+
+---
+
+## 9. Strategic Recommendation
+
+Although the analytical critical point does not correspond to a maximum, empirical results indicate that optimal performance is achieved at the upper limits of the tested configuration range.
+
+Recommended configuration:
+
+- Batch Size (B): 2000 (or higher, if memory allows)  
+- Worker Count (W): 16 (maximum tested)  
+
+This configuration maximizes parallel processing and overall throughput.
+
+---
+
+## 10. Sensitivity Analysis
+
+The variable with the greatest impact on throughput is:
+
+➡️ Worker Count (W)
+
+Reasons:
+- Large coefficient associated with W²  
+- Strong nonlinear growth with increased parallelism  
+
+Batch Size (B):
+- Moderate impact  
+- Subject to diminishing returns due to negative quadratic term  
+
+---
+
+## 11. Usage Scenarios
+
+### High-Performance Scenario
+- B = High  
+- W = High  
+→ Maximizes throughput  
+
+### Memory-Constrained Environment
+- B = Moderate  
+- W = High  
+→ Balances memory usage and performance  
+
+### Latency-Sensitive System
+- B = Low  
+- W = Moderate  
+→ Reduces processing delay per batch  
+
+---
+
+## 12. Conclusion
+
+- The mathematical model demonstrated strong accuracy (R² ≈ 0.94)  
+- The analytical critical point corresponds to a saddle point, not a maximum  
+- Optimal performance occurs at the boundary of the tested region  
+- Worker Count is the primary driver of scalability  
+
+This highlights an important limitation of purely analytical optimization in real-world systems, where empirical validation remains essential.
