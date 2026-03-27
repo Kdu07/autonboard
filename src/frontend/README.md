@@ -143,3 +143,41 @@ http://localhost:4200
 
 ---
 
+# Docker
+
+Run the full project using Docker:
+
+```
+docker-compose up --build
+```
+
+Production mode:
+
+```
+docker-compose -f docker-compose.prod.yml up --build
+```
+
+---
+
+# Tests
+
+Run all tests:
+
+```
+npm test
+```
+
+Backend tests:
+
+```
+npm run test:backend
+```
+
+Frontend tests:
+
+```
+npm run test:frontend
+```
+
+---
+
