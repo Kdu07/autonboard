@@ -44,7 +44,8 @@ services:
       context: ./src/frontend
       dockerfile: Dockerfile.prod
     ports:
-      - "80:80" # Em produção, ele roda no Nginx pela porta 80 nativa!
+      - "80:80"   # Redireciona HTTP → HTTPS
+      - "443:443" # Porta HTTPS para o Auth0 funcionar
     depends_on:
       - backend
     deploy:
