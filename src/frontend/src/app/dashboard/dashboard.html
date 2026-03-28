@@ -1,0 +1,193 @@
+
+
+<div class="dashboard-page">
+<div class="dashboard-page">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="nav-brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+      </div>
+      Autonboard
+    </div>
+    <div class="nav-links">
+      <a class="nav-link active" routerLink="/dashboard">Dashboard</a>
+      <a class="nav-link" routerLink="/upload">Upload</a>
+      <a class="nav-link" routerLink="/profile">Profile</a>
+      <button class="btn-logout" (click)="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="dashboard-container">
+
+   
+    <!-- Dashboard Content -->
+    <div class="dashboard-content" *ngIf="!isLoading && !error && dashboardData">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">
+            Welcome back,
+            <span class="highlight">{{ dashboardData.user?.name || 'there' }}</span>
+          </h1>
+          <p class="page-subtitle">Here's what's happening with your data pipeline</p>
+        </div>
+        <a routerLink="/upload" class="btn-upload-cta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          Upload Files
+        </a>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon icon-total">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Total Submissions</span>
+            <span class="stat-value">{{ dashboardData.stats?.total ?? 0 }}</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon icon-pending">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Pending</span>
+            <span class="stat-value pending">{{ dashboardData.stats?.pending ?? 0 }}</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon icon-completed">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Completed</span>
+            <span class="stat-value completed">{{ dashboardData.stats?.completed ?? 0 }}</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon icon-failed">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Failed</span>
+            <span class="stat-value failed">{{ dashboardData.stats?.failed ?? 0 }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="main-grid">
+
+        <!-- Organization Card -->
+        <div class="org-card card">
+          <div class="card-header">
+            <h2 class="card-title">Organization</h2>
+            <span class="org-status" [class.status-active]="dashboardData.customer?.status === 'active'">
+              {{ dashboardData.customer?.status || 'N/A' }}
+            </span>
+          </div>
+
+          <div *ngIf="dashboardData.customer; else noOrg">
+            <div class="org-name">{{ dashboardData.customer.name }}</div>
+            <div class="org-info-row" *ngIf="dashboardData.customer.cnpj">
+              <span class="info-label">CNPJ</span>
+              <span class="info-value">{{ dashboardData.customer.cnpj }}</span>
+            </div>
+            <div class="org-info-row" *ngIf="dashboardData.customer.plan">
+              <span class="info-label">Plan</span>
+              <span class="info-value plan-chip">{{ dashboardData.customer.plan }}</span>
+            </div>
+            <div class="modules-section" *ngIf="dashboardData.customer.modules?.length">
+              <span class="info-label">Modules</span>
+              <div class="modules-chips">
+                <span class="module-chip" *ngFor="let mod of dashboardData.customer.modules">{{ mod }}</span>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #noOrg>
+            <div class="empty-state">
+              <p>No organization linked.</p>
+              <a routerLink="/profile" class="link-action">Set up your company →</a>
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Submissions Table -->
+        <div class="submissions-card card">
+          <div class="card-header">
+            <h2 class="card-title">Recent Submissions</h2>
+            <span class="submissions-count">{{ dashboardData.submissions?.length ?? 0 }} files</span>
+          </div>
+
+          <div *ngIf="dashboardData.submissions?.length; else noSubmissions">
+            <div class="table-wrapper">
+              <table class="submissions-table">
+                <thead>
+                  <tr>
+                    <th>File</th>
+                    <th>Type</th>
+                    <th>Size</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let sub of dashboardData.submissions">
+                    <td class="file-cell">
+                      <div class="file-name-cell">{{ sub.filename || 'Unknown' }}</div>
+                    </td>
+                    <td>
+                      <span class="type-badge">{{ sub.file_type?.toUpperCase() || '—' }}</span>
+                    </td>
+                    <td class="size-cell">{{ formatFileSize(sub.file_size) }}</td>
+                    <td>
+                      <span class="status-badge" [class]="getStatusClass(sub.status || '')">
+                        {{ sub.status || 'pending' }}
+                      </span>
+                    </td>
+                    <td class="date-cell">{{ sub.created_at | date:'dd/MM/yy HH:mm' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <ng-template #noSubmissions>
+            <div class="empty-state">
+              <div class="empty-icon">📂</div>
+              <p>No submissions yet.</p>
+              <a routerLink="/upload" class="link-action">Upload your first file →</a>
+            </div>
+          </ng-template>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

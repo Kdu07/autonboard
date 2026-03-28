@@ -1,0 +1,21 @@
+# Estágio 1: Build (Compilação do TypeScript)
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Estágio 2: Produção (Apenas arquivos necessários)
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+# Instala apenas as dependências de produção para salvar espaço/RAM
+RUN npm install --only=production
+# Copia a pasta compilada "dist" do Estágio 1
+COPY --from=builder /app/dist ./dist
+# Copia os arquivos .sql nativos (Eles não passam pelo TypeScript, então precisamos manual)
+COPY --from=builder /app/src/database/runDB/*.sql ./src/database/runDB/
+
+EXPOSE 3000
+CMD ["npm", "start"]

@@ -98,6 +98,69 @@ The implementation respects the following principles:
 - Use of TypeScript interfaces for data structures.
 - Clear separation between UI logic and service logic.
 
+# Testing Strategy
+This section documents the strategy for unit testing in the frontend, including the rationale for test decisions and implementation guidelines.
+
+## Overview
+Unit tests are essential for ensuring the reliability and maintainability of the frontend code. The testing strategy focuses on testing individual units of code (components, services, utilities) in isolation to verify their behavior under various conditions.
+
+## Testing Framework
+The frontend uses Angular's built-in testing framework, which includes:
+- Jasmine as the testing framework
+- Karma as the test runner
+- Angular Testing Utilities (TestBed, ComponentFixture, etc.)
+
+Jest is configured at the project root for backend testing, but frontend tests use the Angular testing setup for better integration with Angular's dependency injection and component lifecycle.
+
+## Test Coverage Goals
+- **Components**: Test component creation, user interactions, data binding, and DOM updates.
+- **Services**: Test service methods, HTTP calls, and data transformations.
+- **Utilities**: Test helper functions and business logic.
+- **Minimum Coverage**: Aim for 80% code coverage across statements, branches, functions, and lines.
+
+## Decision Criteria for Unit Tests
+The following criteria guide which tests to write and prioritize:
+
+1. **Critical User Paths**: Test the most common user interactions and workflows (e.g., file upload process).
+2. **Error Handling**: Test how components and services handle invalid inputs, network failures, and edge cases.
+3. **Data Binding**: Verify that component properties correctly bind to the template and update the DOM.
+4. **Service Integration**: Test that services correctly call APIs and handle responses/errors.
+5. **Component Lifecycle**: Test ngOnInit, ngOnDestroy, and other lifecycle hooks if they contain logic.
+6. **Accessibility**: Include tests for ARIA attributes and keyboard navigation where applicable.
+7. **Performance**: Test components that handle large datasets or frequent updates.
+
+## Test Structure
+Each test file follows this structure:
+- **Setup**: Configure TestBed with necessary modules, declarations, and providers.
+- **Test Cases**: Individual `it()` blocks testing specific behaviors.
+- **Teardown**: Automatic cleanup handled by Angular's testing utilities.
+
+## Example Test Implementation
+For the UploadComponent, tests include:
+- Component instantiation
+- File selection display
+- Default state when no file is selected
+- Future tests will cover upload submission, error states, and validation.
+
+## Running Tests
+To run frontend unit tests:
+```bash
+ng test
+```
+
+For continuous testing during development:
+```bash
+ng test --watch
+```
+
+## Integration with CI/CD
+Tests are integrated into the project's CI/CD pipeline to ensure code quality before deployment. Failed tests will block merges to main branches.
+
+## Future Enhancements
+- Add end-to-end tests using Cypress or Playwright for full user workflows.
+- Implement visual regression testing for UI components.
+- Expand coverage to include more edge cases and accessibility tests.
+
 This structure ensures that the frontend remains organized, maintainable, and scalable as new features are added to the system.
 
 

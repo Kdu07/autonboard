@@ -1,59 +1,230 @@
-# Frontend
+# Project
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
+This repository contains a **full-stack** application composed of **Frontend (Angular)**, **Backend (Node.js/Express)**, **database scripts**, **documentation**, **assets**, and **automated tests**.
 
-## Development server
+---
 
-To start a local development server, run:
+# Project Structure
 
-```bash
-ng serve
+```
+g01/
+│
+├── assets/                     # Images, diagrams, and visual resources
+│
+├── docs/                       # Project documentation
+│   ├── Backend.md
+│   ├── Frontend.md
+│   ├── Project.md
+│   ├── CodingStandards.md
+│   ├── ConfigurationManagement.md
+│   ├── RequirementsCoverage.md
+│   └── ...
+│
+├── src/
+│   │
+│   ├── backend/                # Express API
+│   │   ├── controllers/        # Request controllers
+│   │   ├── errors/             # Error handling
+│   │   ├── fetch_api/          # External API integrations
+│   │   ├── interfaces/         # TypeScript interfaces
+│   │   ├── middleware/         # Middlewares
+│   │   ├── models/             # Data models
+│   │   ├── repositories/       # Data access layer
+│   │   ├── routes/             # API routes
+│   │   ├── scripts/            # Auxiliary scripts
+│   │   ├── services/           # Business logic
+│   │   │   └── excel/          # Excel processing pipeline
+│   │   └── types/              # Type definitions
+│   │
+│   ├── database/               # Database configuration and SQL scripts
+│   │   ├── config/
+│   │   └── runDB/
+│   │
+│   ├── frontend/               # Angular application
+│   │   ├── public/
+│   │   ├── src/
+│   │   │   ├── app/
+│   │   │   │   ├── dashboard/
+│   │   │   │   ├── landingpage/
+│   │   │   │   ├── profile/
+│   │   │   │   └── upload/
+│   │   │   ├── index.html
+│   │   │   ├── main.ts
+│   │   │   └── styles.css
+│   │   ├── angular.json
+│   │   ├── package.json
+│   │   ├── Dockerfile.dev
+│   │   └── Dockerfile.prod
+│   │
+│   └── uploads/                # Uploaded CSV and Excel files
+│
+├── tests/                      # Automated tests
+│   ├── backend/
+│   ├── frontend/
+│   └── benchmark.ts
+│
+├── app.ts                      # Main application entry point
+├── docker-compose.yml
+├── docker-compose.prod.yml
+├── Dockerfile.dev
+├── Dockerfile.prod
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+# Requirements
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+* Node.js 18 or higher
+* npm
+* Docker (optional)
+* Angular CLI (optional)
 
-```bash
-ng generate component component-name
+---
+
+# Installation
+
+Clone the repository:
+
+```
+git clone <repository-url>
+cd g01-novo
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Install dependencies:
 
-```bash
-ng generate --help
+```
+npm install
 ```
 
-## Building
+---
 
-To build the project run:
+# Running the Project
 
-```bash
-ng build
+## Backend
+
+Run the development server:
+
+```
+npm run dev
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The backend will start using **ts-node** or **nodemon**.
 
-## Running unit tests
+---
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Frontend
 
-```bash
-ng test
+Navigate to the frontend folder:
+
+```
+cd src/frontend
 ```
 
-## Running end-to-end tests
+Install dependencies:
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```
+npm install
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Run the frontend:
 
-## Additional Resources
+```
+npm start
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The Angular application will be available at:
+
+```
+http://localhost:4200
+```
+
+---
+
+# Docker
+
+Run the full project using Docker:
+
+```
+docker-compose up --build
+```
+
+Production mode:
+
+```
+docker-compose -f docker-compose.prod.yml up --build
+```
+
+---
+
+# Tests
+
+Run all tests:
+
+```
+npm test
+```
+
+Backend tests:
+
+```
+npm run test:backend
+```
+
+Frontend tests:
+
+```
+npm run test:frontend
+```
+
+---
+
+# Database
+
+Database scripts are located in:
+
+```
+src/database/runDB
+```
+
+Includes:
+
+* database creation
+* initial data
+* transaction traceability
+* rollback scripts
+* automatic initialization
+
+To initialize:
+
+```
+npm run db:init
+```
+
+---
+
+# Documentation
+
+All documentation is available in:
+
+```
+docs/
+```
+
+Includes:
+
+* backend documentation
+* frontend documentation
+* project management
+* requirements coverage
+* AWS deployment
+* data modeling
+* service blueprint
+
+---
+
+# Authors
+
+Project developed by the team.

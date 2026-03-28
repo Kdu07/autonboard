@@ -133,6 +133,42 @@ npm install
 | :--- | :--- |
 | `01_create_database.sql` |  Contains `CREATE TABLE` statements, Constraints (PK/FK), and Indexes. |
 | `02_initial_data.sql` |  Contains `INSERT` statements for initial system seeding. |
-| `init.js ` | Contains scripts to run `01_create_database.sql` and  `02_initial_data.sql` in the correct order|
+| `03_transaction_traceability.sql` | Adds audit tables + triggers to capture row-level changes by PostgreSQL transaction (`txid`). |
+| `rollback.sql` | Reverts the effects of a given transaction (`txid`) using the captured audit log (compensating SQL). |
+| `init.js ` | Contains scripts to run `01_create_database.sql`, `02_initial_data.sql` and `03_transaction_traceability.sql` in the correct order|
 
 ---
+
+## 5.0 - Transaction Traceability (Rollback Support)
+
+This project enables *transaction traceability* in PostgreSQL by using an `audit` schema with triggers.
+For each write performed on the audited tables, the database stores:
+
+- The PostgreSQL transaction identifier (`txid`)
+- Which table and operation happened (`I` / `U` / `D`) (`Insert`/ `Update`/ `Delete`)
+- The `OLD` and `NEW` row images (as JSONB) to allow compensating rollback
+
+### 5.1 - How to correlate a business request with a `txid`
+
+Before running your business transaction, set a correlation value for the current session:
+
+```sql
+SET application_name = 'CORRELATION-123';
+```
+
+After executing your transaction, you can locate it in the audit tables:
+
+```sql
+SELECT txid, application_name, changed_by, started_at
+FROM audit.transaction_trace
+ORDER BY started_at DESC
+LIMIT 50;
+```
+
+### 5.2 - Rolling back a transaction (`rollback.sql`)
+
+Use the `txid` you want to revert:
+
+```powershell
+psql -d seu_db -v txid=123456789 -f src/database/runDB/rollback.sql
+```

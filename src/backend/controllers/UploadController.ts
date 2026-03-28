@@ -7,8 +7,8 @@ import uploadModel from "../models/UploadModel";
  */
 export async function getAll(req: Request, res: Response): Promise<Response> {
   try {
-    const rows = await uploadModel.getAll();
-    return res.json(rows);
+    const result = await UploadService.getAll();
+    return res.status(200).json(result);
   } catch (error) {
     // Return the raw error object if the database query fails
     return res.json(error);
