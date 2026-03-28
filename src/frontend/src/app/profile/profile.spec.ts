@@ -61,7 +61,7 @@ describe('Profile', () => {
 
     component.saveCompany();
     
-    const req = httpMock.expectOne('http://localhost:3000/profile');
+    const req = httpMock.expectOne('/api/profile');
     expect(req.request.method).toBe('POST');
     req.flush({ success: true });
 
@@ -75,7 +75,7 @@ describe('Profile', () => {
   it('should handle save error', () => {
     component.saveCompany();
     
-    const req = httpMock.expectOne('http://localhost:3000/profile');
+    const req = httpMock.expectOne('/api/profile');
     req.error(new ErrorEvent('Network error'), { status: 500, statusText: 'Server Error' });
 
     expect(component.isSaving).toBe(false);
