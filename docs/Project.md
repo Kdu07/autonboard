@@ -1410,6 +1410,12 @@ jobs:
 
 [Watch the video](https://youtu.be/2lrxsI1QkUs)
 
+# Video Evidence (Sprint 4)
+
+[![Watch the video](https://img.youtube.com/vi/2lrxsI1QkUs/0.jpg)](https://youtu.be/_X_rWXKcY3A?si=AS4Wm2PtBYdEifVV)
+
+[Watch the video](https://youtu.be/_X_rWXKcY3A?si=AS4Wm2PtBYdEifVV)
+
 ## Authentication (Planned Integration with Auth0)
 
 Although authentication has not yet been implemented in the current version of the system, the project architecture already considers the integration of an external authentication service using **Auth0**.
