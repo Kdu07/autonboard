@@ -57,3 +57,10 @@ Given the volume of deliverables concentrated in Sprint 5, the team had less ded
 **Inconsistent commit granularity in final days**
 In the final days of the sprint, some commits bundled multiple logical changes, reducing traceability between individual tasks and repository changes. While functional correctness was not affected, this represents a deviation from the Conventional Commits policy.
 
+### 1.5 Improvement Actions (Traceable)
+
+| Issue | Action | Success Criteria | Tracking Mechanism | Responsible | Verification Sprint |
+|---|---|---|---|---|---|
+| Usability sample size | Recruit broader external user panel for future cycles | Minimum 8 participants per usability round | Test protocol + participant log | Team lead | Future project |
+| Commit granularity deviation | Reinforce atomic commit policy in branching guidelines | Zero multi-concern commits per sprint | PR review checklist | All developers | Future project |
+| Post-mortem time allocation | Reserve dedicated retro slot (≥ 2h) in final sprint planning | Retro evidence documented within sprint | Sprint calendar | Scrum facilitator | Future project |
