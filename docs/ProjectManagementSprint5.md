@@ -74,3 +74,19 @@ In the final days of the sprint, some commits bundled multiple logical changes, 
 | WK03 | Improve QA validation process | Sprint 3 | All features validated before merge | Closed | Sprint 5 |
 | WK04 | Improve dependency mapping and task sequencing | Sprint 4 | Blocked tasks < 1 per day | Closed | Sprint 5 |
 | WK05 | Define and track test coverage formally | Sprint 4 | ≥ 70% test coverage | Closed | Sprint 5 |
+
+All five tracked improvement actions reached Closed status by the end of Sprint 5, representing full resolution of the improvement backlog accumulated across the project lifecycle.
+
+### 1.7 Risk Management
+
+**Risk Register — Final Status**
+
+| ID | Risk | Probability | Impact | Mitigation | Status | Evolution |
+|---|---|---|---|---|---|---|
+| R01 | Effort underestimation | Low | Medium | Improved estimation and T-shirt sizing calibration | Closed | Fully mitigated across sprints |
+| R02 | Scope pressure | Low | Medium | Controlled sprint planning with explicit capacity limits | Closed | No overload in Sprints 4–5 |
+| R03 | Incomplete test coverage | Low | High | Dedicated testing tasks and CI coverage reporting | Closed | Coverage reached 72% in Sprint 5 |
+| R04 | Cloud deployment instability | Low | High | Early deployment in Sprint 4, validated in Sprint 5 | Closed | No production incidents |
+| R05 | Final demo readiness | Low | High | Rehearsal sessions scheduled and executed | Closed | Demo performed successfully |
+
+Risks were tracked through a versioned Risk Register updated at the beginning and end of each sprint. Status categories used: Open, Mitigating, Closed. Risk reviews were conducted during Sprint Planning and Sprint Retrospective sessions, with evidence stored in /docs.
