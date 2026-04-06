@@ -28,3 +28,20 @@ The sprint focused on:
 | Average PR review time | ~7 hours | ~5 hours | ~4 hours |
 | Test coverage (estimated) | ~40% | ~55% | ~72% |
 | Blocked tasks (daily avg) | ~2.5 | ~1.8 | ~0.8 |
+
+### 1.3 Strengths
+
+**Highest completion rate of the project lifecycle**
+Sprint 5 achieved a ~95% completion rate, the highest across all sprints. This reflects matured estimation practices and a team that had sufficiently calibrated effort allocation to the specific complexity of this project.
+
+**Test coverage target achieved**
+The team crossed the ≥ 70% test coverage threshold committed as a Sprint 4 improvement action. Backend unit tests via Jest covered critical service layers, and Angular component tests validated core frontend interactions. This directly addressed the most significant quality risk identified in Sprint 4 (R03).
+
+**Dependency bottleneck significantly reduced**
+The average number of blocked tasks per day dropped from ~1.8 in Sprint 4 to ~0.8 in Sprint 5, confirming the effectiveness of the dependency mapping improvements applied to task sequencing. The Scrum facilitator's proactive re-ordering of integration tasks was a measurable contributor to this reduction.
+
+**Successful cloud deployment and environment consistency**
+The system was successfully deployed to Amazon EC2 with consistent behavior across local and cloud environments. All seven team members validated local setup, and no environment-specific failures were reported during the final demo rehearsal.
+
+**Documentation completeness**
+All primary documentation artifacts (Projeto.md, GuiaPadroesDesenvolvimento.md, ProjectManagement.md, README.md) were finalized with evidence committed to the repository, satisfying both PMO criteria and the project's Definition of Done.
