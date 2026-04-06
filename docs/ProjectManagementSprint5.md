@@ -45,3 +45,15 @@ The system was successfully deployed to Amazon EC2 with consistent behavior acro
 
 **Documentation completeness**
 All primary documentation artifacts (Projeto.md, GuiaPadroesDesenvolvimento.md, ProjectManagement.md, README.md) were finalized with evidence committed to the repository, satisfying both PMO criteria and the project's Definition of Done.
+
+### 1.4 Weaknesses
+
+**Usability testing execution constraints**
+Usability tests (A17-T18) were conducted with a limited sample of external users (n=3), reducing the statistical significance of the feedback gathered. While qualitative insights were documented, the absence of a broader user panel limited the depth of the usability analysis.
+
+**Post-mortem reflection time compressed**
+Given the volume of deliverables concentrated in Sprint 5, the team had less dedicated time for structured retrospective reflection than initially planned. The post-mortem analysis, while completed, benefited from less live discussion time than would have been ideal for a final sprint.
+
+**Inconsistent commit granularity in final days**
+In the final days of the sprint, some commits bundled multiple logical changes, reducing traceability between individual tasks and repository changes. While functional correctness was not affected, this represents a deviation from the Conventional Commits policy.
+
