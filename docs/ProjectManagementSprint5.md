@@ -116,3 +116,16 @@ Risks were tracked through a versioned Risk Register updated at the beginning an
 | Avg PR review time (h) | ~10 | ~8 | ~7 | ~5 | ~4 |
 | Test coverage (%) | ~15% | ~28% | ~40% | ~55% | ~72% |
 | Blocked tasks (daily avg) | ~4.0 | ~3.2 | ~2.5 | ~1.8 | ~0.8 |
+
+### 2.2 Completion Rate Trend
+
+The completion rate grew from 73% in Sprint 1 to 95% in Sprint 5, a 22-percentage-point improvement across the project. This trajectory was not linear: the largest single-sprint gain (+11 pp) occurred between Sprint 1 and Sprint 2, which coincides with the team's initial calibration to the workload and process. From Sprint 2 onward, gains became incremental but sustained (+3 pp, +5 pp, +3 pp), indicating a stabilization of the process rather than erratic fluctuation. The absence of any regression sprint is itself a meaningful signal of team maturity.
+
+The reduction in deferred tasks from ~8 in Sprint 1 to ~3 in Sprint 5 correlates directly with the introduction of explicit DoR criteria in Sprint 3. Tasks that were not genuinely ready to be picked up were no longer accepted into the sprint, reducing the artificial inflation of planned work.
+
+### 2.3 PR Review Time Trend
+
+Average PR review time was halved over the project lifecycle, dropping from ~10 hours in Sprint 1 to ~4 hours in Sprint 5. This improvement reflects multiple converging factors: the team's growing familiarity with the codebase, the formalization of code review standards in the development process guide, and the reduction in PR complexity as the architecture stabilized. The most pronounced improvement between Sprints 3 and 4 (~7h to ~5h) coincides with the introduction of a review SLA and clearer PR scope expectations, suggesting that structural interventions in the process had measurable effect beyond team experience alone.
+
+Shorter review times directly contributed to higher throughput: PRs that sit for fewer hours unblock dependent tasks faster, reducing the cascading impact of integration delays that were prominent in Sprints 1 and 2.
+
