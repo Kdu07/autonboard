@@ -90,3 +90,15 @@ All five tracked improvement actions reached Closed status by the end of Sprint 
 | R05 | Final demo readiness | Low | High | Rehearsal sessions scheduled and executed | Closed | Demo performed successfully |
 
 Risks were tracked through a versioned Risk Register updated at the beginning and end of each sprint. Status categories used: Open, Mitigating, Closed. Risk reviews were conducted during Sprint Planning and Sprint Retrospective sessions, with evidence stored in /docs.
+
+### 1.8 PMO Alignment
+
+| PMO Practice | Evidence in Repository |
+|---|---|
+| Sprint planning | Issues + Sprint Milestone |
+| Task tracking | GitLab Issue Board |
+| Risk management | Versioned Risk Register in /docs |
+| Definition of Ready | Documented per task in Sprint Planning section |
+| Definition of Done | Applied to all completed issues |
+| Configuration management | Gitflow + Semantic Versioning documented in GuiaPadroesDesenvolvimento.md |
+| Test evidence | Coverage reports + functional test results in Projeto.md |
