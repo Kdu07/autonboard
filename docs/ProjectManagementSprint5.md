@@ -102,3 +102,17 @@ Risks were tracked through a versioned Risk Register updated at the beginning an
 | Definition of Done | Applied to all completed issues |
 | Configuration management | Gitflow + Semantic Versioning documented in GuiaPadroesDesenvolvimento.md |
 | Test evidence | Coverage reports + functional test results in Projeto.md |
+
+## 2. Metrics Analysis
+
+### 2.1 Sprint Performance Overview
+
+| Metric | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 | Sprint 5 |
+|---|---|---|---|---|---|
+| Planned tasks | ~30 | ~45 | ~55 | ~65 | ~62 |
+| Completed tasks | ~22 | ~38 | ~48 | ~60 | ~59 |
+| Deferred tasks | ~8 | ~7 | ~7 | ~3 | ~3 |
+| Completion rate | ~73% | ~84% | ~87% | ~92% | ~95% |
+| Avg PR review time (h) | ~10 | ~8 | ~7 | ~5 | ~4 |
+| Test coverage (%) | ~15% | ~28% | ~40% | ~55% | ~72% |
+| Blocked tasks (daily avg) | ~4.0 | ~3.2 | ~2.5 | ~1.8 | ~0.8 |
