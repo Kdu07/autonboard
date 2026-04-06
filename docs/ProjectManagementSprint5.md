@@ -190,3 +190,20 @@ The usability testing conducted in Sprint 5 was technically compliant but not su
 
 **End-of-sprint commit concentration**
 In multiple sprints, commit volume spiked sharply in the final two days before sprint closure. This pattern reduces the effectiveness of code review under deadline pressure and concentrates integration risk at the worst possible moment. Future teams should monitor commit distribution across the sprint and treat late-sprint spikes as a planning signal rather than a delivery norm.
+
+### 3.4 Lessons Learned
+
+**Define all metrics on Day 1, not Sprint 3**
+The team's metrics framework improved substantially over time, but the most valuable improvements were those implemented early enough to influence behavior across multiple sprints. Waiting until a problem is visible in retrospectives to define a metric delays the feedback loop by at least one sprint.
+
+**DoR and DoD work best when enforced at the board level**
+The team found that defining DoR and DoD was insufficient on its own. Tasks that did not meet DoR criteria continued to enter sprints in early iterations because enforcement was informal. In Sprint 4, when the Scrum facilitator took a more active gate-keeping role at sprint planning, deferral rates dropped. DoR enforcement should be a first-class responsibility of sprint planning, not a documentation formality.
+
+**Configuration management investment has a high return**
+The team invested significant time in Gitflow, versioning, and commit standards early in the project. This investment reduced integration friction throughout, making it one of the highest-return decisions of the project. Future teams should treat configuration management as infrastructure, not overhead.
+
+**Retrospective time must be protected in final sprints**
+The compression of retrospective time in Sprint 5 was a predictable consequence of front-loading all deliverables into the same sprint window. Final sprints should have an explicit time budget for reflection that is treated with the same priority as feature delivery, since the post-mortem is itself a deliverable.
+
+**Communication structure drives outcome consistency**
+Sprints with more structured asynchronous communication had more predictable outcomes than those where communication was informal. The team's formalization of daily standups and Issue-based decision logging from Sprint 3 onward correlated with the visible stabilization of metrics from that sprint forward.
