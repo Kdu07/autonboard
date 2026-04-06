@@ -64,3 +64,13 @@ In the final days of the sprint, some commits bundled multiple logical changes, 
 | Usability sample size | Recruit broader external user panel for future cycles | Minimum 8 participants per usability round | Test protocol + participant log | Team lead | Future project |
 | Commit granularity deviation | Reinforce atomic commit policy in branching guidelines | Zero multi-concern commits per sprint | PR review checklist | All developers | Future project |
 | Post-mortem time allocation | Reserve dedicated retro slot (≥ 2h) in final sprint planning | Retro evidence documented within sprint | Sprint calendar | Scrum facilitator | Future project |
+
+### 1.6 Traceability of Improvements Across Sprints
+
+| Action ID | Description | Origin Sprint | Success Criteria | Status | Verified In |
+|---|---|---|---|---|---|
+| WK01 | Enhance backlog refinement clarity | Sprint 3 | All tasks meet DoR | Closed | Sprint 4 |
+| WK02 | Reduce scope overload | Sprint 3 | Planned vs delivered ≥ 90% | Closed | Sprint 5 |
+| WK03 | Improve QA validation process | Sprint 3 | All features validated before merge | Closed | Sprint 5 |
+| WK04 | Improve dependency mapping and task sequencing | Sprint 4 | Blocked tasks < 1 per day | Closed | Sprint 5 |
+| WK05 | Define and track test coverage formally | Sprint 4 | ≥ 70% test coverage | Closed | Sprint 5 |
