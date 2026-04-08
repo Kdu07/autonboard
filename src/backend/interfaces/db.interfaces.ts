@@ -5,9 +5,9 @@ export interface IUpload {
   id: number;
   customer_id: number;
   status: string;
-  file_path: string;
+  file: Buffer;
+  file_type: string;
   upload_date: Date;
-  mimetype: string;
   size: number;
 }
 

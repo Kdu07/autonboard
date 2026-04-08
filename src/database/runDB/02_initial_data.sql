@@ -25,6 +25,5 @@ VALUES (2, 'equipamento', 'Protetor 4K, Quadro Branco', true, 'https://cdn.img/s
 INSERT INTO AMENITY_CONFIGURATION (amenity_id, key, value, reservable)
 VALUES (2, 'ar_condicionado', 'Central - 22 graus fixo', false);
 
--- 7. A file submission from the Customer
-INSERT INTO SUBMISSION (customer_id, status, file_path)
-VALUES (1, 'processed', '/uploads/plantas/edificio_inovacao_v1.pdf');
+-- 7. File submissions are created via the /upload API endpoint (binary BYTEA storage).
+--    No seed data is inserted here because BYTEA values cannot be trivially inlined in SQL.

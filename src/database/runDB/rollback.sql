@@ -150,17 +150,20 @@ BEGIN
         UPDATE public.submission
         SET
           customer_id = (r.old_data->>'customer_id')::INT,
-          status = r.old_data->>'status',
-          file_path = r.old_data->>'file_path',
+          status      = r.old_data->>'status',
+          -- BYTEA is stored as \xHEX in JSONB; strip the leading \x before decoding
+          file        = decode(substring(r.old_data->>'file' FROM 3), 'hex'),
+          file_type   = r.old_data->>'file_type',
           upload_date = (r.old_data->>'upload_date')::TIMESTAMP
         WHERE id = r.pk_id;
       ELSE -- 'D'
-        INSERT INTO public.submission(id, customer_id, status, file_path, upload_date)
+        INSERT INTO public.submission(id, customer_id, status, file, file_type, upload_date)
         VALUES (
           (r.old_data->>'id')::INT,
           (r.old_data->>'customer_id')::INT,
           r.old_data->>'status',
-          r.old_data->>'file_path',
+          decode(substring(r.old_data->>'file' FROM 3), 'hex'),
+          r.old_data->>'file_type',
           (r.old_data->>'upload_date')::TIMESTAMP
         );
       END IF;

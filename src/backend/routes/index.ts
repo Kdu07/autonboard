@@ -6,9 +6,13 @@ import { uploadExcelSingleFile } from "../middleware/uploadExcel.middleware";
 
 const excelController = new UploadExcelController();
 
+import { userRoutes } from "./user.routes";
+
 const router = express.Router();
 
 router.get("/", getAll);
+
+router.use("/user", userRoutes);
 
 router.post(
   "/upload",
