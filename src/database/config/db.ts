@@ -22,10 +22,8 @@ const db: Pool = new Pool({
   host: DB_HOST,
   database: DB_DATABASE,
   password: DB_PASSWORD,
-  port: Number(DB_PORT),
-  ssl: sslConfig,
-  connectionTimeoutMillis: 10000, // 10 seconds to connect
-  query_timeout: 10000 // 10 seconds for query
+  port: Number(DB_PORT), // precisa converter para number
+  ssl: sslConfig
 });
 
 export default db

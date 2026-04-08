@@ -1,7 +1,6 @@
 // Directly import your Model
 import UploadModel from '../models/UploadModel';
 import { IUpload } from '../interfaces/db.interfaces';
-import { BadRequestError, InternalServerError } from '../errors/HttpError';
 
 export class UploadService {
   
@@ -12,57 +11,49 @@ export class UploadService {
   static async processUpload(
     file: Express.Multer.File | undefined,
     customerId: number,
-    status: string = 'pending',
-    fileBuffer: Buffer
+    status: string = 'pending'
   ){
-    // Ensure the file was actually received
-    if (!file) {
-      throw new BadRequestError('Nenhum arquivo foi enviado.');
-    }
+    try{
+      // Ensure the file was actually received
+      if (!file) {
+        throw new Error('No file was uploaded.');
+      }
 
-    // Define accepted formats
-    const allowedTypes = [
-      'text/csv',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // XLSX
-      'application/vnd.ms-excel' // Old XLS
-    ];
+      // Define accepted formats
+      const allowedTypes = [
+        'text/csv',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // XLSX
+        'application/vnd.ms-excel' // Old XLS
+      ];
 
-    // Validate file format
-    if (!allowedTypes.includes(file.mimetype)) {
-      throw new BadRequestError('Formato inválido. Envie apenas arquivos CSV ou Excel (.csv, .xlsx, .xls).');
-    }
+      // Validate file format
+      if (!allowedTypes.includes(file.mimetype)) {
+        throw new Error('Invalid format. Please upload only CSV or Excel files.');
+      }
 
-    // Ensure the file is not empty (0 bytes)
-    if (file.size === 0) {
-      throw new BadRequestError('O arquivo enviado está vazio.');
-    }
+      // Ensure the file is not empty (0 bytes)
+      if (file.size === 0) {
+        throw new Error('The uploaded file is empty.');
+      }
 
-    // Validate customerId is a positive integer
-    if (!Number.isInteger(customerId) || customerId <= 0) {
-      throw new BadRequestError('O campo customer_id deve ser um número inteiro positivo válido.');
-    }
+      // Call the Model to save to the database including status
+      const savedUpload = await UploadModel.create(customerId, file.path, status);
 
-    console.log(`[Backend Service] Starting model create for customerId: ${customerId}`);
-    const fileType = file.mimetype;
-
-    // Call the Model to save to the database including status
-    try {
-      const savedUpload = await UploadModel.create(customerId, status, fileBuffer, fileType);
-      console.log(`[Backend Service] Model create finished. Saved ID: ${savedUpload?.id || 'none'}`);
+      // Return the result to the caller (the Controller)
       return savedUpload;
-    } catch (error: any) {
-      console.error('[UploadService] Database error during upload creation:', error);
-      throw new InternalServerError('Falha ao salvar o arquivo no banco de dados. Tente novamente.');
+    }catch(error){
+      console.error(error);
     }
+    
   }
 
-  static async getAll(): Promise<IUpload[]> {
-    try {
+  static async getAll(){
+    try{
       const result = await UploadModel.getAll();
-      return result;
-    } catch (error: any) {
-      console.error('[UploadService] Database error fetching uploads:', error);
-      throw new InternalServerError('Falha ao buscar registros de upload do banco de dados.');
+      return result
+    }
+    catch(error){
+      console.error(error);
     }
   }
 }

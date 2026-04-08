@@ -61,8 +61,7 @@ CREATE TABLE IF NOT EXISTS SUBMISSION (
     id SERIAL PRIMARY KEY,
     customer_id INT NOT NULL,
     status VARCHAR(50) DEFAULT 'pending',
-    file BYTEA NOT NULL,
-    file_type VARCHAR(100),
+    file_path TEXT NOT NULL,
     upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_submission_customer FOREIGN KEY (customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE
 );

@@ -1,22 +1,8 @@
 import { BookableResourceModel } from '../../models/BookableResourceModel';
-import { UnprocessableEntityError } from '../../errors/HttpError';
 import { ParsedExcel } from './types';
 
 export class ExcelMapper {
   map(data: ParsedExcel): BookableResourceModel {
-    try {
-      return this.buildModel(data);
-    } catch (error: any) {
-      if (error instanceof UnprocessableEntityError) throw error;
-      console.error('[ExcelMapper] Unexpected error during data mapping:', error);
-      throw new UnprocessableEntityError(
-        'Erro inesperado ao mapear os dados do arquivo Excel.',
-        { cause: error.message }
-      );
-    }
-  }
-
-  private buildModel(data: ParsedExcel): BookableResourceModel {
     return {
       location: {
         building: this.asString(this.getValue(data, 'location', 'building', 0)),

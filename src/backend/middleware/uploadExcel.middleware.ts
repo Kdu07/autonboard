@@ -5,13 +5,8 @@ import { NextFunction, Request, Response } from 'express';
 
 const uploadDir = path.resolve(process.cwd(), 'src/uploads');
 
-try {
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
-} catch (error) {
-  console.error(`[uploadExcel.middleware] Falha ao criar o diretório de upload em "${uploadDir}":`, error);
-  throw new Error(`Não foi possível criar o diretório de upload em "${uploadDir}". Verifique as permissões do sistema de arquivos.`);
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
 }
 
 const storage = multer.diskStorage({
