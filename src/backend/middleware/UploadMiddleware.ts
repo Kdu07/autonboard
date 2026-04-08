@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import fsPromises from "fs/promises";
 import ExcelJS from "exceljs";
 
 /**
@@ -75,27 +76,31 @@ async function parseSpreadsheet(filePath: string): Promise<any[]> {
  * Middleware collection for handling file uploads and initial parsing
  */
 export const UploadMiddleware = {
-  // Handles the actual multipart/form-data upload for a field named 'file'
   multerSingle: upload.single("file"),
 
-  // Validates presence of file/body fields and extracts spreadsheet data
   async process(req: Request, res: Response, next: NextFunction) {
     if (!req.file) {
       return res.status(400).json({ error: "No file provided" });
     }
 
     try {
-      // Parse the file and attach the result to the request object
+      // 1. Faz o parse da planilha usando o arquivo salvo no disco
       const parsedData = await parseSpreadsheet(req.file.path);
       (req as any).parsedData = parsedData;
+
+      // 2. Lê o arquivo do disco para um Buffer (preparando para o BYTEA)
+      const fileBuffer = await fsPromises.readFile(req.file.path);
+      
+      // 3. Anexa o Buffer no request para o Controller usar no banco de dados
+      (req as any).fileBuffer = fileBuffer;
+
     } catch (err: any) {
       return res.status(422).json({ 
-        error: "Failed to parse spreadsheet", 
+        error: "Failed to parse spreadsheet or read file", 
         details: err.message 
       });
     }
 
-    // Validate that required metadata was sent along with the file
     const { customer_id, status } = req.body;
     if (!customer_id || !status) {
       return res.status(400).json({ 

@@ -11,7 +11,8 @@ export class UploadService {
   static async processUpload(
     file: Express.Multer.File | undefined,
     customerId: number,
-    status: string = 'pending'
+    status: string = 'pending',
+    fileBuffer: Buffer
   ){
     try{
       // Ensure the file was actually received
@@ -36,13 +37,14 @@ export class UploadService {
         throw new Error('The uploaded file is empty.');
       }
 
+      const fileType = file.mimetype;
       // Call the Model to save to the database including status
-      const savedUpload = await UploadModel.create(customerId, file.path, status);
+      const savedUpload = await UploadModel.create(customerId, status, fileBuffer, fileType);
 
       // Return the result to the caller (the Controller)
       return savedUpload;
     }catch(error){
-      console.error(error);
+      throw error;
     }
     
   }

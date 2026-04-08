@@ -5,15 +5,15 @@ class UploadModel {
   /**
    * Creates a new upload record with the file path
    */
-  static async create(customer_id: number, file_path: string, status: string = 'pending'): Promise<IUpload> {
+  static async create(customer_id: number, status: string = 'pending', file_buffer: Buffer, file_type: string,): Promise<IUpload> {
     // include status so the frontend can specify the submission state;
     // the database has a default so callers may omit it.
     const query = `
-      INSERT INTO submission (customer_id, status, file_path, upload_date) 
-      VALUES ($1, $2, $3, NOW()) 
+      INSERT INTO submission (customer_id, status, file, file_type, upload_date) 
+      VALUES ($1, $2, $3, $4, NOW()) 
       RETURNING *
     `;
-    const values = [customer_id, status, file_path];
+    const values = [customer_id, status, file_buffer, file_type];
     
     const result = await db.query(query, values);
     return result.rows[0];
