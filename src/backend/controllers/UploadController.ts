@@ -24,12 +24,22 @@ export async function create(req: Request, res: Response): Promise<Response> {
     const { customer_id, status } = req.body;
     const file = req.file;
 
+    console.log(`[Backend Controller] Incoming upload request for customer_id: ${customer_id}, status: ${status}`);
     // Delegate business logic and file processing to the UploadService
     const result = await UploadService.processUpload(file, Number(customer_id), status);
-    return res.json(result);
-  } catch (error) {
+    console.log(`[Backend Controller] Upload processed. Result ID: ${result?.id || 'none'}`);
+    
+    if (!result) {
+      return res.status(404).json({ error: "Failed to create submission record." });
+    }
+
+    return res.status(201).json(result);
+  } catch (error: any) {
     // Return the error encountered during the upload or parsing process
-    return res.json(error);
+    console.error("Upload Error:", error);
+    return res.status(error.status || 500).json({ 
+      error: error.message || "Internal Server Error" 
+    });
   }
 }
 
