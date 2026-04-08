@@ -1,16 +1,12 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
 import Swal from 'sweetalert2';
-
-interface UploadedFile {
-  file: File;
-  progress: number;
-  status: 'uploading' | 'done' | 'error';
-  statusText?: string;
-}
+import { UploadStateService, UploadedFile } from '../services/upload-state.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-upload',
@@ -20,17 +16,29 @@ interface UploadedFile {
   styleUrl: './upload.css',
   encapsulation: ViewEncapsulation.None
 })
-export class Upload implements OnInit {
+export class Upload implements OnInit, OnDestroy {
   isDragging = false;
   uploadedFiles: UploadedFile[] = [];
   customerId: number | null = null;
   customerName: string | null = null;
   isProfileLoading = true;
+  private destroy$ = new Subject<void>();
 
-  constructor(private http: HttpClient, public auth: AuthService) {}
+  constructor(
+    private http: HttpClient, 
+    public auth: AuthService,
+    private uploadStateService: UploadStateService
+  ) {}
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(user => {
+    // Subscribe to uploaded files from the service
+    this.uploadStateService.uploadedFiles$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(files => {
+        this.uploadedFiles = files;
+      });
+
+    this.auth.user$.pipe(takeUntil(this.destroy$)).subscribe(user => {
       if (user?.email) {
         this.fetchUserProfile(user.email);
       } else {
@@ -38,6 +46,11 @@ export class Upload implements OnInit {
         this.isProfileLoading = false;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private fetchUserProfile(email: string): void {
@@ -114,7 +127,7 @@ export class Upload implements OnInit {
       }
 
       const entry: UploadedFile = { file, progress: 0, status: 'uploading' };
-      this.uploadedFiles.push(entry);
+      this.uploadStateService.addFile(entry);
       this.uploadFile(entry);
     }
   }
@@ -149,8 +162,14 @@ export class Upload implements OnInit {
 
   private doUpload(entry: UploadedFile, token: string | null): void {
     if (entry.progress > 0) return; // Protect against double trigger
-    entry.progress = 1; 
-    entry.statusText = 'Iniciando upload...';
+    
+    const fileIndex = this.uploadStateService.getFiles().indexOf(entry);
+    if (fileIndex === -1) return;
+
+    this.uploadStateService.updateFile(fileIndex, {
+      progress: 1,
+      statusText: 'Iniciando upload...'
+    });
 
     const formData = new FormData();
     formData.append('file', entry.file);
@@ -164,20 +183,27 @@ export class Upload implements OnInit {
       headers: new HttpHeaders(headers),
       reportProgress: true,
       observe: 'events'
-    }).subscribe({
+    }).pipe(takeUntil(this.destroy$)).subscribe({
       next: (event) => {
         if (event.type === HttpEventType.UploadProgress && event.total) {
-          entry.progress = Math.round((event.loaded / event.total) * 100);
-          entry.statusText = `Enviando... ${entry.progress}%`;
+          const progress = Math.round((event.loaded / event.total) * 100);
+          this.uploadStateService.updateFile(fileIndex, {
+            progress,
+            statusText: `Enviando... ${progress}%`
+          });
         } else if (event.type === HttpEventType.Response) {
-          entry.status = 'done';
-          entry.progress = 100;
-          entry.statusText = 'Concluído!';
+          this.uploadStateService.updateFile(fileIndex, {
+            status: 'done',
+            progress: 100,
+            statusText: 'Concluído!'
+          });
         }
       },
       error: (err) => {
-        entry.status = 'error';
-        entry.statusText = 'Erro no envio.';
+        this.uploadStateService.updateFile(fileIndex, {
+          status: 'error',
+          statusText: 'Erro no envio.'
+        });
         let msg = err?.error?.message || err?.error?.error || 'Erro ao fazer upload. Tente novamente ou contate o suporte.';
         Swal.fire({ icon: 'error', title: 'Upload Error', text: msg });
       }
