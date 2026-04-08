@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
@@ -25,22 +25,27 @@ export class Upload implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     public auth: AuthService,
-    private uploadStateService: UploadStateService
+    private uploadStateService: UploadStateService,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     // Subscribe to uploaded files from the service
-    this.uploadStateService.uploadedFiles$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(files => {
-        this.uploadedFiles = files;
-      });
+    this.ngZone.run(() => {
+      this.uploadStateService.uploadedFiles$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(files => {
+          this.uploadedFiles = [...files].reverse();
+          this.cdr.detectChanges();
+        });
+    });
 
     this.auth.user$.pipe(takeUntil(this.destroy$)).subscribe(user => {
       if (user?.email) {
-        this.fetchUserProfile(user.email);
+        this.fetchUserProfile(user.email, user.name ?? undefined);
       } else {
         console.warn('No user email found for profile lookup.');
         this.isProfileLoading = false;
@@ -53,9 +58,11 @@ export class Upload implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private fetchUserProfile(email: string): void {
+  private fetchUserProfile(email: string, name?: string): void {
     this.isProfileLoading = true;
-    this.http.get<any>(`http://localhost:3000/user/profile?email=${email}`).subscribe({
+    const params = new URLSearchParams({ email });
+    if (name) params.set('name', name);
+    this.http.get<any>(`http://localhost:3000/user/profile?${params.toString()}`).subscribe({
       next: (data) => {
         this.customerId = data.customer_id;
         this.customerName = data.customer_name;
@@ -64,7 +71,25 @@ export class Upload implements OnInit, OnDestroy {
       error: (err) => {
         console.error('Failed to fetch user profile:', err);
         this.isProfileLoading = false;
-        // Optionally handle specific errors like 404
+        if (err.status === 404) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Perfil não encontrado',
+            text: 'Nenhuma conta de cliente foi encontrada para este usuário. Entre em contato com o administrador.'
+          });
+        } else if (err.status === 0) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro de conexão',
+            text: 'Não foi possível conectar ao servidor. Verifique sua conexão e tente recarregar a página.'
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao carregar perfil',
+            text: 'Não foi possível carregar as informações do seu perfil. Tente recarregar a página.'
+          });
+        }
       }
     });
   }
@@ -150,12 +175,12 @@ export class Upload implements OnInit, OnDestroy {
     token$.subscribe({
       next: (token) => {
         clearTimeout(timeoutId);
-        if(!fallbackTriggered) this.doUpload(entry, token);
+        if (!fallbackTriggered) this.ngZone.run(() => this.doUpload(entry, token));
       },
       error: (err) => {
         clearTimeout(timeoutId);
         console.warn('Auth0 token failed:', err);
-        if(!fallbackTriggered) this.doUpload(entry, null);
+        if (!fallbackTriggered) this.ngZone.run(() => this.doUpload(entry, null));
       }
     });
   }
@@ -171,10 +196,23 @@ export class Upload implements OnInit, OnDestroy {
       statusText: 'Iniciando upload...'
     });
 
+    if (this.customerId === null) {
+      this.uploadStateService.updateFile(fileIndex, {
+        status: 'error',
+        statusText: 'Perfil não carregado.'
+      });
+      Swal.fire({
+        icon: 'error',
+        title: 'Perfil não carregado',
+        text: 'Não foi possível identificar o seu perfil de cliente. Recarregue a página e tente novamente.'
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append('file', entry.file);
     formData.append('status', 'pending');
-    formData.append('customer_id', this.customerId?.toString() || '1'); 
+    formData.append('customer_id', this.customerId.toString());
 
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -204,8 +242,23 @@ export class Upload implements OnInit, OnDestroy {
           status: 'error',
           statusText: 'Erro no envio.'
         });
-        let msg = err?.error?.message || err?.error?.error || 'Erro ao fazer upload. Tente novamente ou contate o suporte.';
-        Swal.fire({ icon: 'error', title: 'Upload Error', text: msg });
+        // Handle different error response formats:
+        // /upload endpoint returns:       { error: "string" }
+        // /upload-excel endpoint returns: { success: false, error: { code, message } }
+        const body = err?.error;
+        let msg: string;
+        if (err.status === 0) {
+          msg = 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.';
+        } else if (typeof body?.error === 'object' && typeof body?.error?.message === 'string') {
+          msg = body.error.message;
+        } else if (typeof body?.error === 'string') {
+          msg = body.error;
+        } else if (typeof body?.message === 'string') {
+          msg = body.message;
+        } else {
+          msg = 'Erro ao fazer upload. Tente novamente ou contate o suporte.';
+        }
+        Swal.fire({ icon: 'error', title: 'Erro no Upload', text: msg });
       }
     });
   }
