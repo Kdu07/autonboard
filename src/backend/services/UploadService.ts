@@ -14,32 +14,33 @@ export class UploadService {
     status: string = 'pending',
     fileBuffer: Buffer
   ){
-    try{
-      // Ensure the file was actually received
-      if (!file) {
-        throw new Error('No file was uploaded.');
-      }
+    // Ensure the file was actually received
+    if (!file) {
+      throw new Error('No file was uploaded.');
+    }
 
-      // Define accepted formats
-      const allowedTypes = [
-        'text/csv',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // XLSX
-        'application/vnd.ms-excel' // Old XLS
-      ];
+    // Define accepted formats
+    const allowedTypes = [
+      'text/csv',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // XLSX
+      'application/vnd.ms-excel' // Old XLS
+    ];
 
-      // Validate file format
-      if (!allowedTypes.includes(file.mimetype)) {
-        throw new Error('Invalid format. Please upload only CSV or Excel files.');
-      }
+    // Validate file format
+    if (!allowedTypes.includes(file.mimetype)) {
+      throw new Error('Invalid format. Please upload only CSV or Excel files.');
+    }
 
-      // Ensure the file is not empty (0 bytes)
-      if (file.size === 0) {
-        throw new Error('The uploaded file is empty.');
-      }
+    // Ensure the file is not empty (0 bytes)
+    if (file.size === 0) {
+      throw new Error('The uploaded file is empty.');
+    }
 
+    console.log(`[Backend Service] Starting model create for customerId: ${customerId}`);
       const fileType = file.mimetype;
-      // Call the Model to save to the database including status
-      const savedUpload = await UploadModel.create(customerId, status, fileBuffer, fileType);
+    // Call the Model to save to the database including status
+    const savedUpload = await UploadModel.create(customerId, status, fileBuffer, fileType);
+    console.log(`[Backend Service] Model create finished. Saved ID: ${savedUpload?.id || 'none'}`);
 
       // Return the result to the caller (the Controller)
       return savedUpload;
@@ -50,12 +51,7 @@ export class UploadService {
   }
 
   static async getAll(){
-    try{
-      const result = await UploadModel.getAll();
-      return result
-    }
-    catch(error){
-      console.error(error);
-    }
+    const result = await UploadModel.getAll();
+    return result
   }
 }

@@ -27,10 +27,20 @@ export async function create(req: Request, res: Response): Promise<Response> {
     // Cast req to 'any' to bypass TS error, or extend the Express Request interface
     const fileBuffer = (req as any).fileBuffer; 
 
+    console.log(`[Backend Controller] Incoming upload request for customer_id: ${customer_id}, status: ${status}`);
     const result = await UploadService.processUpload(file, Number(customer_id), status, fileBuffer);
-    return res.json(result);
-  } catch (error) {
-    return res.json(error);
+    console.log(`[Backend Controller] Upload processed. Result ID: ${result?.id || 'none'}`);
+    
+    if (!result) {
+      return res.status(404).json({ error: "Failed to create submission record." });
+    }
+
+    return res.status(201).json(result);
+  } catch (error: any) {
+    console.error("Upload Error:", error);
+    return res.status(error.status || 500).json({ 
+      error: error.message || "Internal Server Error" 
+    });
   }
 }
 
