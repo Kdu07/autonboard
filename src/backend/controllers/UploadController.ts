@@ -1,17 +1,18 @@
 import { Request, Response } from "express";
 import { UploadService } from "../services/UploadService";
-import uploadModel from "../models/UploadModel";
 
 /**
  * Retrieves all upload records from the database
  */
-export async function getAll(req: Request, res: Response): Promise<Response> {
+export async function getAll(_req: Request, res: Response): Promise<Response> {
   try {
     const result = await UploadService.getAll();
     return res.status(200).json(result);
-  } catch (error) {
-    // Return the raw error object if the database query fails
-    return res.json(error);
+  } catch (error: any) {
+    console.error("Error fetching upload records:", error);
+    return res.status(error.statusCode || 500).json({
+      error: error.message || "Erro ao buscar registros de upload."
+    });
   }
 }
 
@@ -38,8 +39,8 @@ export async function create(req: Request, res: Response): Promise<Response> {
     return res.status(201).json(result);
   } catch (error: any) {
     console.error("Upload Error:", error);
-    return res.status(error.status || 500).json({ 
-      error: error.message || "Internal Server Error" 
+    return res.status(error.statusCode || 500).json({
+      error: error.message || "Erro interno do servidor."
     });
   }
 }
