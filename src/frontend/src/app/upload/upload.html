@@ -23,7 +23,8 @@
     <div class="upload-card">
       <div class="upload-card-header">
         <h1 class="upload-title">Upload Files</h1>
-        <span class="status-ready">● Ready</span>
+        <span class="status-ready" *ngIf="!isProfileLoading">● Ready</span>
+        <span class="status-ready loading" *ngIf="isProfileLoading">● Loading Profile...</span>
       </div>
 
       <!-- Drop Zone -->
@@ -44,13 +45,13 @@
         </div>
         <p class="dropzone-title">Drop your files here</p>
         <p class="dropzone-link">or click to browse</p>
-        <p class="dropzone-hint">CSV, XLSX, PDF up to 100MB</p>
+        <p class="dropzone-hint">CSV, XLSX up to 100MB</p>
 
         <input
           #fileInput
           type="file"
           multiple
-          accept=".csv,.xlsx,.xls,.pdf"
+          accept=".csv,.xlsx,.xls"
           style="display:none"
           (change)="onFileSelected($event)"
         >
@@ -72,7 +73,7 @@
           <div class="file-status">
             <span class="status-check" *ngIf="item.status === 'done'">✓</span>
             <span class="status-error" *ngIf="item.status === 'error'">✗</span>
-            <span class="status-pct" *ngIf="item.status === 'uploading'">{{ item.progress }}%</span>
+            <span class="status-pct" *ngIf="item.status === 'uploading'">{{ item.statusText || item.progress + '%' }}</span>
           </div>
         </div>
       </div>

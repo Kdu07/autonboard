@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import fsPromises from "fs/promises";
 import ExcelJS from "exceljs";
 
 /**
@@ -62,6 +63,11 @@ async function parseSpreadsheet(filePath: string): Promise<any[]> {
   }
 
   const sheet = workbook.worksheets[0];
+
+  if (!sheet) {
+    throw new Error('O arquivo não contém nenhuma planilha válida.');
+  }
+
   const rows: any[] = [];
 
   sheet.eachRow((row) => {
@@ -75,31 +81,41 @@ async function parseSpreadsheet(filePath: string): Promise<any[]> {
  * Middleware collection for handling file uploads and initial parsing
  */
 export const UploadMiddleware = {
-  // Handles the actual multipart/form-data upload for a field named 'file'
   multerSingle: upload.single("file"),
 
-  // Validates presence of file/body fields and extracts spreadsheet data
   async process(req: Request, res: Response, next: NextFunction) {
     if (!req.file) {
-      return res.status(400).json({ error: "No file provided" });
+      return res.status(400).json({ error: "Nenhum arquivo foi enviado." });
     }
 
+    const filePath = req.file.path;
+
     try {
-      // Parse the file and attach the result to the request object
-      const parsedData = await parseSpreadsheet(req.file.path);
+      // 1. Parse the spreadsheet from disk
+      const parsedData = await parseSpreadsheet(filePath);
       (req as any).parsedData = parsedData;
+
+      // 2. Read the file into a Buffer for BYTEA storage
+      const fileBuffer = await fsPromises.readFile(filePath);
+      (req as any).fileBuffer = fileBuffer;
+
     } catch (err: any) {
-      return res.status(422).json({ 
-        error: "Failed to parse spreadsheet", 
-        details: err.message 
+      // Clean up the temp file so it doesn't accumulate on disk
+      try {
+        await fsPromises.unlink(filePath);
+      } catch (cleanupErr) {
+        console.warn('[UploadMiddleware] Falha ao remover arquivo temporário após erro:', cleanupErr);
+      }
+      return res.status(422).json({
+        error: "Falha ao processar a planilha. Verifique se o arquivo está correto e tente novamente.",
+        details: err.message
       });
     }
 
-    // Validate that required metadata was sent along with the file
     const { customer_id, status } = req.body;
     if (!customer_id || !status) {
-      return res.status(400).json({ 
-        error: "Missing required fields: customer_id and status" 
+      return res.status(400).json({
+        error: "Campos obrigatórios ausentes: customer_id e status são necessários."
       });
     }
 
