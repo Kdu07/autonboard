@@ -31,14 +31,10 @@
   color: #1e1b4b;
 }
 
-.nav-brand-icon {
-  width: 36px;
+.nav-logo {
   height: 36px;
-  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: auto;
+  object-fit: contain;
 }
 
 .nav-links {
