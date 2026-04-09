@@ -1,4 +1,5 @@
 # Frontend Feature Development
+
 This document explains the development of the frontend functionalities, how they are implemented in the application, and the current progress of these features according to the project planning.
 
 The frontend is responsible for providing the user interface, handling user interactions, and communicating with the backend API.
@@ -6,8 +7,8 @@ The frontend is responsible for providing the user interface, handling user inte
 The application was developed using Angular with Type
 Script.
 
-
 # Implemented Functionalities
+
 The main functionality developed in this sprint is the file upload interface, which allows users to submit files that will be processed and stored by the backend.
 
 The Upload page includes the following elements:
@@ -26,8 +27,8 @@ Supported formats:
 - .xlsx
 - .csv
 
-
 # Frontend Interaction With Backend
+
 The frontend communicates with the backend using HTTP requests.
 
 When a user uploads a file, the following process occurs:
@@ -59,26 +60,26 @@ POST /upload
 
 This endpoint is responsible for creating a new submission record in the backend system.
 
-
 # Functional Progress
+
 The development of the frontend features follows the project planning for Sprint 3, focusing on implementing the main interface required for file submission.
 
 Current progress of the functionalities:
 
-| Functionality | Status |
-|------|------|
-| Upload page layout | Implemented |
-| Drag and drop upload area | Implemented |
-| File selection | Implemented |
-| Upload button | Implemented |
-| File format validation | Implemented |
-| Backend integration | Implemented |
-| Upload history display | In development |
+| Functionality             | Status         |
+| ------------------------- | -------------- |
+| Upload page layout        | Implemented    |
+| Drag and drop upload area | Implemented    |
+| File selection            | Implemented    |
+| Upload button             | Implemented    |
+| File format validation    | Implemented    |
+| Backend integration       | Implemented    |
+| Upload history display    | In development |
 
 The system is currently capable of sending uploaded files to the backend API.
 
-
 # Deviations From Original Plan
+
 During the development process, some adjustments were made compared to the initial planning.
 
 The Upload History section was originally planned to display previously uploaded files retrieved from the backend database. However, due to time constraints and prioritization of the main upload functionality, this section is currently implemented only as a visual component and will be connected to backend data in a future sprint.
@@ -87,8 +88,8 @@ Additionally, improvements related to error handling and user feedback messages 
 
 These adjustments allowed the team to prioritize the core functionality of file submission and ensure successful integration with the backend system within the sprint timeline.
 
-
 # Alignment With Project Architecture
+
 The frontend functionalities were implemented following the architecture and coding standards defined earlier in the project documentation.
 
 The implementation respects the following principles:
@@ -98,14 +99,68 @@ The implementation respects the following principles:
 - Use of TypeScript interfaces for data structures.
 - Clear separation between UI logic and service logic.
 
+# Correções Técnicas e Melhorias
+
+## Problema de Conectividade no Upload (Resolvido)
+
+### Descrição do Problema
+
+Durante os testes de integração, foi identificado que o componente de upload (`src/frontend/src/app/upload/upload.ts`) apresentava erro "Perfil não encontrado" ao tentar fazer upload de arquivos. O usuário era direcionado corretamente para o sistema após o login via Auth0, mas ao acessar a aba de upload, o sistema falhava ao buscar o perfil do usuário.
+
+### Causa Raiz
+
+O problema estava na configuração de URLs do backend no componente de upload:
+
+- O upload estava fazendo chamadas para `http://localhost:3000/user/profile` (porta errada)
+- Enquanto o backend estava configurado para rodar em `http://localhost:3003`
+- Isso causava falha na busca do perfil do usuário, impedindo o upload
+
+### Solução Implementada
+
+Para resolver a inconsistência, foi adicionada uma configuração dinâmica de URL base no componente de upload:
+
+1. **Adição de propriedade `backendBaseUrl`**:
+
+   ```typescript
+   private backendBaseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3003' : '';
+   ```
+
+2. **Correção da chamada de perfil**:
+   - Antes: `http://localhost:3000/user/profile`
+   - Depois: `${this.backendBaseUrl}/user/profile`
+
+3. **Correção do endpoint de upload**:
+   - Antes: `http://localhost:3003/upload` (hardcoded)
+   - Depois: `${this.backendBaseUrl}/upload`
+
+### Arquivos Modificados
+
+- `src/frontend/src/app/upload/upload.ts`: Adicionada configuração de URL base e atualização dos endpoints HTTP
+
+### Impacto
+
+- O upload agora funciona corretamente, permitindo que usuários façam upload de arquivos após o login
+- A configuração é consistente com o dashboard, que já usava a mesma lógica de URL base
+- Preparado para produção (a URL base será vazia em produção, usando caminhos relativos)
+
+### Testes Realizados
+
+- Verificado que o perfil é carregado corretamente após login
+- Confirmado que uploads de arquivos .csv e .xlsx funcionam
+- Validado que erros de conectividade são tratados adequadamente
+
 # Testing Strategy
+
 This section documents the strategy for unit testing in the frontend, including the rationale for test decisions and implementation guidelines.
 
 ## Overview
+
 Unit tests are essential for ensuring the reliability and maintainability of the frontend code. The testing strategy focuses on testing individual units of code (components, services, utilities) in isolation to verify their behavior under various conditions.
 
 ## Testing Framework
+
 The frontend uses Angular's built-in testing framework, which includes:
+
 - Jasmine as the testing framework
 - Karma as the test runner
 - Angular Testing Utilities (TestBed, ComponentFixture, etc.)
@@ -113,12 +168,14 @@ The frontend uses Angular's built-in testing framework, which includes:
 Jest is configured at the project root for backend testing, but frontend tests use the Angular testing setup for better integration with Angular's dependency injection and component lifecycle.
 
 ## Test Coverage Goals
+
 - **Components**: Test component creation, user interactions, data binding, and DOM updates.
 - **Services**: Test service methods, HTTP calls, and data transformations.
 - **Utilities**: Test helper functions and business logic.
 - **Minimum Coverage**: Aim for 80% code coverage across statements, branches, functions, and lines.
 
 ## Decision Criteria for Unit Tests
+
 The following criteria guide which tests to write and prioritize:
 
 1. **Critical User Paths**: Test the most common user interactions and workflows (e.g., file upload process).
@@ -130,41 +187,50 @@ The following criteria guide which tests to write and prioritize:
 7. **Performance**: Test components that handle large datasets or frequent updates.
 
 ## Test Structure
+
 Each test file follows this structure:
+
 - **Setup**: Configure TestBed with necessary modules, declarations, and providers.
 - **Test Cases**: Individual `it()` blocks testing specific behaviors.
 - **Teardown**: Automatic cleanup handled by Angular's testing utilities.
 
 ## Example Test Implementation
+
 For the UploadComponent, tests include:
+
 - Component instantiation
 - File selection display
 - Default state when no file is selected
 - Future tests will cover upload submission, error states, and validation.
 
 ## Running Tests
+
 To run frontend unit tests:
+
 ```bash
 ng test
 ```
 
 For continuous testing during development:
+
 ```bash
 ng test --watch
 ```
 
 ## Integration with CI/CD
+
 Tests are integrated into the project's CI/CD pipeline to ensure code quality before deployment. Failed tests will block merges to main branches.
 
 ## Future Enhancements
+
 - Add end-to-end tests using Cypress or Playwright for full user workflows.
 - Implement visual regression testing for UI components.
 - Expand coverage to include more edge cases and accessibility tests.
 
 This structure ensures that the frontend remains organized, maintainable, and scalable as new features are added to the system.
 
-
 # Running the Frontend
+
 To run the frontend application locally, it is necessary to install the project dependencies and start the development server.
 
 First, install the dependencies:
