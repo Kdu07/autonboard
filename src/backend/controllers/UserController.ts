@@ -13,12 +13,15 @@ export async function getProfile(req: Request, res: Response): Promise<Response>
       return res.status(400).json({ error: "Email is required to fetch profile." });
     }
 
+    console.log(`[UserController] Profile requested for email: ${email}`);
+
     const findResult = await db.query(
       "SELECT id, name FROM customer WHERE email = $1 LIMIT 1",
       [email]
     );
 
     if (findResult.rows.length > 0) {
+      console.log(`[UserController] Existing customer found: ${findResult.rows[0].id}`);
       return res.status(200).json({
         customer_id: findResult.rows[0].id,
         customer_name: findResult.rows[0].name
@@ -27,12 +30,13 @@ export async function getProfile(req: Request, res: Response): Promise<Response>
 
     // Auto-register customer for first-time login (e.g. Google social login)
     const customerName = (name as string) || (email as string).split("@")[0];
+    console.log(`[UserController] Auto-registering new customer: ${customerName} (${email})`);
     const insertResult = await db.query(
       "INSERT INTO customer (name, email) VALUES ($1, $2) RETURNING id, name",
       [customerName, email]
     );
 
-    console.log(`[UserController] New customer auto-registered: ${email}`);
+    console.log(`[UserController] New customer auto-registered: ${email} (ID: ${insertResult.rows[0].id})`);
 
     return res.status(201).json({
       customer_id: insertResult.rows[0].id,
