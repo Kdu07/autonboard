@@ -58,7 +58,9 @@
       </div>
 
       <!-- File List -->
-      <div class="file-list" *ngIf="uploadedFiles.length > 0">
+      <div class="file-list" *ngIf="uploadedFiles.length > 0 || serverFiles.length > 0">
+
+        <!-- Session uploads: only uploading/error states -->
         <div class="file-item" *ngFor="let item of uploadedFiles">
           <div class="file-icon-box" [class]="getFileIconClass(item.file.name)">
             {{ getFileIcon(item.file.name) }}
@@ -71,11 +73,30 @@
             </div>
           </div>
           <div class="file-status">
-            <span class="status-check" *ngIf="item.status === 'done'">✓</span>
             <span class="status-error" *ngIf="item.status === 'error'">✗</span>
             <span class="status-pct" *ngIf="item.status === 'uploading'">{{ item.statusText || item.progress + '%' }}</span>
           </div>
         </div>
+
+        <!-- Server files from DB via getAll -->
+        <div class="file-item file-item--db" *ngFor="let item of serverFiles">
+          <div class="file-icon-box" [class]="getFileIconClassFromMime(item.file_type)">
+            {{ getFileIconFromMime(item.file_type) }}
+          </div>
+          <div class="file-details">
+            <div class="file-name">{{ item.file_name || 'Submission #' + item.id }}</div>
+            <div class="file-meta">
+              <span class="file-customer">{{ item.customer_name }}</span>
+              <span class="file-sep">·</span>
+              <span class="file-date">{{ item.upload_date | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+          </div>
+          <div class="file-actions">
+            <span class="status-badge" [class]="'status-badge--' + item.status">{{ item.status }}</span>
+            <button class="btn-download" (click)="downloadFile(item.id)">↓</button>
+          </div>
+        </div>
+
       </div>
 
     </div>

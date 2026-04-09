@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
@@ -8,10 +8,20 @@ import { UploadStateService, UploadedFile } from '../services/upload-state.servi
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+interface ServerFile {
+  id: number;
+  customer_id: number;
+  customer_name: string;
+  status: string;
+  file_type: string;
+  file_name: string;
+  upload_date: string;
+}
+
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, DatePipe],
   templateUrl: './upload.html',
   styleUrl: './upload.css',
   encapsulation: ViewEncapsulation.None
@@ -19,6 +29,7 @@ import { takeUntil } from 'rxjs/operators';
 export class Upload implements OnInit, OnDestroy {
   isDragging = false;
   uploadedFiles: UploadedFile[] = [];
+  serverFiles: ServerFile[] = [];
   customerId: number | null = null;
   customerName: string | null = null;
   isProfileLoading = true;
@@ -33,6 +44,8 @@ export class Upload implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loadServerFiles();
+
     // Subscribe to uploaded files from the service
     this.ngZone.run(() => {
       this.uploadStateService.uploadedFiles$
@@ -230,11 +243,8 @@ export class Upload implements OnInit, OnDestroy {
             statusText: `Enviando... ${progress}%`
           });
         } else if (event.type === HttpEventType.Response) {
-          this.uploadStateService.updateFile(fileIndex, {
-            status: 'done',
-            progress: 100,
-            statusText: 'Concluído!'
-          });
+          this.uploadStateService.removeFile(fileIndex);
+          this.loadServerFiles();
         }
       },
       error: (err) => {
@@ -261,6 +271,32 @@ export class Upload implements OnInit, OnDestroy {
         Swal.fire({ icon: 'error', title: 'Erro no Upload', text: msg });
       }
     });
+  }
+
+  private loadServerFiles(): void {
+    this.http.get<ServerFile[]>('http://localhost:3000/').subscribe({
+      next: (files) => { this.serverFiles = files; this.cdr.detectChanges(); },
+      error: (err) => console.error('Failed to load server files:', err)
+    });
+  }
+
+  downloadFile(id: number): void {
+    const a = document.createElement('a');
+    a.href = `http://localhost:3000/download/${id}`;
+    a.click();
+  }
+
+  getFileIconFromMime(mimeType: string): string {
+    if (mimeType === 'text/csv') return 'CSV';
+    if (mimeType === 'application/vnd.ms-excel') return 'XLS';
+    if (mimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') return 'XLS';
+    return 'FILE';
+  }
+
+  getFileIconClassFromMime(mimeType: string): string {
+    if (mimeType === 'text/csv') return 'csv';
+    if (mimeType.includes('excel') || mimeType.includes('spreadsheetml')) return 'xlsx';
+    return 'other';
   }
 
   formatSize(bytes: number): string {

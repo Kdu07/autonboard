@@ -13,7 +13,8 @@ export class UploadService {
     file: Express.Multer.File | undefined,
     customerId: number,
     status: string = 'pending',
-    fileBuffer: Buffer
+    fileBuffer: Buffer,
+    fileName?: string
   ){
     // Ensure the file was actually received
     if (!file) {
@@ -47,7 +48,7 @@ export class UploadService {
 
     // Call the Model to save to the database including status
     try {
-      const savedUpload = await UploadModel.create(customerId, status, fileBuffer, fileType);
+      const savedUpload = await UploadModel.create(customerId, status, fileBuffer, fileType, fileName);
       console.log(`[Backend Service] Model create finished. Saved ID: ${savedUpload?.id || 'none'}`);
       return savedUpload;
     } catch (error: any) {

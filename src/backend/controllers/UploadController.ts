@@ -29,7 +29,7 @@ export async function create(req: Request, res: Response): Promise<Response> {
     const fileBuffer = (req as any).fileBuffer; 
 
     console.log(`[Backend Controller] Incoming upload request for customer_id: ${customer_id}, status: ${status}`);
-    const result = await UploadService.processUpload(file, Number(customer_id), status, fileBuffer);
+    const result = await UploadService.processUpload(file, Number(customer_id), status, fileBuffer, file?.originalname);
     console.log(`[Backend Controller] Upload processed. Result ID: ${result?.id || 'none'}`);
     
     if (!result) {
