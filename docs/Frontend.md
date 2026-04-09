@@ -193,3 +193,45 @@ Recommended focus for future tests:
 - template-level interaction tests for routing and forms.
 
 ---
+
+## Correções Técnicas e Melhorias
+
+### Problema de Conectividade no Upload (Resolvido)
+
+#### Descrição do Problema
+Durante os testes de integração, foi identificado que o componente de upload (`src/frontend/src/app/upload/upload.ts`) apresentava erro "Perfil não encontrado" ao tentar fazer upload de arquivos. O usuário era direcionado corretamente para o sistema após o login via Auth0, mas ao acessar a aba de upload, o sistema falhava ao buscar o perfil do usuário.
+
+#### Causa Raiz
+O problema estava na configuração de URLs do backend no componente de upload:
+- O upload estava fazendo chamadas para `http://localhost:3000/user/profile` (porta errada)
+- Enquanto o backend estava configurado para rodar em `http://localhost:3003`
+- Isso causava falha na busca do perfil do usuário, impedindo o upload
+
+#### Solução Implementada
+Para resolver a inconsistência, foi adicionada uma configuração dinâmica de URL base no componente de upload:
+
+1. **Adição de propriedade `backendBaseUrl`**:
+   ```typescript
+   private backendBaseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3003' : '';
+   ```
+
+2. **Correção da chamada de perfil**:
+   - Antes: `http://localhost:3000/user/profile`
+   - Depois: `${this.backendBaseUrl}/user/profile`
+
+3. **Correção do endpoint de upload**:
+   - Antes: `http://localhost:3003/upload` (hardcoded)
+   - Depois: `${this.backendBaseUrl}/upload`
+
+#### Arquivos Modificados
+- `src/frontend/src/app/upload/upload.ts`: Adicionada configuração de URL base e atualização dos endpoints HTTP
+
+#### Impacto
+- O upload agora funciona corretamente, permitindo que usuários façam upload de arquivos após o login
+- A configuração é consistente com o dashboard, que já usava a mesma lógica de URL base
+- Preparado para produção (a URL base será vazia em produção, usando caminhos relativos)
+
+#### Testes Realizados
+- Verificado que o perfil é carregado corretamente após login
+- Confirmado que uploads de arquivos .csv e .xlsx funcionam
+- Validado que erros de conectividade são tratados adequadamente

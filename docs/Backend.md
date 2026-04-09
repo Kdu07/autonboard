@@ -204,3 +204,134 @@ npm test
 - Excel repository default save behavior returns a cloned object (placeholder) unless a concrete DB adapter is injected.
 - Route-level auth enforcement can be expanded to protect all sensitive endpoints.
 - API contracts for `/profile`, `/dashboard`, and related features should be documented once fully consolidated in backend routes.
+
+---
+
+## Implementações e Correções Recentes
+
+### Endpoints de Autenticação e Perfil de Usuário
+
+#### Endpoint `/user/profile`
+- **Método**: GET
+- **Propósito**: Buscar ou criar automaticamente o perfil de um cliente baseado no email
+- **Parâmetros**: `email` (obrigatório), `name` (opcional)
+- **Funcionalidade**:
+  - Busca cliente existente na tabela `customer` pelo email
+  - Se não encontrado, cria automaticamente um novo registro de cliente
+  - Retorna `customer_id` e `customer_name`
+- **Uso**: Chamado pelo frontend após login via Auth0 para obter o ID do cliente necessário para uploads
+
+#### Implementação Técnica
+```typescript
+// UserController.ts
+export async function getProfile(req: Request, res: Response): Promise<Response> {
+  const { email, name } = req.query;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required to fetch profile." });
+  }
+
+  const findResult = await db.query(
+    "SELECT id, name FROM customer WHERE email = $1 LIMIT 1",
+    [email]
+  );
+
+  if (findResult.rows.length > 0) {
+    return res.status(200).json({
+      customer_id: findResult.rows[0].id,
+      customer_name: findResult.rows[0].name
+    });
+  }
+
+  // Auto-register customer for first-time login (e.g. Google social login)
+  const customerName = (name as string) || (email as string).split("@")[0];
+  const insertResult = await db.query(
+    "INSERT INTO customer (name, email) VALUES ($1, $2) RETURNING id, name",
+    [customerName, email]
+  );
+
+  console.log(`[UserController] New customer auto-registered: ${email}`);
+
+  return res.status(201).json({
+    customer_id: insertResult.rows[0].id,
+    customer_name: insertResult.rows[0].name
+  });
+}
+```
+
+### Endpoints do Dashboard
+
+#### Endpoint `/dashboard`
+- **Método**: GET
+- **Autenticação**: Requer JWT (Auth0)
+- **Propósito**: Retornar dados do dashboard para o usuário logado
+- **Dados retornados**:
+  - Informações do usuário (nome, email, auth0_id)
+  - Dados do cliente (nome, CNPJ, plano, módulos)
+  - Estatísticas (total, pendente, completado, falhado)
+  - Lista de submissões recentes
+
+#### Endpoint `/dashboard-debug`
+- **Método**: GET
+- **Propósito**: Endpoint de debug para desenvolvimento (sem autenticação obrigatória)
+- **Parâmetros**: `auth0_id` (opcional)
+- **Uso**: Usado durante desenvolvimento para testar dados do dashboard
+
+### Endpoint de Upload
+
+#### Endpoint `/upload`
+- **Método**: POST
+- **Autenticação**: Opcional (usa token Auth0 se disponível)
+- **Propósito**: Processar upload de arquivos Excel/CSV
+- **Campos obrigatórios**: `file`, `customer_id`, `status`
+- **Fluxo de processamento**:
+  1. Middleware valida campos obrigatórios
+  2. Arquivo é processado e armazenado no banco
+  3. Dados são extraídos e processados
+  4. Retorna confirmação de upload
+
+#### Middleware de Upload
+- **UploadMiddleware**: Valida campos obrigatórios (`customer_id`, `status`)
+- **UploadExcelMiddleware**: Processa arquivos Excel específicos
+- **Tratamento de erros**: Retorna mensagens específicas para diferentes tipos de falha
+
+### Configuração de Porta e CORS
+
+#### Porta do Servidor
+- **Porta configurada**: 3003 (localhost:3003)
+- **Configuração**: Definida no arquivo `app.ts`
+- **CORS**: Habilitado para permitir requisições do frontend
+
+#### Observação Importante
+Durante o desenvolvimento, foi identificado e corrigido um problema de inconsistência de portas:
+- Frontend estava chamando `localhost:3000` para alguns endpoints
+- Backend roda em `localhost:3003`
+- **Correção**: Frontend atualizado para usar configuração dinâmica de URL base
+
+### Integração com Auth0
+
+#### Middleware de Autenticação
+- **AuthMiddleware**: Valida tokens JWT do Auth0
+- **Funcionalidades**:
+  - Verifica assinatura do token
+  - Extrai informações do usuário
+  - Disponibiliza dados do usuário para controllers
+
+#### Fluxo de Autenticação
+1. Usuário faz login via Auth0 no frontend
+2. Frontend obtém access token
+3. Token é enviado em headers `Authorization: Bearer <token>`
+4. Backend valida token e processa requisição
+
+### Tratamento de Erros
+
+#### Padrões de Resposta de Erro
+- **400**: Campos obrigatórios ausentes
+- **401**: Token inválido ou expirado
+- **404**: Recurso não encontrado (ex: cliente não existe)
+- **500**: Erro interno do servidor
+
+#### Logs de Debug
+- Todas as requisições são logadas no console
+- Erros são registrados com contexto detalhado
+- Facilita debugging durante desenvolvimento
