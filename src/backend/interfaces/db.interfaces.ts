@@ -7,8 +7,10 @@ export interface IUpload {
   status: string;
   file: Buffer;
   file_type: string;
+  file_name?: string;
   upload_date: Date;
   size: number;
+  customer_name?: string;
 }
 
 export interface ICustomer {

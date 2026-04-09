@@ -2,7 +2,8 @@ export type HttpErrorCode =
   | 'BAD_REQUEST'
   | 'VALIDATION_ERROR'
   | 'UNPROCESSABLE_ENTITY'
-  | 'INTERNAL_SERVER_ERROR';
+  | 'INTERNAL_SERVER_ERROR'
+  | 'NOT_FOUND';
 
 type HttpErrorParams = {
   statusCode: number;
@@ -52,6 +53,17 @@ export class UnprocessableEntityError extends HttpError {
     super({
       statusCode: 422,
       code: 'UNPROCESSABLE_ENTITY',
+      message,
+      details,
+    });
+  }
+}
+
+export class NotFoundError extends HttpError {
+  constructor(message: string = 'Not found', details?: unknown) {
+    super({
+      statusCode: 404,
+      code: 'NOT_FOUND',
       message,
       details,
     });
