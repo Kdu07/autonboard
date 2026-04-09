@@ -65,17 +65,17 @@ This separation improves maintainability, testability, and incremental evolution
 
 Main backend directory: `src/backend`.
 
-| Folder | Responsibility |
-|---|---|
-| `controllers` | HTTP orchestration (`UploadController`, `UploadExcelController`) |
-| `routes` | Endpoint registration and middleware wiring |
-| `middleware` | Upload validation/parsing and authentication helpers |
-| `services` | Business logic (`UploadService`, `UploadExcelService`, Excel pipeline classes) |
-| `models` | SQL-oriented data access (`UploadModel`) and typed domain models |
-| `repositories` | Repository contracts and implementations |
-| `errors` | Normalized HTTP error types |
-| `interfaces` | Shared TypeScript interfaces |
-| `fetch_api` | Integrations with external APIs |
+| Folder         | Responsibility                                                                 |
+| -------------- | ------------------------------------------------------------------------------ |
+| `controllers`  | HTTP orchestration (`UploadController`, `UploadExcelController`)               |
+| `routes`       | Endpoint registration and middleware wiring                                    |
+| `middleware`   | Upload validation/parsing and authentication helpers                           |
+| `services`     | Business logic (`UploadService`, `UploadExcelService`, Excel pipeline classes) |
+| `models`       | SQL-oriented data access (`UploadModel`) and typed domain models               |
+| `repositories` | Repository contracts and implementations                                       |
+| `errors`       | Normalized HTTP error types                                                    |
+| `interfaces`   | Shared TypeScript interfaces                                                   |
+| `fetch_api`    | Integrations with external APIs                                                |
 
 ---
 
@@ -107,12 +107,11 @@ Notes:
 
 Current route registration is centralized in `src/backend/routes/index.ts` and mounted in `app.ts` at `/`.
 
-| Method | Path | Description |
-|---|---|---|
-| `GET` | `/` | Returns submission records (`UploadService.getAll`) |
-| `POST` | `/upload` | Generic upload flow (CSV/XLS/XLSX) + submission persistence |
+| Method | Path            | Description                                                      |
+| ------ | --------------- | ---------------------------------------------------------------- |
+| `GET`  | `/`             | Returns submission records (`UploadService.getAll`)              |
+| `POST` | `/upload`       | Generic upload flow (CSV/XLS/XLSX) + submission persistence      |
 | `POST` | `/upload-excel` | Excel-only pipeline (`.xlsx`, max 10MB), parse/validate/map/save |
-
 
 ## Request Flows
 
@@ -177,7 +176,6 @@ npm run dev
 
 Other common commands:
 
-
 Default backend port in `app.ts`: `3000`.
 
 ---
@@ -212,6 +210,7 @@ npm test
 ### Endpoints de Autenticação e Perfil de Usuário
 
 #### Endpoint `/user/profile`
+
 - **Método**: GET
 - **Propósito**: Buscar ou criar automaticamente o perfil de um cliente baseado no email
 - **Parâmetros**: `email` (obrigatório), `name` (opcional)
@@ -222,24 +221,30 @@ npm test
 - **Uso**: Chamado pelo frontend após login via Auth0 para obter o ID do cliente necessário para uploads
 
 #### Implementação Técnica
+
 ```typescript
 // UserController.ts
-export async function getProfile(req: Request, res: Response): Promise<Response> {
+export async function getProfile(
+  req: Request,
+  res: Response,
+): Promise<Response> {
   const { email, name } = req.query;
 
   if (!email) {
-    return res.status(400).json({ error: "Email is required to fetch profile." });
+    return res
+      .status(400)
+      .json({ error: "Email is required to fetch profile." });
   }
 
   const findResult = await db.query(
     "SELECT id, name FROM customer WHERE email = $1 LIMIT 1",
-    [email]
+    [email],
   );
 
   if (findResult.rows.length > 0) {
     return res.status(200).json({
       customer_id: findResult.rows[0].id,
-      customer_name: findResult.rows[0].name
+      customer_name: findResult.rows[0].name,
     });
   }
 
@@ -247,14 +252,14 @@ export async function getProfile(req: Request, res: Response): Promise<Response>
   const customerName = (name as string) || (email as string).split("@")[0];
   const insertResult = await db.query(
     "INSERT INTO customer (name, email) VALUES ($1, $2) RETURNING id, name",
-    [customerName, email]
+    [customerName, email],
   );
 
   console.log(`[UserController] New customer auto-registered: ${email}`);
 
   return res.status(201).json({
     customer_id: insertResult.rows[0].id,
-    customer_name: insertResult.rows[0].name
+    customer_name: insertResult.rows[0].name,
   });
 }
 ```
@@ -262,6 +267,7 @@ export async function getProfile(req: Request, res: Response): Promise<Response>
 ### Endpoints do Dashboard
 
 #### Endpoint `/dashboard`
+
 - **Método**: GET
 - **Autenticação**: Requer JWT (Auth0)
 - **Propósito**: Retornar dados do dashboard para o usuário logado
@@ -272,6 +278,7 @@ export async function getProfile(req: Request, res: Response): Promise<Response>
   - Lista de submissões recentes
 
 #### Endpoint `/dashboard-debug`
+
 - **Método**: GET
 - **Propósito**: Endpoint de debug para desenvolvimento (sem autenticação obrigatória)
 - **Parâmetros**: `auth0_id` (opcional)
@@ -280,6 +287,7 @@ export async function getProfile(req: Request, res: Response): Promise<Response>
 ### Endpoint de Upload
 
 #### Endpoint `/upload`
+
 - **Método**: POST
 - **Autenticação**: Opcional (usa token Auth0 se disponível)
 - **Propósito**: Processar upload de arquivos Excel/CSV
@@ -291,6 +299,7 @@ export async function getProfile(req: Request, res: Response): Promise<Response>
   4. Retorna confirmação de upload
 
 #### Middleware de Upload
+
 - **UploadMiddleware**: Valida campos obrigatórios (`customer_id`, `status`)
 - **UploadExcelMiddleware**: Processa arquivos Excel específicos
 - **Tratamento de erros**: Retorna mensagens específicas para diferentes tipos de falha
@@ -298,12 +307,15 @@ export async function getProfile(req: Request, res: Response): Promise<Response>
 ### Configuração de Porta e CORS
 
 #### Porta do Servidor
+
 - **Porta configurada**: 3003 (localhost:3003)
 - **Configuração**: Definida no arquivo `app.ts`
 - **CORS**: Habilitado para permitir requisições do frontend
 
 #### Observação Importante
+
 Durante o desenvolvimento, foi identificado e corrigido um problema de inconsistência de portas:
+
 - Frontend estava chamando `localhost:3000` para alguns endpoints
 - Backend roda em `localhost:3003`
 - **Correção**: Frontend atualizado para usar configuração dinâmica de URL base
@@ -311,6 +323,7 @@ Durante o desenvolvimento, foi identificado e corrigido um problema de inconsist
 ### Integração com Auth0
 
 #### Middleware de Autenticação
+
 - **AuthMiddleware**: Valida tokens JWT do Auth0
 - **Funcionalidades**:
   - Verifica assinatura do token
@@ -318,6 +331,7 @@ Durante o desenvolvimento, foi identificado e corrigido um problema de inconsist
   - Disponibiliza dados do usuário para controllers
 
 #### Fluxo de Autenticação
+
 1. Usuário faz login via Auth0 no frontend
 2. Frontend obtém access token
 3. Token é enviado em headers `Authorization: Bearer <token>`
@@ -326,12 +340,14 @@ Durante o desenvolvimento, foi identificado e corrigido um problema de inconsist
 ### Tratamento de Erros
 
 #### Padrões de Resposta de Erro
+
 - **400**: Campos obrigatórios ausentes
 - **401**: Token inválido ou expirado
 - **404**: Recurso não encontrado (ex: cliente não existe)
 - **500**: Erro interno do servidor
 
 #### Logs de Debug
+
 - Todas as requisições são logadas no console
 - Erros são registrados com contexto detalhado
 - Facilita debugging durante desenvolvimento
