@@ -14,13 +14,13 @@ app.use((req, _res, next) => {
   next();
 });
 
-const port = 3000;
+const port = process.env.PORT ? parseInt(process.env.PORT) : 3003;
 
 app.use("/", routes);
 
 if (process.env.NODE_ENV !== 'test') {
     app.listen(port, ()=>{
-        console.log("The server is runnig on http://localhost:"+3000)
+        console.log("The server is running on http://localhost:"+port)
     });
 }
 
