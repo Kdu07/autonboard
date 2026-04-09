@@ -3,6 +3,7 @@ import { getAll, create } from "../controllers/UploadController";
 import { UploadMiddleware } from "../middleware/UploadMiddleware";
 import { UploadExcelController } from "../controllers/UploadExcelController";
 import { uploadExcelSingleFile } from "../middleware/uploadExcel.middleware";
+import { downloadRoutes } from "./download.routes";
 
 const excelController = new UploadExcelController();
 
@@ -11,6 +12,8 @@ import { userRoutes } from "./user.routes";
 const router = express.Router();
 
 router.get("/", getAll);
+
+router.use("/download", downloadRoutes);
 
 router.use("/user", userRoutes);
 
