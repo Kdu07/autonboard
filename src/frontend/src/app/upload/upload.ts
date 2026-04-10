@@ -1,20 +1,19 @@
-<<<<<<< HEAD
-import { Component, ViewEncapsulation, OnInit, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  OnInit,
+  OnDestroy,
+  NgZone,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-=======
-import { Component, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
->>>>>>> 75d6773470f4cef4acaaf2644bae1351918e93b2
 import { RouterLink } from '@angular/router';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
-
-interface UploadedFile {
-  file: File;
-  progress: number;
-  status: 'uploading' | 'done' | 'error';
-}
+import { UploadStateService, UploadedFile } from '../services/upload-state.service';
 
 interface ServerFile {
   id: number;
@@ -32,12 +31,11 @@ interface ServerFile {
   imports: [CommonModule, RouterLink, DatePipe],
   templateUrl: './upload.html',
   styleUrl: './upload.css',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class Upload {
+export class Upload implements OnInit, OnDestroy {
   isDragging = false;
   uploadedFiles: UploadedFile[] = [];
-<<<<<<< HEAD
   serverFiles: ServerFile[] = [];
   customerId: number | null = null;
   customerName: string | null = null;
@@ -49,7 +47,7 @@ export class Upload {
     public auth: AuthService,
     private uploadStateService: UploadStateService,
     private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -59,13 +57,13 @@ export class Upload {
     this.ngZone.run(() => {
       this.uploadStateService.uploadedFiles$
         .pipe(takeUntil(this.destroy$))
-        .subscribe(files => {
+        .subscribe((files: UploadedFile[]) => {
           this.uploadedFiles = [...files].reverse();
           this.cdr.detectChanges();
         });
     });
 
-    this.auth.user$.pipe(takeUntil(this.destroy$)).subscribe(user => {
+    this.auth.user$.pipe(takeUntil(this.destroy$)).subscribe((user: any) => {
       if (user?.email) {
         this.fetchUserProfile(user.email, user.name ?? undefined);
       } else {
@@ -97,28 +95,24 @@ export class Upload {
           Swal.fire({
             icon: 'warning',
             title: 'Perfil não encontrado',
-            text: 'Nenhuma conta de cliente foi encontrada para este usuário. Entre em contato com o administrador.'
+            text: 'Nenhuma conta de cliente foi encontrada para este usuário. Entre em contato com o administrador.',
           });
         } else if (err.status === 0) {
           Swal.fire({
             icon: 'error',
             title: 'Erro de conexão',
-            text: 'Não foi possível conectar ao servidor. Verifique sua conexão e tente recarregar a página.'
+            text: 'Não foi possível conectar ao servidor. Verifique sua conexão e tente recarregar a página.',
           });
         } else {
           Swal.fire({
             icon: 'error',
             title: 'Erro ao carregar perfil',
-            text: 'Não foi possível carregar as informações do seu perfil. Tente recarregar a página.'
+            text: 'Não foi possível carregar as informações do seu perfil. Tente recarregar a página.',
           });
         }
-      }
+      },
     });
   }
-=======
-
-  constructor(private http: HttpClient, public auth: AuthService) {}
->>>>>>> 75d6773470f4cef4acaaf2644bae1351918e93b2
 
   onDragOver(event: DragEvent): void {
     event.preventDefault();
@@ -144,19 +138,20 @@ export class Upload {
   private processFiles(files: File[]): void {
     for (const file of files) {
       const entry: UploadedFile = { file, progress: 0, status: 'uploading' };
-      this.uploadedFiles.push(entry);
-      this.uploadFile(entry);
+      this.uploadStateService.addFile(entry);
+      const index = this.uploadStateService.getFiles().length - 1;
+      this.uploadFile(entry, index);
     }
   }
 
-  private uploadFile(entry: UploadedFile): void {
+  private uploadFile(entry: UploadedFile, index: number): void {
     this.auth.getAccessTokenSilently().subscribe({
-      next: (token) => this.doUpload(entry, token),
-      error: () => this.doUpload(entry, null)
+      next: (token) => this.doUpload(entry, token, index),
+      error: () => this.doUpload(entry, null, index),
     });
   }
 
-  private doUpload(entry: UploadedFile, token: string | null): void {
+  private doUpload(entry: UploadedFile, token: string | null, index: number): void {
     const formData = new FormData();
     formData.append('file', entry.file);
     formData.append('status', 'pending');
@@ -165,36 +160,38 @@ export class Upload {
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    this.http.post('/api/upload', formData, {
-      headers: new HttpHeaders(headers),
-      reportProgress: true,
-      observe: 'events'
-    }).subscribe({
-      next: (event) => {
-        if (event.type === HttpEventType.UploadProgress && event.total) {
-          entry.progress = Math.round((event.loaded / event.total) * 100);
-        } else if (event.type === HttpEventType.Response) {
-<<<<<<< HEAD
-          this.uploadStateService.removeFile(fileIndex);
-          this.loadServerFiles();
-=======
-          entry.status = 'done';
-          entry.progress = 100;
->>>>>>> 75d6773470f4cef4acaaf2644bae1351918e93b2
-        }
-      },
-      error: (err) => {
-        entry.status = 'error';
-        const msg = err?.error?.message || err?.error?.erro || 'Upload failed.';
-        Swal.fire({ icon: 'error', title: 'Upload Error', text: msg });
-      }
-    });
+    this.http
+      .post('/api/upload', formData, {
+        headers: new HttpHeaders(headers),
+        reportProgress: true,
+        observe: 'events',
+      })
+      .subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.UploadProgress && event.total) {
+            this.uploadStateService.updateFile(index, {
+              progress: Math.round((event.loaded / event.total) * 100),
+            });
+          } else if (event.type === HttpEventType.Response) {
+            this.uploadStateService.updateFile(index, { status: 'done', progress: 100 });
+            this.loadServerFiles();
+          }
+        },
+        error: (err) => {
+          this.uploadStateService.updateFile(index, { status: 'error' });
+          const msg = err?.error?.message || err?.error?.erro || 'Upload failed.';
+          Swal.fire({ icon: 'error', title: 'Upload Error', text: msg });
+        },
+      });
   }
 
   private loadServerFiles(): void {
     this.http.get<ServerFile[]>('http://localhost:3000/').subscribe({
-      next: (files) => { this.serverFiles = files; this.cdr.detectChanges(); },
-      error: (err) => console.error('Failed to load server files:', err)
+      next: (files) => {
+        this.serverFiles = files;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Failed to load server files:', err),
     });
   }
 
@@ -207,7 +204,8 @@ export class Upload {
   getFileIconFromMime(mimeType: string): string {
     if (mimeType === 'text/csv') return 'CSV';
     if (mimeType === 'application/vnd.ms-excel') return 'XLS';
-    if (mimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') return 'XLS';
+    if (mimeType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      return 'XLS';
     return 'FILE';
   }
 
