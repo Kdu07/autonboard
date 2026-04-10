@@ -1,93 +1,270 @@
-# G01
+# Inteli - Institute of Technology and Leadership  
 
+# Autonboard
 
+## 👥 Group Information
 
-## Getting started
+**Group:** Autonboard (G01)  
+**Course:** Software Engineering — Inteli  
+**Path:** graduacao/2026-1a/t17/g01  
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+---
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## 👨‍🎓 Team Members
 
-## Add your files
+- <a href="https://www.linkedin.com/in/henrique-botti-6272571a0/">Henrique Milliorini Botti</a>  
+- <a href="https://www.linkedin.com/in/giacomo-zema-matizonkas-7ab9072b2/">Giacomo Zema Matizonkas</a>  
+- <a href="https://www.linkedin.com/in/nicholas-millani-83a950357/">Nicholas Anantha Krishnan Millani</a>  
+- <a href="https://www.linkedin.com/in/carlos-quaglia-309088357/">Carlos Eduardo Serrano Quaglia</a>  
+- <a href="https://www.linkedin.com/in/mirela-bianchi-608601254/">Mirela Schneider Bianchi</a>  
+- <a href="https://www.linkedin.com/in/mariana-pereira-de-souza1/">Mariana Pereira de Souza</a>  
+- <a href="https://www.linkedin.com/in/lucas-picinato-rogero/">Lucas Picinato Rogero</a>
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## 👩‍🏫 Professors
+
+- Lisane Valdo  
+- Felipe Gonçalves  
+- Jefferson de Oliveira  
+- Afonso Cesar Lelis  
+- Heloisa Caroline de Souza  
+- Henrique Mohallem  
+
+---
+
+## 🎓 Advisor
+
+- Hermano Peixoto  
+
+---
+
+## 📜 Project Description
+
+Autonboard is a **data upload and processing platform** designed to streamline onboarding workflows and structured data ingestion.
+
+The system allows users to:
+
+- upload files (CSV, XLS, XLSX);  
+- validate and process structured data;  
+- visualize results through a dashboard;  
+- manage profile and company information;  
+- authenticate securely using Auth0.  
+
+The architecture is designed with focus on:
+
+- scalability;  
+- modularization;  
+- separation of concerns;  
+- secure frontend-backend integration.  
+
+---
+
+## 📁 Project Structure
 
 ```
-cd existing_repo
-git remote add origin https://git.inteli.edu.br/graduacao/2026-1a/t17/g01.git
-git branch -M main
-git push -uf origin main
+project-root/
+│
+├── src/
+│   │
+│   ├── frontend/
+│   │   ├── public/
+│   │   ├── src/
+│   │   │   ├── app/
+│   │   │   │   ├── landingpage
+│   │   │   │   └── upload
+│   │   │   │   
+│   │   │   ├── index.html
+│   │   │   └── main.ts
+│   │   │   
+│   │   ├── package.json
+│   │   └── README.md
+│   │
+│   ├── backend/
+│   │   ├── controllers/
+│   │   │   ├── BuildingController.cs
+│   │   │   ├── TenantController.cs
+│   │   │   ├── UploadController.cs
+│   │   │   └── ScheduleController.cs
+│   │   │
+│   │   ├── services/
+│   │   │   ├── BuildingService.cs
+│   │   │   ├── TenantService.cs
+│   │   │   ├── ExcelImportService.cs
+│   │   │   └── ScheduleService.cs
+│   │   │
+│   │   ├── models/
+│   │   │   ├── Building.cs
+│   │   │   ├── Tenant.cs
+│   │   │   ├── Unit.cs
+│   │   │   ├── OperationalSchedule.cs
+│   │   │   └── DocumentImport.cs
+│   │   │
+│   │   ├── config/
+│   │   │   ├── appsettings.json
+│   │   │   └── environment.json
+│   │   │
+│   │   ├── middleware/
+│   │   │   ├── ErrorHandlingMiddleware.cs
+│   │   │   └── AuthMiddleware.cs
+│   │   │
+│   │   ├── Program.cs
+│   │   └── README.md
+│   │
+│   └── database/
+│       ├── migrations/
+│       ├── seeds/
+│       ├── schema.sql
+│       └── README.md
+│
+├── tests/
+│   ├── backend/
+│   └── frontend/
+│
+└── assets/
+    ├── sample-excel/
+    └── diagrams/
 ```
 
-## Integrate with your tools
+---
 
-- [ ] [Set up project integrations](https://git.inteli.edu.br/graduacao/2026-1a/t17/g01/-/settings/integrations)
+## ⚙️ Tech Stack
 
-## Collaborate with your team
+### Frontend
+- Angular 21  
+- TypeScript  
+- Angular Router & HttpClient  
+- Auth0 SDK  
+- SweetAlert2  
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+### Backend
+- Node.js + TypeScript  
+- Express  
+- PostgreSQL  
+- Multer  
+- ExcelJS  
+- Auth0 JWT Middleware  
 
-## Test and Deploy
+### Infrastructure
+- Docker & Docker Compose  
+- Nginx  
 
-Use the built-in continuous integration in GitLab.
+---
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+## 🔧 Requirements
 
-***
+- Node.js >= 18  
+- npm >= 9  
+- Docker Desktop (optional)  
+- PostgreSQL  
 
-# Editing this README
+---
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## 🔧 Installation & Execution
 
-## Suggestions for a good README
+### Clone repository
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+```bash
+git clone https://git.inteli.edu.br/graduacao/2026-1a/t17/g01.git
+cd g01
+```
 
-## Name
-Choose a self-explaining name for your project.
+### Backend
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+```bash
+npm install
+npm run dev
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+http://localhost:3000
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Frontend
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+```bash
+cd src/frontend
+npm install
+npm start
+```
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+http://localhost:4200
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### Environment variables
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+```env
+DB_HOST=localhost
+DB_USER=your_user
+DB_PASSWORD=your_password
+DB_DATABASE=your_database
+DB_PORT=5432
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+AUTH0_DOMAIN=your-domain
+AUTH0_AUDIENCE=your-audience
+```
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### Docker
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+```bash
+docker-compose up --build
+```
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+---
 
-## License
-For open source projects, say how it is licensed.
+## 🔗 API Endpoints
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- GET /api/dashboard  
+- GET /api/dashboard-debug  
+- POST /api/upload  
+- POST /api/profile  
+
+---
+
+## Testing
+
+```bash
+npm test
+```
+
+---
+
+## 📈 Architecture
+
+Layered architecture:
+
+Routes → Controllers → Services → Models → Database  
+
+---
+
+## 🗃 Release History
+
+| Day | Year | Description |
+|--------|------|------------|
+| 10/04 | 2026 | Final + presentation |
+| 27/03 | 2026 | Docker + production setup |
+| 13/03 | 2026 | Dashboard + Auth0 |
+| 27/02| 2026 | Upload |
+| 13/02 | 2026 | Initial system |
+
+---
+
+## 📋 License
+
+Autonboard — Inteli Institute of Technology and Leadership  
+
+Developed by Autonboard Group (G01):  
+All team members listed above.  
+
+Academic use only.
+
+---
+
+## 📚 References
+
+- Angular Documentation  
+- Node.js Documentation  
+- PostgreSQL Documentation  
+- Auth0 Documentation  
+- ISO/IEC 25010  
+
+---
+
+## ✅ Final Notes
+
+This README reflects the real implementation of the system and follows all repository governance requirements.
