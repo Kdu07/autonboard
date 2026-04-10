@@ -63,5 +63,6 @@ CREATE TABLE IF NOT EXISTS SUBMISSION (
     status VARCHAR(50) DEFAULT 'pending',
     file_path TEXT NOT NULL,
     upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    file_name VARCHAR(255),
     CONSTRAINT fk_submission_customer FOREIGN KEY (customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE
 );

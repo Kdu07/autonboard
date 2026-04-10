@@ -1,230 +1,194 @@
-# Project
+# Frontend Documentation
 
-This repository contains a **full-stack** application composed of **Frontend (Angular)**, **Backend (Node.js/Express)**, **database scripts**, **documentation**, **assets**, and **automated tests**.
-
----
-
-# Project Structure
-
-```
-g01/
-│
-├── assets/                     # Images, diagrams, and visual resources
-│
-├── docs/                       # Project documentation
-│   ├── Backend.md
-│   ├── Frontend.md
-│   ├── Project.md
-│   ├── CodingStandards.md
-│   ├── ConfigurationManagement.md
-│   ├── RequirementsCoverage.md
-│   └── ...
-│
-├── src/
-│   │
-│   ├── backend/                # Express API
-│   │   ├── controllers/        # Request controllers
-│   │   ├── errors/             # Error handling
-│   │   ├── fetch_api/          # External API integrations
-│   │   ├── interfaces/         # TypeScript interfaces
-│   │   ├── middleware/         # Middlewares
-│   │   ├── models/             # Data models
-│   │   ├── repositories/       # Data access layer
-│   │   ├── routes/             # API routes
-│   │   ├── scripts/            # Auxiliary scripts
-│   │   ├── services/           # Business logic
-│   │   │   └── excel/          # Excel processing pipeline
-│   │   └── types/              # Type definitions
-│   │
-│   ├── database/               # Database configuration and SQL scripts
-│   │   ├── config/
-│   │   └── runDB/
-│   │
-│   ├── frontend/               # Angular application
-│   │   ├── public/
-│   │   ├── src/
-│   │   │   ├── app/
-│   │   │   │   ├── dashboard/
-│   │   │   │   ├── landingpage/
-│   │   │   │   ├── profile/
-│   │   │   │   └── upload/
-│   │   │   ├── index.html
-│   │   │   ├── main.ts
-│   │   │   └── styles.css
-│   │   ├── angular.json
-│   │   ├── package.json
-│   │   ├── Dockerfile.dev
-│   │   └── Dockerfile.prod
-│   │
-│   └── uploads/                # Uploaded CSV and Excel files
-│
-├── tests/                      # Automated tests
-│   ├── backend/
-│   ├── frontend/
-│   └── benchmark.ts
-│
-├── app.ts                      # Main application entry point
-├── docker-compose.yml
-├── docker-compose.prod.yml
-├── Dockerfile.dev
-├── Dockerfile.prod
-├── package.json
-├── tsconfig.json
-└── README.md
-```
+This document describes the frontend architecture, implemented pages, backend integration, authentication flow, and testing strategy.
 
 ---
 
-# Requirements
+## Table of Contents
 
-* Node.js 18 or higher
-* npm
-* Docker (optional)
-* Angular CLI (optional)
+- [Overview](#overview)
+- [Tech Stack](#tech-stack)
+- [Application Structure](#application-structure)
+- [Routing](#routing)
+- [Authentication (Auth0)](#authentication-auth0)
+- [Implemented Pages and Features](#implemented-pages-and-features)
+- [Frontend-Backend Integration](#frontend-backend-integration)
+- [Environment and Execution](#environment-and-execution)
+- [Testing Strategy](#testing-strategy)
+  
+---
+
+## Overview
+
+The frontend is built with Angular (standalone components) and is responsible for:
+
+- rendering the user interface;
+- handling user interactions (login, file upload, profile actions);
+- calling backend APIs for data persistence and retrieval;
+- presenting submission progress and user feedback.
+
+Main frontend directory: `src/frontend`.
 
 ---
 
-# Installation
+## Tech Stack
 
-Clone the repository:
+- Angular 21 (standalone component model)
+- TypeScript
+- Angular Router
+- Angular HttpClient
+- Auth0 Angular SDK (`@auth0/auth0-angular`)
+- SweetAlert2 (upload error feedback)
 
-```
-git clone <repository-url>
-cd g01-novo
-```
+---
 
-Install dependencies:
+## Application Structure
 
-```
+Core app modules are organized in `src/frontend/src/app`:
+
+| Module | Responsibility |
+|---|---|
+| `landingpage` | Initial page and login trigger |
+| `dashboard` | Authenticated overview with stats/submissions |
+| `upload` | File upload UI with drag-and-drop and progress |
+| `profile` | Company/profile form and save flow |
+| `app.routes.ts` | Route definitions |
+| `app.config.ts` | Providers: router, HTTP, Auth0 |
+
+The frontend follows component-based separation, with API calls executed through `HttpClient` within feature components.
+
+---
+
+## Routing
+
+Current routes (`app.routes.ts`):
+
+| Path | Component |
+|---|---|
+| `/` | `Landingpage` |
+| `/dashboard` | `Dashboard` |
+| `/upload` | `Upload` |
+| `/profile` | `Profile` |
+| `**` | Redirect to `/` |
+
+This setup supports a simple authenticated user journey: landing -> login -> dashboard -> upload/profile.
+
+---
+
+## Authentication (Auth0)
+
+Auth0 is configured in `app.config.ts` via `provideAuth0(...)`.
+
+Current integration includes:
+
+- login redirection from `Landingpage` (`loginWithRedirect`);
+- access token retrieval (`getAccessTokenSilently`) in protected API calls;
+- logout with redirect to app origin;
+- token usage in `Authorization: Bearer <token>` headers.
+
+Production deployment includes HTTPS at frontend proxy level (Nginx + self-signed certificate in `Dockerfile.prod`) to support secure auth flows.
+
+---
+
+## Implemented Pages and Features
+
+### 1) Landing Page
+
+- Presents initial UI and starts login flow.
+- Redirects authenticated user flow to `/dashboard`.
+
+### 2) Dashboard
+
+- Loads dashboard data from:
+  - `GET /api/dashboard`
+  - fallback: `GET /api/dashboard-debug?auth0_id=...`
+- Displays loading/error states and submission metadata.
+
+### 3) Upload
+
+- Supports drag-and-drop and file input selection.
+- Sends files using `multipart/form-data` to `POST /api/upload`.
+- Tracks upload progress via `HttpEventType.UploadProgress`.
+- Displays status per file (`uploading`, `done`, `error`).
+- Uses SweetAlert2 for user-friendly error feedback.
+
+### 4) Profile
+
+- Displays authenticated user information.
+- Submits profile/company form to `POST /api/profile`.
+- Includes success/error feedback and basic loading state.
+
+---
+
+## Frontend-Backend Integration
+
+Frontend requests target `/api/*` paths. In production-like deployment, Nginx proxies `/api/` to backend `http://backend:3000/`.
+
+Typical integration flow for upload:
+
+1. User selects a file.
+2. `Upload` component builds `FormData`.
+3. Access token is requested from Auth0.
+4. Request is sent to `POST /api/upload` with optional bearer token.
+5. Backend validates and processes upload.
+6. Frontend updates progress/state and presents result feedback.
+
+Current API calls from frontend components:
+
+- `POST /api/upload`
+- `POST /api/profile`
+- `GET /api/dashboard`
+- `GET /api/dashboard-debug?auth0_id=...`
+
+---
+
+## Environment and Execution
+
+### Local development
+
+From `src/frontend`:
+
+```bash
 npm install
-```
-
----
-
-# Running the Project
-
-## Backend
-
-Run the development server:
-
-```
-npm run dev
-```
-
-The backend will start using **ts-node** or **nodemon**.
-
----
-
-## Frontend
-
-Navigate to the frontend folder:
-
-```
-cd src/frontend
-```
-
-Install dependencies:
-
-```
-npm install
-```
-
-Run the frontend:
-
-```
 npm start
 ```
 
-The Angular application will be available at:
+Application default URL:
 
-```
+```text
 http://localhost:4200
 ```
 
----
+For full functionality, backend and database services must also be running.
 
-# Docker
+### Production container behavior
 
-Run the full project using Docker:
-
-```
-docker-compose up --build
-```
-
-Production mode:
-
-```
-docker-compose -f docker-compose.prod.yml up --build
-```
+- Angular app is built and served by Nginx.
+- Nginx redirects HTTP -> HTTPS.
+- `/api/*` requests are proxied to backend service.
+- Upload body size is increased in Nginx config (`client_max_body_size 50M`).
 
 ---
 
-# Tests
+## Testing Strategy
 
-Run all tests:
+Frontend tests validate core component behavior and HTTP interaction contracts.
 
-```
+Current examples include:
+
+- `upload.spec.ts`: component creation, drag state, file helpers.
+- `profile.spec.ts`: user load on init, POST save flow, success/error states.
+
+Run tests from `src/frontend`:
+
+```bash
 npm test
 ```
 
-Backend tests:
+Recommended focus for future tests:
 
-```
-npm run test:backend
-```
-
-Frontend tests:
-
-```
-npm run test:frontend
-```
+- dashboard API state matrix (loading/success/error/fallback);
+- upload integration with HTTP progress events and auth failures;
+- template-level interaction tests for routing and forms.
 
 ---
-
-# Database
-
-Database scripts are located in:
-
-```
-src/database/runDB
-```
-
-Includes:
-
-* database creation
-* initial data
-* transaction traceability
-* rollback scripts
-* automatic initialization
-
-To initialize:
-
-```
-npm run db:init
-```
-
----
-
-# Documentation
-
-All documentation is available in:
-
-```
-docs/
-```
-
-Includes:
-
-* backend documentation
-* frontend documentation
-* project management
-* requirements coverage
-* AWS deployment
-* data modeling
-* service blueprint
-
----
-
-# Authors
-
-Project developed by the team.

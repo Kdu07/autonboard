@@ -1,190 +1,234 @@
-# Frontend Feature Development
-This document explains the development of the frontend functionalities, how they are implemented in the application, and the current progress of these features according to the project planning.
+# Frontend Documentation
 
-The frontend is responsible for providing the user interface, handling user interactions, and communicating with the backend API.
+This document describes the frontend architecture, implemented pages, backend integration, authentication flow, and testing strategy.
 
-The application was developed using Angular with Type
-Script.
+---
 
+## Table of Contents
 
-# Implemented Functionalities
-The main functionality developed in this sprint is the file upload interface, which allows users to submit files that will be processed and stored by the backend.
+- [Overview](#overview)
+- [Tech Stack](#tech-stack)
+- [Application Structure](#application-structure)
+- [Routing](#routing)
+- [Authentication (Auth0)](#authentication-auth0)
+- [Implemented Pages and Features](#implemented-pages-and-features)
+- [Frontend-Backend Integration](#frontend-backend-integration)
+- [Environment and Execution](#environment-and-execution)
+- [Testing Strategy](#testing-strategy)
+- [Known Gaps and Next Steps](#known-gaps-and-next-steps)
 
-The Upload page includes the following elements:
-
-- Drag and drop file area
-- File selection interface
-- Upload button
-- Information about allowed file formats
-- Information about file size limitations
-- Panel for upload history
-
-The interface was designed to provide a simple and clear user experience, allowing users to easily understand how to submit files to the system.
-
-Supported formats:
-
-- .xlsx
-- .csv
-
-
-# Frontend Interaction With Backend
-The frontend communicates with the backend using HTTP requests.
-
-When a user uploads a file, the following process occurs:
-
-```
-Client selects file
-      │
-      ▼
-Upload component receives file
-      │
-      ▼
-Frontend service prepares request
-      │
-      ▼
-HTTP request sent to backend API
-      │
-      ▼
-Backend processes upload
-      │
-      ▼
-Response returned to frontend
-```
-
-The request is sent to the following endpoint:
-
-```
-POST /upload
-```
-
-This endpoint is responsible for creating a new submission record in the backend system.
-
-
-# Functional Progress
-The development of the frontend features follows the project planning for Sprint 3, focusing on implementing the main interface required for file submission.
-
-Current progress of the functionalities:
-
-| Functionality | Status |
-|------|------|
-| Upload page layout | Implemented |
-| Drag and drop upload area | Implemented |
-| File selection | Implemented |
-| Upload button | Implemented |
-| File format validation | Implemented |
-| Backend integration | Implemented |
-| Upload history display | In development |
-
-The system is currently capable of sending uploaded files to the backend API.
-
-
-# Deviations From Original Plan
-During the development process, some adjustments were made compared to the initial planning.
-
-The Upload History section was originally planned to display previously uploaded files retrieved from the backend database. However, due to time constraints and prioritization of the main upload functionality, this section is currently implemented only as a visual component and will be connected to backend data in a future sprint.
-
-Additionally, improvements related to error handling and user feedback messages are planned for future iterations.
-
-These adjustments allowed the team to prioritize the core functionality of file submission and ensure successful integration with the backend system within the sprint timeline.
-
-
-# Alignment With Project Architecture
-The frontend functionalities were implemented following the architecture and coding standards defined earlier in the project documentation.
-
-The implementation respects the following principles:
-
-- Component-based structure, separating the interface into independent components.
-- Service layer for backend communication, avoiding direct API calls inside components.
-- Use of TypeScript interfaces for data structures.
-- Clear separation between UI logic and service logic.
-
-# Testing Strategy
-This section documents the strategy for unit testing in the frontend, including the rationale for test decisions and implementation guidelines.
+---
 
 ## Overview
-Unit tests are essential for ensuring the reliability and maintainability of the frontend code. The testing strategy focuses on testing individual units of code (components, services, utilities) in isolation to verify their behavior under various conditions.
 
-## Testing Framework
-The frontend uses Angular's built-in testing framework, which includes:
-- Jasmine as the testing framework
-- Karma as the test runner
-- Angular Testing Utilities (TestBed, ComponentFixture, etc.)
+The frontend is built with Angular (standalone components) and is responsible for:
 
-Jest is configured at the project root for backend testing, but frontend tests use the Angular testing setup for better integration with Angular's dependency injection and component lifecycle.
+- rendering the user interface;
+- handling user interactions (login, file upload, profile actions);
+- calling backend APIs for data persistence and retrieval;
+- presenting submission progress and user feedback.
 
-## Test Coverage Goals
-- **Components**: Test component creation, user interactions, data binding, and DOM updates.
-- **Services**: Test service methods, HTTP calls, and data transformations.
-- **Utilities**: Test helper functions and business logic.
-- **Minimum Coverage**: Aim for 80% code coverage across statements, branches, functions, and lines.
+Main frontend directory: `src/frontend`.
 
-## Decision Criteria for Unit Tests
-The following criteria guide which tests to write and prioritize:
+---
 
-1. **Critical User Paths**: Test the most common user interactions and workflows (e.g., file upload process).
-2. **Error Handling**: Test how components and services handle invalid inputs, network failures, and edge cases.
-3. **Data Binding**: Verify that component properties correctly bind to the template and update the DOM.
-4. **Service Integration**: Test that services correctly call APIs and handle responses/errors.
-5. **Component Lifecycle**: Test ngOnInit, ngOnDestroy, and other lifecycle hooks if they contain logic.
-6. **Accessibility**: Include tests for ARIA attributes and keyboard navigation where applicable.
-7. **Performance**: Test components that handle large datasets or frequent updates.
+## Tech Stack
 
-## Test Structure
-Each test file follows this structure:
-- **Setup**: Configure TestBed with necessary modules, declarations, and providers.
-- **Test Cases**: Individual `it()` blocks testing specific behaviors.
-- **Teardown**: Automatic cleanup handled by Angular's testing utilities.
+- Angular 21 (standalone component model)
+- TypeScript
+- Angular Router
+- Angular HttpClient
+- Auth0 Angular SDK (`@auth0/auth0-angular`)
+- SweetAlert2 (upload error feedback)
 
-## Example Test Implementation
-For the UploadComponent, tests include:
-- Component instantiation
-- File selection display
-- Default state when no file is selected
-- Future tests will cover upload submission, error states, and validation.
+---
 
-## Running Tests
-To run frontend unit tests:
-```bash
-ng test
-```
+## Application Structure
 
-For continuous testing during development:
-```bash
-ng test --watch
-```
+Core app modules are organized in `src/frontend/src/app`:
 
-## Integration with CI/CD
-Tests are integrated into the project's CI/CD pipeline to ensure code quality before deployment. Failed tests will block merges to main branches.
+| Module          | Responsibility                                 |
+| --------------- | ---------------------------------------------- |
+| `landingpage`   | Initial page and login trigger                 |
+| `upload`        | File upload UI with drag-and-drop and progress |
+| `profile`       | Company/profile form and save flow             |
+| `app.routes.ts` | Route definitions                              |
+| `app.config.ts` | Providers: router, HTTP, Auth0                 |
 
-## Future Enhancements
-- Add end-to-end tests using Cypress or Playwright for full user workflows.
-- Implement visual regression testing for UI components.
-- Expand coverage to include more edge cases and accessibility tests.
+The frontend follows component-based separation, with API calls executed through `HttpClient` within feature components.
 
-This structure ensures that the frontend remains organized, maintainable, and scalable as new features are added to the system.
+---
+
+## Routing
+
+Current routes (`app.routes.ts`):
+
+| Path         | Component       |
+| ------------ | --------------- |
+| `/`          | `Landingpage`   |
+| `/upload`    | `Upload`        |
+| `/profile`   | `Profile`       |
+| `**`         | Redirect to `/` |
+
+This setup supports a simple authenticated user journey: landing -> login -> upload/profile.
+
+---
+
+## Authentication (Auth0)
+
+Auth0 is configured in `app.config.ts` via `provideAuth0(...)`.
+
+Current integration includes:
+
+- login redirection from `Landingpage` (`loginWithRedirect`);
+- access token retrieval (`getAccessTokenSilently`) in protected API calls;
+- logout with redirect to app origin;
+- token usage in `Authorization: Bearer <token>` headers.
+
+Production deployment includes HTTPS at frontend proxy level (Nginx + self-signed certificate in `Dockerfile.prod`) to support secure auth flows.
+
+---
+
+## Implemented Pages and Features
+
+### 1) Landing Page
+
+- Presents initial UI and starts login flow.
+- Redirects authenticated user flow to `/upload`.
 
 
-# Running the Frontend
-To run the frontend application locally, it is necessary to install the project dependencies and start the development server.
 
-First, install the dependencies:
+### 3) Upload
+
+- Supports drag-and-drop and file input selection.
+- Sends files using `multipart/form-data` to `POST /api/upload`.
+- Tracks upload progress via `HttpEventType.UploadProgress`.
+- Displays status per file (`uploading`, `done`, `error`).
+- Uses SweetAlert2 for user-friendly error feedback.
+
+### 4) Profile
+
+- Displays authenticated user information.
+- Submits profile/company form to `POST /api/profile`.
+- Includes success/error feedback and basic loading state.
+
+---
+
+## Frontend-Backend Integration
+
+Frontend requests target `/api/*` paths. In production-like deployment, Nginx proxies `/api/` to backend `http://backend:3000/`.
+
+Typical integration flow for upload:
+
+1. User selects a file.
+2. `Upload` component builds `FormData`.
+3. Access token is requested from Auth0.
+4. Request is sent to `POST /api/upload` with optional bearer token.
+5. Backend validates and processes upload.
+6. Frontend updates progress/state and presents result feedback.
+
+Current API calls from frontend components:
+
+- `POST /api/upload`
+- `POST /api/profile`
+
+---
+
+## Environment and Execution
+
+### Local development
+
+From `src/frontend`:
 
 ```bash
 npm install
+npm start
 ```
 
-Then start the Angular development server:
+Application default URL:
 
-```bash
-ng serve
-```
-
-After running the command, the application will be available at:
-
-```
+```text
 http://localhost:4200
 ```
 
-The frontend will automatically reload whenever changes are made to the source code.
+For full functionality, backend and database services must also be running.
 
-For full system functionality, the backend server must also be running so that the frontend can communicate with the API endpoints responsible for handling file uploads.
+### Production container behavior
+
+- Angular app is built and served by Nginx.
+- Nginx redirects HTTP -> HTTPS.
+- `/api/*` requests are proxied to backend service.
+- Upload body size is increased in Nginx config (`client_max_body_size 50M`).
+
+---
+
+## Testing Strategy
+
+Frontend tests validate core component behavior and HTTP interaction contracts.
+
+Current examples include:
+
+- `upload.spec.ts`: component creation, drag state, file helpers.
+- `profile.spec.ts`: user load on init, POST save flow, success/error states.
+
+Run tests from `src/frontend`:
+
+```bash
+npm test
+```
+
+Recommended focus for future tests:
+
+- upload integration with HTTP progress events and auth failures;
+- template-level interaction tests for routing and forms.
+
+---
+
+## Correções Técnicas e Melhorias
+
+### Problema de Conectividade no Upload (Resolvido)
+
+#### Descrição do Problema
+
+Durante os testes de integração, foi identificado que o componente de upload (`src/frontend/src/app/upload/upload.ts`) apresentava erro "Perfil não encontrado" ao tentar fazer upload de arquivos. O usuário era direcionado corretamente para o sistema após o login via Auth0, mas ao acessar a aba de upload, o sistema falhava ao buscar o perfil do usuário.
+
+#### Causa Raiz
+
+O problema estava na configuração de URLs do backend no componente de upload:
+
+- O upload estava fazendo chamadas para `http://localhost:3000/user/profile` (porta errada)
+- Enquanto o backend estava configurado para rodar em `http://localhost:3003`
+- Isso causava falha na busca do perfil do usuário, impedindo o upload
+
+#### Solução Implementada
+
+Para resolver a inconsistência, foi adicionada uma configuração dinâmica de URL base no componente de upload:
+
+1. **Adição de propriedade `backendBaseUrl`**:
+
+   ```typescript
+   private backendBaseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3003' : '';
+   ```
+
+2. **Correção da chamada de perfil**:
+   - Antes: `http://localhost:3000/user/profile`
+   - Depois: `${this.backendBaseUrl}/user/profile`
+
+3. **Correção do endpoint de upload**:
+   - Antes: `http://localhost:3003/upload` (hardcoded)
+   - Depois: `${this.backendBaseUrl}/upload`
+
+#### Arquivos Modificados
+
+- `src/frontend/src/app/upload/upload.ts`: Adicionada configuração de URL base e atualização dos endpoints HTTP
+
+#### Impacto
+
+- O upload agora funciona corretamente, permitindo que usuários façam upload de arquivos após o login
+- Preparado para produção (a URL base será vazia em produção, usando caminhos relativos)
+
+#### Testes Realizados
+
+- Verificado que o perfil é carregado corretamente após login
+- Confirmado que uploads de arquivos .csv e .xlsx funcionam
+- Validado que erros de conectividade são tratados adequadamente

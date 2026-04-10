@@ -1,93 +1,603 @@
-# G01
+# Inteli - Institute of Technology and Leadership
 
+# Autonboard
 
+## 👥 Group Information
 
-## Getting started
+**Group:** Autonboard (G01)  
+**Course:** Software Engineering — Inteli  
+**Path:** graduacao/2026-1a/t17/g01
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+---
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## 👨‍🎓 Team Members
 
-## Add your files
+- <a href="https://www.linkedin.com/in/henrique-botti-6272571a0/">Henrique Milliorini Botti</a>
+- <a href="https://www.linkedin.com/in/giacomo-zema-matizonkas-7ab9072b2/">Giacomo Zema Matizonkas</a>
+- <a href="https://www.linkedin.com/in/nicholas-millani-83a950357/">Nicholas Anantha Krishnan Millani</a>
+- <a href="https://www.linkedin.com/in/carlos-quaglia-309088357/">Carlos Eduardo Serrano Quaglia</a>
+- <a href="https://www.linkedin.com/in/mirela-bianchi-608601254/">Mirela Schneider Bianchi</a>
+- <a href="https://www.linkedin.com/in/mariana-pereira-de-souza1/">Mariana Pereira de Souza</a>
+- <a href="https://www.linkedin.com/in/lucas-picinato-rogero/">Lucas Picinato Rogero</a>
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## 👩‍🏫 Professors
+
+- Lisane Valdo
+- Felipe Gonçalves
+- Jefferson de Oliveira
+- Afonso Cesar Lelis
+- Heloisa Caroline de Souza
+- Henrique Mohallem
+
+---
+
+## 🎓 Advisor
+
+- Hermano Peixoto
+
+---
+
+## 📜 Project Description
+
+Autonboard is a **data upload and processing platform** designed to streamline onboarding workflows and structured data ingestion.
+
+The system allows users to:
+
+- upload files (CSV, XLS, XLSX);
+- validate and process structured data;
+- visualize results through a dashboard;
+- manage profile and company information;
+- authenticate securely using Auth0.
+
+The architecture is designed with focus on:
+
+- scalability;
+- modularization;
+- separation of concerns;
+- secure frontend-backend integration.
+
+---
+
+## 📁 Project Structure
 
 ```
-cd existing_repo
-git remote add origin https://git.inteli.edu.br/graduacao/2026-1a/t17/g01.git
-git branch -M main
-git push -uf origin main
+project-root/
+│
+├── src/
+│   │
+│   ├── frontend/
+│   │   ├── public/
+│   │   ├── src/
+│   │   │   ├── app/
+│   │   │   │   ├── landingpage/
+│   │   │   │   ├── dashboard/
+│   │   │   │   ├── upload/
+│   │   │   │   ├── profile/
+│   │   │   │   ├── app.routes.ts
+│   │   │   │   └── app.config.ts
+│   │   │   │
+│   │   │   ├── index.html
+│   │   │   └── main.ts
+│   │   │
+│   │   ├── package.json
+│   │   └── README.md
+│   │
+│   ├── backend/
+│   │   ├── controllers/
+│   │   │   ├── UserController.ts
+│   │   │   ├── UploadController.ts
+│   │   │   ├── UploadExcelController.ts
+│   │   │   ├── AmenityController.ts
+│   │   │   ├── BuildingController.ts
+│   │   │   ├── FloorController.ts
+│   │   │   ├── CustomerController.ts
+│   │   │   ├── SubmissionController.ts
+│   │   │   └── UsersController.ts
+│   │   │
+│   │   ├── services/
+│   │   │   ├── UploadService.ts
+│   │   │   ├── UploadExcelService.ts
+│   │   │   └── Excel pipeline classes
+│   │   │
+│   │   ├── models/
+│   │   │   ├── Amenity.ts
+│   │   │   ├── Building.ts
+│   │   │   ├── Floor.ts
+│   │   │   ├── Customer.ts
+│   │   │   ├── Submission.ts
+│   │   │   └── UploadModel.ts
+│   │   │
+│   │   ├── middleware/
+│   │   │   ├── AuthMiddleware.ts
+│   │   │   ├── ErrorHandlingMiddleware.ts
+│   │   │   └── Upload validation middleware
+│   │   │
+│   │   ├── repositories/
+│   │   │   └── Repository abstractions
+│   │   │
+│   │   ├── errors/
+│   │   │   └── HttpError.ts
+│   │   │
+│   │   ├── interfaces/
+│   │   │   └── db.interfaces.ts
+│   │   │
+│   │   ├── routes/
+│   │   │   └── index.ts
+│   │   │
+│   │   ├── fetch_api/
+│   │   │   ├── locationHierarchy.ts
+│   │   │   ├── idenitity&access.ts
+│   │   │   ├── bookings.ts
+│   │   │   └── tenants.ts
+│   │   │
+│   │   ├── app.ts
+│   │   └── README.md
+│   │
+│   └── database/
+│       ├── config/
+│       │   └── db.ts
+│       ├── runDB/
+│       │   └── init.ts
+│       └── readme.md
+│
+├── tests/
+│   ├── backend/
+│   │   ├── ExcelMapper.test.ts
+│   │   ├── ExcelParser.test.ts
+│   │   ├── UploadController.test.ts
+│   │   ├── UploadService.test.ts
+│   │   └── other test files
+│   └── frontend/
+│       ├── upload.spec.ts
+│       └── other test files
+│
+├── docs/
+│   ├── Project.md
+│   ├── Backend.md
+│   ├── Frontend.md
+│   ├── DataModeling.md
+│   ├── CodingStandards.md
+│   ├── ConfigurationManagement.md
+│   └── other documentation
+│
+└── assets/
+    ├── coverage/
+    ├── uploads/
+    └── sample files/
 ```
 
-## Integrate with your tools
+---
 
-- [ ] [Set up project integrations](https://git.inteli.edu.br/graduacao/2026-1a/t17/g01/-/settings/integrations)
+## ⚙️ Tech Stack
 
-## Collaborate with your team
+### Frontend
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+- Angular 21
+- TypeScript
+- Angular Router & HttpClient
+- Auth0 SDK
+- SweetAlert2
 
-## Test and Deploy
+### Backend
 
-Use the built-in continuous integration in GitLab.
+- Node.js + TypeScript
+- Express
+- PostgreSQL
+- Multer
+- ExcelJS
+- Auth0 JWT Middleware
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### Infrastructure
 
-***
+- Docker & Docker Compose
+- Nginx
 
-# Editing this README
+---
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## 🔧 Requirements
 
-## Suggestions for a good README
+- Node.js >= 18
+- npm >= 9
+- Docker Desktop (optional)
+- PostgreSQL
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+---
 
-## Name
-Choose a self-explaining name for your project.
+## 🔧 Installation & Execution
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Clone repository
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+```bash
+git clone https://git.inteli.edu.br/graduacao/2026-1a/t17/g01.git
+cd g01
+```
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Backend
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+```bash
+npm install
+npm run dev
+```
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+http://localhost:3000
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### Frontend
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+```bash
+cd src/frontend
+npm install
+npm start
+```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+http://localhost:4200
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### Environment variables
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+```env
+DB_HOST=localhost
+DB_USER=your_user
+DB_PASSWORD=your_password
+DB_DATABASE=your_database
+DB_PORT=5432
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+AUTH0_DOMAIN=your-domain
+AUTH0_AUDIENCE=your-audience
+```
 
-## License
-For open source projects, say how it is licensed.
+### Docker
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+```bash
+docker-compose up --build
+```
+
+---
+
+## 🔗 API Endpoints
+
+- POST /api/upload
+- POST /api/profile
+
+---
+
+## Testing
+
+Backend running at: http://localhost:3003
+
+### Frontend
+
+```bash
+cd src/frontend
+npm install
+npm start
+```
+
+Frontend running at: Routes → Controllers → Services → Models → Database
+
+---
+
+## 🗃 Release History
+
+| Day   | Year | Description               |
+| ----- | ---- | ------------------------- |
+| 10/04 | 2026 | Final + presentation      |
+| 27/03 | 2026 | Docker + production setup |
+| 13/03 | 2026 | Auth0                     |
+| 27/02 | 2026 | Upload                    |
+| 13/02 | 2026 | Initial system            |
+
+---
+
+## � Documentation
+
+### Project Documentation
+
+- **[Project.md](./docs/Project.md)** - Test plans, execution records, and feature development documentation
+- **[Backend.md](./docs/Backend.md)** - Backend architecture, API endpoints, and implementation details
+- **[Frontend.md](./docs/Frontend.md)** - Frontend architecture, components, and integration
+- **[DataModeling.md](./docs/DataModeling.md)** - Database schema and data modeling decisions
+- **[CodingStandards.md](./docs/CodingStandards.md)** - Code style guidelines and best practices
+- **[ConfigurationManagement.md](./docs/ConfigurationManagement.md)** - Configuration and deployment management
+
+### Contributing Guidelines
+
+#### Getting Started
+
+1. Fork the repository
+2. Clone your forked repository locally
+3. Create a new branch for your feature or bugfix
+4. Make your changes
+5. Commit with clear, meaningful messages
+6. Push to your forked repository
+7. Submit a Pull Request to the main repository
+
+#### Development Setup
+
+**Prerequisites:**
+
+- Node.js >= 18
+- npm >= 9
+- PostgreSQL
+- Docker Desktop (optional)
+
+**Setup Instructions:**
+
+```bash
+# Clone the repository
+git clone https://git.inteli.edu.br/graduacao/2026-1a/t17/g01.git
+cd g01
+
+# Install dependencies
+npm install
+
+# Setup environment variables
+cp .env.example .env
+# Edit .env with your configuration
+
+# Start database
+npm run startDB
+
+# Run development server
+npm run dev
+
+# For frontend development
+cd src/frontend
+npm install
+npm start
+```
+
+#### Coding Standards
+
+All code must follow the standards defined in [docs/CodingStandards.md](./docs/CodingStandards.md).
+
+**Key Guidelines:**
+
+- Use TypeScript for all new code
+- Follow PascalCase for class names
+- Follow camelCase for function and variable names
+- Write meaningful commit messages
+- Keep functions focused and single-responsibility
+- Add JSDoc comments for complex logic
+- Include tests for new features
+
+#### Commit Guidelines
+
+Use conventional commits format:
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Types:**
+
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation changes
+- **style**: Code style changes
+- **refactor**: Code refactoring
+- **perf**: Performance improvements
+- **test**: Adding or updating tests
+- **chore**: Build process, dependencies, tools
+
+**Examples:**
+
+```
+feat(upload): add drag-and-drop support for file uploads
+fix(auth): resolve token expiration handling in dashboard
+docs: update README with new API endpoints
+```
+
+### Code of Conduct
+
+#### Our Commitment
+
+Autonboard project is committed to providing a welcoming and inspiring community for all, regardless of background, identity, or experience level. We are dedicated to providing a harassment-free experience for everyone, regardless of gender, gender identity and expression, sexual orientation, disability, personal appearance, body size, race, ethnicity, age, religion, or nationality.
+
+#### Our Standards
+
+Examples of behavior that contributes to creating a positive environment include:
+
+- Using welcoming and inclusive language
+- Being respectful of differing opinions, viewpoints, and experiences
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the community
+- Showing empathy towards other community members
+- Helping others learn and grow
+
+Examples of unacceptable behavior include:
+
+- The use of sexualized language or imagery and unwelcome sexual attention or advances
+- Trolling, insulting/derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information without explicit permission (doxing)
+- Other conduct which could reasonably be considered inappropriate in a professional setting
+
+#### Enforcement
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the project team. All complaints will be reviewed and investigated promptly and fairly.
+
+---
+
+## 🔒 Security
+
+### Security Measures Implemented
+
+#### Authentication & Authorization
+
+- **Auth0 Integration**: Secure OAuth 2.0 authentication
+- **JWT Tokens**: RS256 algorithm for token signing
+- **HTTPS Only**: All communications must use encrypted connections in production
+- **CORS Policy**: Strict Cross-Origin Resource Sharing configuration
+
+#### Data Protection
+
+- **Environment Variables**: Sensitive credentials stored securely in `.env` files
+- **Input Validation**: Validation on both frontend and backend
+- **SQL Injection Prevention**: Parameterized queries via PostgreSQL driver
+- **XSS Protection**: Angular's built-in XSS protection and HTML sanitization
+
+#### Infrastructure Security
+
+- **Helmet.js**: HTTP security headers implementation
+- **Multer Configuration**: Secure file upload handling with size limits
+- **Rate Limiting**: Recommended for production deployments
+
+### Security Best Practices
+
+#### For Developers
+
+1. **Never commit secrets** - Use environment variables
+2. **Validate all inputs** - Prevent injection attacks
+3. **Use HTTPS in production** - Enable SSL/TLS certificates
+4. **Keep dependencies updated** - Regular security audits
+5. **Implement proper error handling** - Don't expose sensitive information
+
+#### For Deployment
+
+1. **Database Security** - Use strong passwords and SSL connections
+2. **File Upload Security** - Validate file types and size limits
+3. **Network Security** - Implement firewall rules and monitoring
+4. **Access Control** - Principle of least privilege
+
+### Reporting Security Vulnerabilities
+
+If you discover a security vulnerability, please report it responsibly. **Do not** open a public issue for security vulnerabilities.
+
+Send a detailed report to the project maintainers including:
+
+- Steps to reproduce the vulnerability
+- Potential impact assessment
+- Contact information for follow-up
+
+---
+
+## 📋 License
+
+### Project Information
+
+**Project Name:** Autonboard  
+**Institution:** Inteli - Institute of Technology and Leadership  
+**Academic Program:** Software Engineering  
+**Authors:** Autonboard Group (G01) - 2026/1
+
+### License Terms
+
+Autonboard is provided as an **academic project** developed by students of Inteli - Institute of Technology and Leadership.
+
+#### Intellectual Property Rights
+
+- All code, documentation, and materials in this repository are the intellectual property of Inteli and the contributing students
+- The project is developed as part of the Software Engineering course at Inteli
+- This project may be used for academic purposes and educational demonstrations
+
+#### Usage Restrictions
+
+1. **Academic Use Only**: This software is intended for use by:
+   - Inteli students and faculty
+   - Academic institutions with proper authorization
+   - Educational demonstrations and learning purposes
+
+2. **Commercial Use**:
+   - Commercial use is **not permitted** without explicit written authorization from Inteli and all team members
+   - Organizations wishing to use this project commercially must contact Inteli
+
+3. **Modifications**:
+   - You may modify the code for personal educational use
+   - Modified versions must retain this license and attribution
+   - All modifications for deployment must follow Inteli approval procedures
+
+4. **Distribution**:
+   - Distribution is limited to approved academic contexts
+   - Code must not be redistributed without attribution to the original authors
+
+#### Academic Collaboration
+
+- This work may be referenced in academic papers and presentations
+- Proper citation to Inteli and the Autonboard Group (G01) is required
+- Modifications or adaptations must be credited appropriately
+
+#### Disclaimer
+
+THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:
+
+- The WARRANTIES OF MERCHANTABILITY
+- FITNESS FOR A PARTICULAR PURPOSE
+- NONINFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR:
+
+- ANY CLAIM, DAMAGES, OR OTHER LIABILITY
+- WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE
+- ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
+
+#### Data and Security
+
+Users are responsible for:
+
+- Protecting sensitive data (auth tokens, credentials, etc.)
+- Ensuring secure deployment in production environments
+- Compliance with data protection regulations (LGPD, GDPR, etc.)
+- Authentication and authorization enforcement
+
+#### Termination
+
+License can be revoked if:
+
+- The software is used for unauthorized commercial purposes
+- Terms of this license are violated
+- The software is used in ways that harm individuals or institutions
+
+#### Contact for Licensing
+
+For questions about usage rights, commercial licensing, or authorization requests:
+
+- **Institution:** Inteli - Institute of Technology and Leadership
+- **Project Team:** Autonboard Group (G01)
+
+### Team Attribution
+
+Developed by:
+
+- Henrique Milliorini Botti
+- Giacomo Zema Matizonkas
+- Nicholas Anantha Krishnan Millani
+- Carlos Eduardo Serrano Quaglia
+- Mirela Schneider Bianchi
+- Mariana Pereira de Souza
+- Lucas Picinato Rogero
+
+Supervised by:
+
+- Lisane Valdo
+- Felipe Gonçalves
+- Jefferson de Oliveira
+- Afonso Cesar Lelis
+- Heloisa Caroline de Souza
+- Henrique Mohallem
+
+Advisor: Hermano Peixoto
+
+### Version History
+
+| Date           | Version | Description                   |
+| -------------- | ------- | ----------------------------- |
+| April 10, 2026 | 1.0     | Initial license documentation |
+
+---
+
+## 📚 References
+
+- Angular Documentation
+- Node.js Documentation
+- PostgreSQL Documentation
+- Auth0 Documentation
+- ISO/IEC 25010
+
+---
+
+## ✅ Final Notes
+
+This README reflects the real implementation of the system and follows all repository governance requirements.

@@ -3,15 +3,9 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-brand">
-      <div class="nav-brand-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-        </svg>
-      </div>
-      Autonboard
+      <img src="logo-autonboard.png" alt="Autonboard" class="nav-logo">
     </div>
     <div class="nav-links">
-      <a class="nav-link" routerLink="/dashboard">Dashboard</a>
       <a class="nav-link" routerLink="/upload">Upload</a>
       <a class="nav-link active" routerLink="/profile">Profile</a>
       <button class="btn-logout" (click)="logout()">Sign Out</button>
@@ -63,18 +57,6 @@
             <span class="detail-label">Locale</span>
             <span class="detail-value">{{ user.locale }}</span>
           </div>
-        </div>
-
-        <div class="raw-data-section">
-          <details>
-            <summary class="raw-toggle">View raw Auth0 data</summary>
-            <div class="raw-data-grid">
-              <ng-container *ngFor="let item of user | keyvalue">
-                <span class="raw-key">{{ item.key }}</span>
-                <span class="raw-val">{{ item.value }}</span>
-              </ng-container>
-            </div>
-          </details>
         </div>
       </div>
 
@@ -151,15 +133,6 @@
               [(ngModel)]="companyForm.address"
               name="address"
             >
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="plan">Plan</label>
-            <select id="plan" class="form-input" [(ngModel)]="companyForm.plan" name="plan">
-              <option value="basic">Basic</option>
-              <option value="professional">Professional</option>
-              <option value="enterprise">Enterprise</option>
-            </select>
           </div>
 
           <div class="form-actions">

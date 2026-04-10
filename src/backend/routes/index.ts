@@ -14,13 +14,13 @@ router.post(
   "/upload",
   UploadMiddleware.multerSingle,
   UploadMiddleware.process,
-  create
+  create,
 );
 
 router.post(
   "/upload-excel",
   uploadExcelSingleFile("file"),
-  excelController.upload
+  excelController.upload,
 );
 
 export const routes = router;
