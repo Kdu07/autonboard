@@ -9,6 +9,7 @@ export interface IUpload {
   file_type: string;
   file_name?: string;
   upload_date: Date;
+  mimetype: string;
   size: number;
   customer_name?: string;
 }

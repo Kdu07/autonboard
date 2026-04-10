@@ -14,9 +14,8 @@ describe("UploadService", () => {
     }
 
     ;(UploadModel.create as jest.Mock).mockResolvedValue({ id: 1 })
-    
-    const mockBuffer = Buffer.from("mock file content");
-    const result = await UploadService.processUpload(file, 1, 'pending', mockBuffer)
+
+    const result = await UploadService.processUpload(file, 1)
 
     expect(result).toBeDefined()
   })
@@ -33,8 +32,7 @@ describe("UploadService", () => {
 
     ;(UploadModel.create as jest.Mock).mockResolvedValue({ id: 1 })
 
-    const mockBuffer = Buffer.from("mock file content");
-    const result = await UploadService.processUpload(file, 1, 'pending', mockBuffer);
+    const result = await UploadService.processUpload(file, 1)
 
     expect(result).toBeDefined()
   })
@@ -47,10 +45,9 @@ describe("UploadService", () => {
       size: 100,
       file_path: "/tmp/file.pdf"
     }
-    const mockBuffer = Buffer.from("mock file content");
 
     await expect(
-      UploadService.processUpload(file, 1, 'pending', mockBuffer)
+      UploadService.processUpload(file, 1)
     ).rejects.toThrow("Invalid format")
   })
 
@@ -62,19 +59,17 @@ describe("UploadService", () => {
       size: 0,
       file_path: "/tmp/file.csv"
     }
-    const mockBuffer = Buffer.from("mock file content");
 
     await expect(
-      UploadService.processUpload(file, 1, 'pending', mockBuffer)
+      UploadService.processUpload(file, 1)
     ).rejects.toThrow()
   })
 
 
   test("CT-05: reject missing file", async () => {
-    const mockBuffer = Buffer.from("mock file content");
-    
+
     await expect(
-      UploadService.processUpload(null as any, 1, 'pending', mockBuffer)
+      UploadService.processUpload(null as any, 1)
     ).rejects.toThrow("No file was uploaded")
   })
 

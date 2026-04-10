@@ -1,12 +1,20 @@
+<<<<<<< HEAD
 import { Component, ViewEncapsulation, OnInit, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+=======
+import { Component, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
+>>>>>>> 75d6773470f4cef4acaaf2644bae1351918e93b2
 import { RouterLink } from '@angular/router';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '@auth0/auth0-angular';
 import Swal from 'sweetalert2';
-import { UploadStateService, UploadedFile } from '../services/upload-state.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+
+interface UploadedFile {
+  file: File;
+  progress: number;
+  status: 'uploading' | 'done' | 'error';
+}
 
 interface ServerFile {
   id: number;
@@ -26,9 +34,10 @@ interface ServerFile {
   styleUrl: './upload.css',
   encapsulation: ViewEncapsulation.None
 })
-export class Upload implements OnInit, OnDestroy {
+export class Upload {
   isDragging = false;
   uploadedFiles: UploadedFile[] = [];
+<<<<<<< HEAD
   serverFiles: ServerFile[] = [];
   customerId: number | null = null;
   customerName: string | null = null;
@@ -106,6 +115,10 @@ export class Upload implements OnInit, OnDestroy {
       }
     });
   }
+=======
+
+  constructor(private http: HttpClient, public auth: AuthService) {}
+>>>>>>> 75d6773470f4cef4acaaf2644bae1351918e93b2
 
   onDragOver(event: DragEvent): void {
     event.preventDefault();
@@ -129,146 +142,51 @@ export class Upload implements OnInit, OnDestroy {
   }
 
   private processFiles(files: File[]): void {
-    if (this.isProfileLoading) {
-      Swal.fire({
-        icon: 'info',
-        title: 'Aguarde',
-        text: 'Estamos carregando as suas informações de perfil...'
-      });
-      return;
-    }
     for (const file of files) {
-      const isValidType =
-        file.type === 'text/csv' ||
-        file.type === 'application/vnd.ms-excel' ||
-        file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-        file.name.toLowerCase().endsWith('.csv') ||
-        file.name.toLowerCase().endsWith('.xlsx') ||
-        file.name.toLowerCase().endsWith('.xls');
-        
-      if (!isValidType) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Upload Error',
-          text: 'Formato inválido. Apenas arquivos CSV ou XLSX são permitidos.'
-        });
-        continue;
-      }
-
-      if (file.size > 100 * 1024 * 1024) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Upload Error',
-          text: 'Arquivo muito grande. O tamanho máximo permitido é 100MB.'
-        });
-        continue;
-      }
-
       const entry: UploadedFile = { file, progress: 0, status: 'uploading' };
-      this.uploadStateService.addFile(entry);
+      this.uploadedFiles.push(entry);
       this.uploadFile(entry);
     }
   }
 
   private uploadFile(entry: UploadedFile): void {
-    entry.statusText = 'Verificando permissões...';
-    // If the token takes more than 2 seconds, we move on with null
-    let fallbackTriggered = false;
-    const fallback = () => {
-      if (!fallbackTriggered && entry.status === 'uploading' && entry.progress === 0) {
-        fallbackTriggered = true;
-        console.warn('Auth0 timeout, triggering fallback...');
-        this.doUpload(entry, null);
-      }
-    };
-
-    const timeoutId = setTimeout(fallback, 2000);
-
-    const token$ = this.auth.getAccessTokenSilently();
-    token$.subscribe({
-      next: (token) => {
-        clearTimeout(timeoutId);
-        if (!fallbackTriggered) this.ngZone.run(() => this.doUpload(entry, token));
-      },
-      error: (err) => {
-        clearTimeout(timeoutId);
-        console.warn('Auth0 token failed:', err);
-        if (!fallbackTriggered) this.ngZone.run(() => this.doUpload(entry, null));
-      }
+    this.auth.getAccessTokenSilently().subscribe({
+      next: (token) => this.doUpload(entry, token),
+      error: () => this.doUpload(entry, null)
     });
   }
 
   private doUpload(entry: UploadedFile, token: string | null): void {
-    if (entry.progress > 0) return; // Protect against double trigger
-    
-    const fileIndex = this.uploadStateService.getFiles().indexOf(entry);
-    if (fileIndex === -1) return;
-
-    this.uploadStateService.updateFile(fileIndex, {
-      progress: 1,
-      statusText: 'Iniciando upload...'
-    });
-
-    if (this.customerId === null) {
-      this.uploadStateService.updateFile(fileIndex, {
-        status: 'error',
-        statusText: 'Perfil não carregado.'
-      });
-      Swal.fire({
-        icon: 'error',
-        title: 'Perfil não carregado',
-        text: 'Não foi possível identificar o seu perfil de cliente. Recarregue a página e tente novamente.'
-      });
-      return;
-    }
-
     const formData = new FormData();
     formData.append('file', entry.file);
     formData.append('status', 'pending');
-    formData.append('customer_id', this.customerId.toString());
+    formData.append('customer_id', '1'); // Temporário para evitar erro 400
 
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    this.http.post('http://localhost:3000/upload', formData, {
+    this.http.post('/api/upload', formData, {
       headers: new HttpHeaders(headers),
       reportProgress: true,
       observe: 'events'
-    }).pipe(takeUntil(this.destroy$)).subscribe({
+    }).subscribe({
       next: (event) => {
         if (event.type === HttpEventType.UploadProgress && event.total) {
-          const progress = Math.round((event.loaded / event.total) * 100);
-          this.uploadStateService.updateFile(fileIndex, {
-            progress,
-            statusText: `Enviando... ${progress}%`
-          });
+          entry.progress = Math.round((event.loaded / event.total) * 100);
         } else if (event.type === HttpEventType.Response) {
+<<<<<<< HEAD
           this.uploadStateService.removeFile(fileIndex);
           this.loadServerFiles();
+=======
+          entry.status = 'done';
+          entry.progress = 100;
+>>>>>>> 75d6773470f4cef4acaaf2644bae1351918e93b2
         }
       },
       error: (err) => {
-        this.uploadStateService.updateFile(fileIndex, {
-          status: 'error',
-          statusText: 'Erro no envio.'
-        });
-        // Handle different error response formats:
-        // /upload endpoint returns:       { error: "string" }
-        // /upload-excel endpoint returns: { success: false, error: { code, message } }
-        const body = err?.error;
-        let msg: string;
-        if (err.status === 0) {
-          msg = 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.';
-        } else if (typeof body?.error === 'object' && typeof body?.error?.message === 'string') {
-          msg = body.error.message;
-        } else if (typeof body?.error === 'string') {
-          msg = body.error;
-        } else if (typeof body?.message === 'string') {
-          msg = body.message;
-        } else {
-          msg = 'Erro ao fazer upload. Tente novamente ou contate o suporte.';
-        }
-        Swal.fire({ icon: 'error', title: 'Erro no Upload', text: msg });
+        entry.status = 'error';
+        const msg = err?.error?.message || err?.error?.erro || 'Upload failed.';
+        Swal.fire({ icon: 'error', title: 'Upload Error', text: msg });
       }
     });
   }
