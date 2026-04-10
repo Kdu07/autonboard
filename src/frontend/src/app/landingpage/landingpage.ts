@@ -15,7 +15,7 @@ export class Landingpage {
 
   login(): void {
     this.auth.loginWithRedirect({
-      appState: { target: '/dashboard' }
+      appState: { target: '/upload' }
     });
   }
 }
