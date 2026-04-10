@@ -203,4 +203,4 @@ npm test
 - `UploadService` currently logs some errors without always returning structured error responses.
 - Excel repository default save behavior returns a cloned object (placeholder) unless a concrete DB adapter is injected.
 - Route-level auth enforcement can be expanded to protect all sensitive endpoints.
-- API contracts for `/profile`, `/dashboard`, and related features should be documented once fully consolidated in backend routes.
+- API contracts for `/profile` and related features should be documented once fully consolidated in backend routes.

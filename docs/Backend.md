@@ -201,7 +201,7 @@ npm test
 - `UploadService` currently logs some errors without always returning structured error responses.
 - Excel repository default save behavior returns a cloned object (placeholder) unless a concrete DB adapter is injected.
 - Route-level auth enforcement can be expanded to protect all sensitive endpoints.
-- API contracts for `/profile`, `/dashboard`, and related features should be documented once fully consolidated in backend routes.
+- API contracts for `/profile` and related features should be documented once fully consolidated in backend routes.
 
 ---
 
@@ -264,25 +264,7 @@ export async function getProfile(
 }
 ```
 
-### Endpoints do Dashboard
 
-#### Endpoint `/dashboard`
-
-- **Método**: GET
-- **Autenticação**: Requer JWT (Auth0)
-- **Propósito**: Retornar dados do dashboard para o usuário logado
-- **Dados retornados**:
-  - Informações do usuário (nome, email, auth0_id)
-  - Dados do cliente (nome, CNPJ, plano, módulos)
-  - Estatísticas (total, pendente, completado, falhado)
-  - Lista de submissões recentes
-
-#### Endpoint `/dashboard-debug`
-
-- **Método**: GET
-- **Propósito**: Endpoint de debug para desenvolvimento (sem autenticação obrigatória)
-- **Parâmetros**: `auth0_id` (opcional)
-- **Uso**: Usado durante desenvolvimento para testar dados do dashboard
 
 ### Endpoint de Upload
 
@@ -318,7 +300,7 @@ Durante o desenvolvimento, foi identificado e corrigido um problema de inconsist
 
 - Frontend estava chamando `localhost:3000` para alguns endpoints
 - Backend roda em `localhost:3003`
-- **Correção**: Frontend atualizado para usar configuração dinâmica de URL base
+- **Correção**: Frontend atualizado para usar configuração dinâmica de URL base.
 
 ### Integração com Auth0
 

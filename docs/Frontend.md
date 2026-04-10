@@ -50,7 +50,6 @@ Core app modules are organized in `src/frontend/src/app`:
 | Module          | Responsibility                                 |
 | --------------- | ---------------------------------------------- |
 | `landingpage`   | Initial page and login trigger                 |
-| `dashboard`     | Authenticated overview with stats/submissions  |
 | `upload`        | File upload UI with drag-and-drop and progress |
 | `profile`       | Company/profile form and save flow             |
 | `app.routes.ts` | Route definitions                              |
@@ -67,12 +66,11 @@ Current routes (`app.routes.ts`):
 | Path         | Component       |
 | ------------ | --------------- |
 | `/`          | `Landingpage`   |
-| `/dashboard` | `Dashboard`     |
 | `/upload`    | `Upload`        |
 | `/profile`   | `Profile`       |
 | `**`         | Redirect to `/` |
 
-This setup supports a simple authenticated user journey: landing -> login -> dashboard -> upload/profile.
+This setup supports a simple authenticated user journey: landing -> login -> upload/profile.
 
 ---
 
@@ -96,14 +94,9 @@ Production deployment includes HTTPS at frontend proxy level (Nginx + self-signe
 ### 1) Landing Page
 
 - Presents initial UI and starts login flow.
-- Redirects authenticated user flow to `/dashboard`.
+- Redirects authenticated user flow to `/upload`.
 
-### 2) Dashboard
 
-- Loads dashboard data from:
-  - `GET /api/dashboard`
-  - fallback: `GET /api/dashboard-debug?auth0_id=...`
-- Displays loading/error states and submission metadata.
 
 ### 3) Upload
 
@@ -138,8 +131,6 @@ Current API calls from frontend components:
 
 - `POST /api/upload`
 - `POST /api/profile`
-- `GET /api/dashboard`
-- `GET /api/dashboard-debug?auth0_id=...`
 
 ---
 
@@ -188,7 +179,6 @@ npm test
 
 Recommended focus for future tests:
 
-- dashboard API state matrix (loading/success/error/fallback);
 - upload integration with HTTP progress events and auth failures;
 - template-level interaction tests for routing and forms.
 
@@ -235,7 +225,6 @@ Para resolver a inconsistência, foi adicionada uma configuração dinâmica de 
 #### Impacto
 
 - O upload agora funciona corretamente, permitindo que usuários façam upload de arquivos após o login
-- A configuração é consistente com o dashboard, que já usava a mesma lógica de URL base
 - Preparado para produção (a URL base será vazia em produção, usando caminhos relativos)
 
 #### Testes Realizados
