@@ -54,22 +54,24 @@
       <div class="file-list" *ngIf="uploadedFiles.length > 0 || serverFiles.length > 0">
 
         <!-- Session uploads: only uploading/error states -->
-        <div class="file-item" *ngFor="let item of uploadedFiles">
-          <div class="file-icon-box" [class]="getFileIconClass(item.file.name)">
-            {{ getFileIcon(item.file.name) }}
-          </div>
-          <div class="file-details">
-            <div class="file-name">{{ item.file.name }}</div>
-            <div class="file-size">{{ formatSize(item.file.size) }}</div>
-            <div class="file-progress-bar" *ngIf="item.status === 'uploading'">
-              <div class="file-progress-fill" [style.width.%]="item.progress"></div>
+        <ng-container *ngFor="let item of uploadedFiles">
+          <div class="file-item" *ngIf="item.status === 'uploading' || item.status === 'error'">
+            <div class="file-icon-box" [class]="getFileIconClass(item.file.name)">
+              {{ getFileIcon(item.file.name) }}
+            </div>
+            <div class="file-details">
+              <div class="file-name">{{ item.file.name }}</div>
+              <div class="file-size">{{ formatSize(item.file.size) }}</div>
+              <div class="file-progress-bar" *ngIf="item.status === 'uploading'">
+                <div class="file-progress-fill" [style.width.%]="item.progress"></div>
+              </div>
+            </div>
+            <div class="file-status">
+              <span class="status-error" *ngIf="item.status === 'error'">✗</span>
+              <span class="status-pct" *ngIf="item.status === 'uploading'">{{ item.progress }}%</span>
             </div>
           </div>
-          <div class="file-status">
-            <span class="status-error" *ngIf="item.status === 'error'">✗</span>
-            <span class="status-pct" *ngIf="item.status === 'uploading'">{{ item.progress }}%</span>
-          </div>
-        </div>
+        </ng-container>
 
         <!-- Server files from DB via getAll -->
         <div class="file-item file-item--db" *ngFor="let item of serverFiles">

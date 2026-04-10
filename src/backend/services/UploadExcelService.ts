@@ -8,7 +8,8 @@ import { BadRequestError } from '../errors/HttpError';
 import { ParsedExcel } from './excel/types';
 
 type ProcessExcelInput = {
-  filePath: string;
+  buffer: Buffer;
+  originalname: string;
 };
 
 export type ProcessExcelResult = {
@@ -46,12 +47,12 @@ export class UploadExcelService {
     this.repository = repository;
   }
 
-  async process({ filePath }: ProcessExcelInput): Promise<ProcessExcelResult> {
-    if (!filePath) {
-      throw new BadRequestError('File path is required');
+  async process({ buffer, originalname }: ProcessExcelInput): Promise<ProcessExcelResult> {
+    if (!buffer || buffer.length === 0) {
+      throw new BadRequestError('File buffer is required');
     }
 
-    const worksheet = await this.reader.read(filePath);
+    const worksheet = await this.reader.read(buffer, originalname);
     const parsed = this.parser.parse(worksheet);
 
     this.validator.validate(parsed);
