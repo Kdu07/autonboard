@@ -1,4 +1,4 @@
-# Inteli - Institute of Technology and Leadership  
+# Inteli - Institute of Technology and Leadership
 
 # Autonboard
 
@@ -6,34 +6,34 @@
 
 **Group:** Autonboard (G01)  
 **Course:** Software Engineering — Inteli  
-**Path:** graduacao/2026-1a/t17/g01  
+**Path:** graduacao/2026-1a/t17/g01
 
 ---
 
 ## 👨‍🎓 Team Members
 
-- <a href="https://www.linkedin.com/in/henrique-botti-6272571a0/">Henrique Milliorini Botti</a>  
-- <a href="https://www.linkedin.com/in/giacomo-zema-matizonkas-7ab9072b2/">Giacomo Zema Matizonkas</a>  
-- <a href="https://www.linkedin.com/in/nicholas-millani-83a950357/">Nicholas Anantha Krishnan Millani</a>  
-- <a href="https://www.linkedin.com/in/carlos-quaglia-309088357/">Carlos Eduardo Serrano Quaglia</a>  
-- <a href="https://www.linkedin.com/in/mirela-bianchi-608601254/">Mirela Schneider Bianchi</a>  
-- <a href="https://www.linkedin.com/in/mariana-pereira-de-souza1/">Mariana Pereira de Souza</a>  
+- <a href="https://www.linkedin.com/in/henrique-botti-6272571a0/">Henrique Milliorini Botti</a>
+- <a href="https://www.linkedin.com/in/giacomo-zema-matizonkas-7ab9072b2/">Giacomo Zema Matizonkas</a>
+- <a href="https://www.linkedin.com/in/nicholas-millani-83a950357/">Nicholas Anantha Krishnan Millani</a>
+- <a href="https://www.linkedin.com/in/carlos-quaglia-309088357/">Carlos Eduardo Serrano Quaglia</a>
+- <a href="https://www.linkedin.com/in/mirela-bianchi-608601254/">Mirela Schneider Bianchi</a>
+- <a href="https://www.linkedin.com/in/mariana-pereira-de-souza1/">Mariana Pereira de Souza</a>
 - <a href="https://www.linkedin.com/in/lucas-picinato-rogero/">Lucas Picinato Rogero</a>
 
 ## 👩‍🏫 Professors
 
-- Lisane Valdo  
-- Felipe Gonçalves  
-- Jefferson de Oliveira  
-- Afonso Cesar Lelis  
-- Heloisa Caroline de Souza  
-- Henrique Mohallem  
+- Lisane Valdo
+- Felipe Gonçalves
+- Jefferson de Oliveira
+- Afonso Cesar Lelis
+- Heloisa Caroline de Souza
+- Henrique Mohallem
 
 ---
 
 ## 🎓 Advisor
 
-- Hermano Peixoto  
+- Hermano Peixoto
 
 ---
 
@@ -43,18 +43,18 @@ Autonboard is a **data upload and processing platform** designed to streamline o
 
 The system allows users to:
 
-- upload files (CSV, XLS, XLSX);  
-- validate and process structured data;  
-- visualize results through a dashboard;  
-- manage profile and company information;  
-- authenticate securely using Auth0.  
+- upload files (CSV, XLS, XLSX);
+- validate and process structured data;
+- visualize results through a dashboard;
+- manage profile and company information;
+- authenticate securely using Auth0.
 
 The architecture is designed with focus on:
 
-- scalability;  
-- modularization;  
-- separation of concerns;  
-- secure frontend-backend integration.  
+- scalability;
+- modularization;
+- separation of concerns;
+- secure frontend-backend integration.
 
 ---
 
@@ -75,10 +75,10 @@ project-root/
 │   │   │   │   ├── profile/
 │   │   │   │   ├── app.routes.ts
 │   │   │   │   └── app.config.ts
-│   │   │   │   
+│   │   │   │
 │   │   │   ├── index.html
 │   │   │   └── main.ts
-│   │   │   
+│   │   │
 │   │   ├── package.json
 │   │   └── README.md
 │   │
@@ -171,32 +171,35 @@ project-root/
 ## ⚙️ Tech Stack
 
 ### Frontend
-- Angular 21  
-- TypeScript  
-- Angular Router & HttpClient  
-- Auth0 SDK  
-- SweetAlert2  
+
+- Angular 21
+- TypeScript
+- Angular Router & HttpClient
+- Auth0 SDK
+- SweetAlert2
 
 ### Backend
-- Node.js + TypeScript  
-- Express  
-- PostgreSQL  
-- Multer  
-- ExcelJS  
-- Auth0 JWT Middleware  
+
+- Node.js + TypeScript
+- Express
+- PostgreSQL
+- Multer
+- ExcelJS
+- Auth0 JWT Middleware
 
 ### Infrastructure
-- Docker & Docker Compose  
-- Nginx  
+
+- Docker & Docker Compose
+- Nginx
 
 ---
 
 ## 🔧 Requirements
 
-- Node.js >= 18  
-- npm >= 9  
-- Docker Desktop (optional)  
-- PostgreSQL  
+- Node.js >= 18
+- npm >= 9
+- Docker Desktop (optional)
+- PostgreSQL
 
 ---
 
@@ -251,8 +254,8 @@ docker-compose up --build
 
 ## 🔗 API Endpoints
 
-- POST /api/upload  
-- POST /api/profile  
+- POST /api/upload
+- POST /api/profile
 
 ---
 
@@ -268,19 +271,19 @@ npm install
 npm start
 ```
 
-Frontend running at: Routes → Controllers → Services → Models → Database  
+Frontend running at: Routes → Controllers → Services → Models → Database
 
 ---
 
 ## 🗃 Release History
 
-| Day | Year | Description |
-|--------|------|------------|
-| 10/04 | 2026 | Final + presentation |
+| Day   | Year | Description               |
+| ----- | ---- | ------------------------- |
+| 10/04 | 2026 | Final + presentation      |
 | 27/03 | 2026 | Docker + production setup |
-| 13/03 | 2026 | Auth0 |
-| 27/02| 2026 | Upload |
-| 13/02 | 2026 | Initial system |
+| 13/03 | 2026 | Auth0                     |
+| 27/02 | 2026 | Upload                    |
+| 13/02 | 2026 | Initial system            |
 
 ---
 
@@ -310,12 +313,14 @@ Frontend running at: Routes → Controllers → Services → Models → Database
 #### Development Setup
 
 **Prerequisites:**
+
 - Node.js >= 18
 - npm >= 9
 - PostgreSQL
 - Docker Desktop (optional)
 
 **Setup Instructions:**
+
 ```bash
 # Clone the repository
 git clone https://git.inteli.edu.br/graduacao/2026-1a/t17/g01.git
@@ -345,6 +350,7 @@ npm start
 All code must follow the standards defined in [docs/CodingStandards.md](./docs/CodingStandards.md).
 
 **Key Guidelines:**
+
 - Use TypeScript for all new code
 - Follow PascalCase for class names
 - Follow camelCase for function and variable names
@@ -366,6 +372,7 @@ Use conventional commits format:
 ```
 
 **Types:**
+
 - **feat**: A new feature
 - **fix**: A bug fix
 - **docs**: Documentation changes
@@ -376,6 +383,7 @@ Use conventional commits format:
 - **chore**: Build process, dependencies, tools
 
 **Examples:**
+
 ```
 feat(upload): add drag-and-drop support for file uploads
 fix(auth): resolve token expiration handling in dashboard
@@ -391,6 +399,7 @@ Autonboard project is committed to providing a welcoming and inspiring community
 #### Our Standards
 
 Examples of behavior that contributes to creating a positive environment include:
+
 - Using welcoming and inclusive language
 - Being respectful of differing opinions, viewpoints, and experiences
 - Gracefully accepting constructive criticism
@@ -399,6 +408,7 @@ Examples of behavior that contributes to creating a positive environment include
 - Helping others learn and grow
 
 Examples of unacceptable behavior include:
+
 - The use of sexualized language or imagery and unwelcome sexual attention or advances
 - Trolling, insulting/derogatory comments, and personal or political attacks
 - Public or private harassment
@@ -416,18 +426,21 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be repor
 ### Security Measures Implemented
 
 #### Authentication & Authorization
+
 - **Auth0 Integration**: Secure OAuth 2.0 authentication
 - **JWT Tokens**: RS256 algorithm for token signing
 - **HTTPS Only**: All communications must use encrypted connections in production
 - **CORS Policy**: Strict Cross-Origin Resource Sharing configuration
 
 #### Data Protection
+
 - **Environment Variables**: Sensitive credentials stored securely in `.env` files
 - **Input Validation**: Validation on both frontend and backend
 - **SQL Injection Prevention**: Parameterized queries via PostgreSQL driver
 - **XSS Protection**: Angular's built-in XSS protection and HTML sanitization
 
 #### Infrastructure Security
+
 - **Helmet.js**: HTTP security headers implementation
 - **Multer Configuration**: Secure file upload handling with size limits
 - **Rate Limiting**: Recommended for production deployments
@@ -435,6 +448,7 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be repor
 ### Security Best Practices
 
 #### For Developers
+
 1. **Never commit secrets** - Use environment variables
 2. **Validate all inputs** - Prevent injection attacks
 3. **Use HTTPS in production** - Enable SSL/TLS certificates
@@ -442,6 +456,7 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be repor
 5. **Implement proper error handling** - Don't expose sensitive information
 
 #### For Deployment
+
 1. **Database Security** - Use strong passwords and SSL connections
 2. **File Upload Security** - Validate file types and size limits
 3. **Network Security** - Implement firewall rules and monitoring
@@ -452,6 +467,7 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be repor
 If you discover a security vulnerability, please report it responsibly. **Do not** open a public issue for security vulnerabilities.
 
 Send a detailed report to the project maintainers including:
+
 - Steps to reproduce the vulnerability
 - Potential impact assessment
 - Contact information for follow-up
@@ -465,7 +481,7 @@ Send a detailed report to the project maintainers including:
 **Project Name:** Autonboard  
 **Institution:** Inteli - Institute of Technology and Leadership  
 **Academic Program:** Software Engineering  
-**Authors:** Autonboard Group (G01) - 2026/1  
+**Authors:** Autonboard Group (G01) - 2026/1
 
 ### License Terms
 
@@ -484,7 +500,7 @@ Autonboard is provided as an **academic project** developed by students of Intel
    - Academic institutions with proper authorization
    - Educational demonstrations and learning purposes
 
-2. **Commercial Use**: 
+2. **Commercial Use**:
    - Commercial use is **not permitted** without explicit written authorization from Inteli and all team members
    - Organizations wishing to use this project commercially must contact Inteli
 
@@ -520,6 +536,7 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR:
 #### Data and Security
 
 Users are responsible for:
+
 - Protecting sensitive data (auth tokens, credentials, etc.)
 - Ensuring secure deployment in production environments
 - Compliance with data protection regulations (LGPD, GDPR, etc.)
@@ -528,6 +545,7 @@ Users are responsible for:
 #### Termination
 
 License can be revoked if:
+
 - The software is used for unauthorized commercial purposes
 - Terms of this license are violated
 - The software is used in ways that harm individuals or institutions
@@ -535,12 +553,14 @@ License can be revoked if:
 #### Contact for Licensing
 
 For questions about usage rights, commercial licensing, or authorization requests:
+
 - **Institution:** Inteli - Institute of Technology and Leadership
 - **Project Team:** Autonboard Group (G01)
 
 ### Team Attribution
 
 Developed by:
+
 - Henrique Milliorini Botti
 - Giacomo Zema Matizonkas
 - Nicholas Anantha Krishnan Millani
@@ -550,6 +570,7 @@ Developed by:
 - Lucas Picinato Rogero
 
 Supervised by:
+
 - Lisane Valdo
 - Felipe Gonçalves
 - Jefferson de Oliveira
@@ -561,19 +582,19 @@ Advisor: Hermano Peixoto
 
 ### Version History
 
-| Date | Version | Description |
-|------|---------|-------------|
-| April 10, 2026 | 1.0 | Initial license documentation |
+| Date           | Version | Description                   |
+| -------------- | ------- | ----------------------------- |
+| April 10, 2026 | 1.0     | Initial license documentation |
 
 ---
 
 ## 📚 References
 
-- Angular Documentation  
-- Node.js Documentation  
-- PostgreSQL Documentation  
-- Auth0 Documentation  
-- ISO/IEC 25010  
+- Angular Documentation
+- Node.js Documentation
+- PostgreSQL Documentation
+- Auth0 Documentation
+- ISO/IEC 25010
 
 ---
 
