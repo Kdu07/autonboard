@@ -209,8 +209,6 @@ docker-compose up --build
 
 ## 🔗 API Endpoints
 
-- GET /api/dashboard  
-- GET /api/dashboard-debug  
 - POST /api/upload  
 - POST /api/profile  
 
@@ -238,7 +236,7 @@ Routes → Controllers → Services → Models → Database
 |--------|------|------------|
 | 10/04 | 2026 | Final + presentation |
 | 27/03 | 2026 | Docker + production setup |
-| 13/03 | 2026 | Dashboard + Auth0 |
+| 13/03 | 2026 | Auth0 |
 | 27/02| 2026 | Upload |
 | 13/02 | 2026 | Initial system |
 
