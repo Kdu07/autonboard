@@ -16,7 +16,7 @@ async function testGetAll() {
       // console.table looks much better for DB results in the terminal!
       console.table(uploads);
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('❌ Error fetching records:', error.message);
   } finally {
     // If your db config doesn't close the pool automatically, 
