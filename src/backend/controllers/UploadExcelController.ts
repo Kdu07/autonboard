@@ -27,7 +27,8 @@ export class UploadExcelController {
       }
 
       const result = await this.uploadExcelService.process({
-        filePath: req.file.path,
+        buffer: req.file.buffer,
+        originalname: req.file.originalname,
       });
 
       return res.status(201).json({

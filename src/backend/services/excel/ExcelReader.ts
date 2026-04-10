@@ -1,27 +1,22 @@
-import fs from 'fs';
-import path from 'path';
+import { Readable } from 'stream';
 import * as Excel from 'exceljs';
 import { BadRequestError, UnprocessableEntityError } from '../../errors/HttpError';
 
 export class ExcelReader {
-  async read(filePath: string): Promise<Excel.Worksheet> {
-    if (!filePath) {
-      throw new BadRequestError('A file path is required to read the Excel file');
+  async read(buffer: Buffer, originalname: string): Promise<Excel.Worksheet> {
+    if (!buffer || buffer.length === 0) {
+      throw new BadRequestError('A non-empty file buffer is required to read the Excel file');
     }
 
-    const extension = path.extname(filePath).toLowerCase();
-    if (extension !== '.xlsx') {
+    const extension = originalname.split('.').pop()?.toLowerCase();
+    if (extension !== 'xlsx') {
       throw new BadRequestError('Only .xlsx files are supported in this endpoint');
-    }
-
-    if (!fs.existsSync(filePath)) {
-      throw new BadRequestError('Uploaded file was not found on disk', { filePath });
     }
 
     const workbook = new Excel.Workbook();
 
     try {
-      await workbook.xlsx.readFile(filePath);
+      await workbook.xlsx.read(Readable.from(buffer));
     } catch (error) {
       throw new UnprocessableEntityError('Unable to read the Excel workbook', error);
     }

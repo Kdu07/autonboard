@@ -152,16 +152,22 @@ export class Upload implements OnInit, OnDestroy {
   }
 
   private doUpload(entry: UploadedFile, token: string | null, index: number): void {
+    if (!this.customerId) {
+      this.uploadStateService.updateFile(index, { status: 'error' });
+      Swal.fire({ icon: 'error', title: 'Upload Error', text: 'Perfil do cliente não carregado. Recarregue a página e tente novamente.' });
+      return;
+    }
+
     const formData = new FormData();
     formData.append('file', entry.file);
     formData.append('status', 'pending');
-    formData.append('customer_id', '1'); // Temporário para evitar erro 400
+    formData.append('customer_id', String(this.customerId));
 
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
     this.http
-      .post('/api/upload', formData, {
+      .post('http://localhost:3000/upload', formData, {
         headers: new HttpHeaders(headers),
         reportProgress: true,
         observe: 'events',
@@ -173,7 +179,7 @@ export class Upload implements OnInit, OnDestroy {
               progress: Math.round((event.loaded / event.total) * 100),
             });
           } else if (event.type === HttpEventType.Response) {
-            this.uploadStateService.updateFile(index, { status: 'done', progress: 100 });
+            this.uploadStateService.removeFile(index);
             this.loadServerFiles();
           }
         },
